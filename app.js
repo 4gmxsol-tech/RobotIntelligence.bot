@@ -5,6 +5,7 @@ const profiles={"RobotIntelligence.bot":{category:"AI / Robotics",tld:"bot",sign
 let buyerResearch={candidates:[]};
 let marketSignals={signals:[]};
 let opportunities={opportunities:[]};
+let decisionMakers={contacts:[]};
 
 function analyzeDomain(domain){
   const [name,tld]=domain.toLowerCase().split(".");
@@ -36,6 +37,15 @@ function showAnalysis(domain){
   document.body.appendChild(modal);
   modal.querySelector(".close").onclick=()=>modal.remove();
   modal.onclick=e=>{if(e.target===modal)modal.remove();};
+}
+
+function renderContacts(){
+  const container=document.querySelector("#contactList"), empty=document.querySelector("#contactEmpty");
+  if(!container||!empty)return;
+  if(!decisionMakers.contacts.length){empty.style.display="block";container.innerHTML="";return;}
+  empty.style.display="none";
+  container.innerHTML=decisionMakers.contacts.map(c=>'<article class="contact-card"><div class="contact-top"><div><strong>'+c.person+'</strong><small>'+c.role+' · '+c.company+'</small></div><span class="contact-confidence">'+c.confidence+'</span></div><p>'+c.reason+'</p><div class="contact-route"><strong>Public route</strong><span>'+c.contact_route+'</span></div><a href="'+c.source+'" target="_blank" rel="noopener">Verify source ↗</a></article>').join("");
+  const n=document.querySelector("#contactCount");if(n)n.textContent=decisionMakers.contacts.length;
 }
 
 function renderOpportunities(){
@@ -72,6 +82,10 @@ function renderBuyers(){
   if(opp&&top)opp.innerHTML='<span class="op-icon">✦</span><div><strong>Research '+top.company+' for '+pilot+'</strong><p>High semantic fit. Verify current naming, brand usage, corporate structure and the appropriate decision-maker before any outreach.</p></div><span class="tag">RESEARCH</span>';
 }
 
+async function loadDecisionMakers(){
+  try{const response=await fetch("data/decision-makers.json",{cache:"no-store"});if(!response.ok)throw new Error("contacts unavailable");decisionMakers=await response.json();renderContacts();}catch(error){console.warn("Decision-maker data unavailable:",error);}
+}
+
 async function loadOpportunities(){
   try{const response=await fetch("data/opportunities.json",{cache:"no-store"});if(!response.ok)throw new Error("opportunities unavailable");opportunities=await response.json();renderOpportunities();}catch(error){console.warn("Opportunities unavailable:",error);}
 }
@@ -98,3 +112,4 @@ render("");
 loadBuyerResearch();
 loadMarketSignals();
 loadOpportunities();
+loadDecisionMakers();
