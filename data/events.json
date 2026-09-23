@@ -1,0 +1,11 @@
+{
+  "version":"0.7",
+  "events":[
+    {"timestamp":"2026-09-24T01:00:00Z","type":"research_created","entity":"RobotIntelligence.bot","message":"Pilot research job initialized.","source":"agent"},
+    {"timestamp":"2026-09-24T01:05:00Z","type":"signal_detected","entity":"Skild AI","message":"Physical Self-Play research update detected.","source":"https://www.skild.ai/blogs/physical-self-play"},
+    {"timestamp":"2026-09-24T01:06:00Z","type":"signal_detected","entity":"Figure","message":"Helix 2.5 zero-shot generalization update detected.","source":"https://www.figure.ai/news/helix-2-5-zero-shot-30-home-generalization"},
+    {"timestamp":"2026-09-24T01:08:00Z","type":"opportunity_created","entity":"Skild AI","message":"Opportunity created from buyer fit + fresh robotics-intelligence signals.","source":"agent"},
+    {"timestamp":"2026-09-24T01:09:00Z","type":"contact_verified","entity":"Deepak Pathak","message":"Public decision-maker identity and company contact route verified.","source":"Skild AI"},
+    {"timestamp":"2026-09-24T01:10:00Z","type":"outreach_drafted","entity":"Skild AI","message":"Evidence-backed outreach draft generated for review.","source":"agent"}
+  ]
+}
