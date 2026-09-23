@@ -1,0 +1,27 @@
+{
+  "version":"0.4",
+  "domain":"RobotIntelligence.bot",
+  "formula":"fit + signal + semantic alignment + freshness",
+  "opportunities":[
+    {
+      "company":"Skild AI",
+      "domain":"RobotIntelligence.bot",
+      "opportunityScore":98,
+      "status":"research-now",
+      "triggers":["$1.4B Series C","$100M+ ARR","60+ paying customers","S1 robotics foundation model","ABB/Universal Robots/NVIDIA partnerships","Physical Self-Play"],
+      "thesis":"The company repeatedly uses robotic-intelligence language and is actively commercializing a general-purpose robot brain. The domain's lexical meaning closely matches the company's core product narrative.",
+      "nextAction":"Verify current brand/domain strategy, identify the appropriate business/brand/marketing decision-maker, and assess whether RobotIntelligence.bot could complement an existing product or campaign.",
+      "evidence":["https://skild.ai/blogs/series-c","https://skild.ai/blogs/skild-crosses-100m-arr","https://skild.ai/blogs/s1","https://skild.ai/blogs/physical-self-play"]
+    },
+    {
+      "company":"Figure",
+      "domain":"RobotIntelligence.bot",
+      "opportunityScore":94,
+      "status":"research-now",
+      "triggers":["Helix 2.5","Index physical dataset","up to 100,000 GPUs","BMW deployment","Catalyst Brands commercial agreement"],
+      "thesis":"Figure's current product and infrastructure narrative centers on general-purpose humanoid intelligence, making the domain semantically aligned with its AI platform story.",
+      "nextAction":"Research naming architecture around Helix, Figure AI and future product layers; identify brand/product strategy contacts before outreach.",
+      "evidence":["https://www.figure.ai/news/helix-2-5-zero-shot-30-home-generalization","https://www.figure.ai/news/introducing-index","https://www.figure.ai/news/figure-and-nscale-sign-strategic-partnership"]
+    }
+  ]
+}
