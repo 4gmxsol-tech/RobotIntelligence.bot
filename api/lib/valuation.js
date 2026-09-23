@@ -7,10 +7,18 @@ function cleanDomain(domain){
 }
 
 function tokensFor(domain){
-  const sld=domain.split(".")[0].replace(/[^a-z0-9]+/gi," ").trim();
-  const parts=sld.split(/(?<=[a-z])(?=[A-Z])|\s+|[-_]/).map(x=>x.toLowerCase()).filter(x=>x.length>=3);
+  const sld=domain.split(".")[0].toLowerCase().replace(/[^a-z0-9]+/g," ");
+  const dictionary=["robot","intelligence","humanoid","behavior","planning","context","embodiment","robotics","agents","physical","manipulation","stack","world","publication","ai","ui"];
   const out=[];
-  for(const p of parts){if(!out.includes(p))out.push(p);}
+  for(const word of sld.split(/\s+/).filter(Boolean)){
+    let rest=word;
+    while(rest){
+      const match=dictionary.filter(k=>rest.startsWith(k)).sort((a,b)=>b.length-a.length)[0];
+      if(match){if(!out.includes(match))out.push(match);rest=rest.slice(match.length);continue;}
+      if(rest.length>=3&&!out.includes(rest)){out.push(rest);}
+      break;
+    }
+  }
   return out.slice(0,3);
 }
 
