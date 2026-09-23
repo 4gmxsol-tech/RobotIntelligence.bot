@@ -125,14 +125,14 @@ async function loadDecisionMakers(){
 async function enrichDecisionMakers(){
   const button=document.querySelector("#enrichContactsBtn"),out=document.querySelector("#contactEnrichmentResult");
   if(!button||!out)return;
-  button.disabled=true;button.textContent="Enriching…";out.textContent="Searching Apollo and enriching up to 5 decision-makers…";
+  button.disabled=true;button.textContent="Enriching…";out.textContent="Apollo enrichment is optional and may consume credits. Use only when needed.";
   try{
     const response=await fetch("/api/contacts",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({domain:pilot,maxPeople:5})});
     const data=await response.json().catch(()=>({}));
     if(!response.ok)throw new Error(data.error||"enrichment_failed");
     decisionMakers={contacts:(data.contacts||[]).map(c=>({...c,confidence:c.match_confidence||c.email_status||"ENRICHED",reason:c.email?("Apollo returned a work email with status: "+(c.email_status||"unknown")):"Apollo matched the decision-maker but returned no email." ,source:c.linkedin_url||"https://www.apollo.io/" }))};
     renderContacts();
-    out.textContent="Enriched "+decisionMakers.contacts.length+" decision-makers · "+(data.meta?.credits||"credits may apply");
+    out.textContent="Enriched "+decisionMakers.contacts.length+" decision-makers · "+(data.meta?.credits||"credits may apply")+" · manual action only";
     button.textContent="Enrichment complete ✓";
   }catch(error){
     out.textContent=error.message==="apollo_not_configured"?"Apollo is not configured on the server.":"Enrichment unavailable: "+error.message;
