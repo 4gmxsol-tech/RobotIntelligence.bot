@@ -26,3 +26,8 @@ Scores and recommendations should be explainable and traceable to evidence. The 
 
 ## Security
 Research-provider keys and AI credentials must never be committed to the repository. Backend secrets belong in deployment environment variables.
+
+
+## v0.8 architecture
+
+The project now separates evidence, valuation factors, connector adapters, portfolio metrics, research jobs, opportunities, decision makers, outreach, and agent events. RDAP is the baseline registration-data protocol; production comparable-sales and valuation data require an appropriately licensed provider. API secrets must remain server-side.
