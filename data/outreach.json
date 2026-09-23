@@ -1,0 +1,36 @@
+{
+  "version":"0.6",
+  "domain":"RobotIntelligence.bot",
+  "leads":[
+    {
+      "company":"Skild AI",
+      "person":"Deepak Pathak",
+      "role":"Co-founder & CEO",
+      "status":"ready-for-review",
+      "priority":"high",
+      "evidence":[
+        "Skild describes itself as building a unified, omni-bodied brain to control any robot for any task.",
+        "Skild reported $100M+ ARR and 60+ paying customers in September 2026.",
+        "Skild published Physical Self-Play on September 23, 2026."
+      ],
+      "outreach_angle":"The domain directly expresses the category Skild uses to describe its product: robotic intelligence.",
+      "draft_subject":"RobotIntelligence.bot",
+      "draft":"Hi Deepak — I own RobotIntelligence.bot. Skild’s positioning around general-purpose robotic intelligence makes the domain unusually aligned with what you are building. I’m reaching out in case it could have strategic value for a product, initiative, campaign, or future brand layer. If relevant, I can share the details."
+    },
+    {
+      "company":"Figure",
+      "person":"Brett Adcock",
+      "role":"Founder & CEO",
+      "status":"ready-for-review",
+      "priority":"high",
+      "evidence":[
+        "Figure describes Helix as the AI behind its humanoid robots.",
+        "Figure's 2026 news feed shows continued Helix, dataset, compute and commercial deployment activity.",
+        "Figure's mission is centered on advanced AI and general-purpose humanoids."
+      ],
+      "outreach_angle":"RobotIntelligence.bot is a category-level name that can describe an AI/robotics intelligence layer rather than a single robot model.",
+      "draft_subject":"RobotIntelligence.bot",
+      "draft":"Hi Brett — I own RobotIntelligence.bot. Given Figure’s work around Helix and general-purpose humanoid intelligence, I thought the name might be strategically relevant as a product, platform, or future initiative. If it’s of interest, I’d be happy to share the details."
+    }
+  ]
+}
