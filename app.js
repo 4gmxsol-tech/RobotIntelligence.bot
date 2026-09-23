@@ -3,6 +3,7 @@ const grid=document.querySelector("#domainGrid"),search=document.querySelector("
 const pilot="RobotIntelligence.bot";
 const profiles={"RobotIntelligence.bot":{category:"AI / Robotics",tld:"bot",signals:["Robot intelligence","AI agents","Robotics"],notes:"Pilot asset for the intelligence engine."}};
 let buyerResearch={candidates:[]};
+let marketSignals={signals:[]};
 
 function analyzeDomain(domain){
   const [name,tld]=domain.toLowerCase().split(".");
@@ -36,6 +37,16 @@ function showAnalysis(domain){
   modal.onclick=e=>{if(e.target===modal)modal.remove();};
 }
 
+function renderSignals(){
+  const container=document.querySelector("#signalList");
+  const empty=document.querySelector("#signalEmpty");
+  if(!container||!empty)return;
+  if(!marketSignals.signals.length){empty.style.display="block";container.innerHTML="";return;}
+  empty.style.display="none";
+  container.innerHTML=marketSignals.signals.map(s=>'<article class="signal-card"><div class="signal-top"><div><strong>'+s.company+'</strong><small>'+s.type+' · '+s.date+'</small></div><span class="signal-strength">'+s.strength+'</span></div><p>'+s.headline+'</p><small class="why">'+s.why_it_matters+'</small><br><a href="'+s.source+'" target="_blank" rel="noopener">Source ↗</a></article>').join("");
+  const n=document.querySelector("#signalCount"); if(n)n.textContent=marketSignals.signals.length;
+}
+
 function renderBuyers(){
   const container=document.querySelector("#buyerList");
   const empty=document.querySelector("#buyerEmpty");
@@ -48,6 +59,10 @@ function renderBuyers(){
   const top=buyerResearch.candidates[0];
   const opp=document.querySelector("#opportunityContent");
   if(opp&&top)opp.innerHTML='<span class="op-icon">✦</span><div><strong>Research '+top.company+' for '+pilot+'</strong><p>High semantic fit. Verify current naming, brand usage, corporate structure and the appropriate decision-maker before any outreach.</p></div><span class="tag">RESEARCH</span>';
+}
+
+async function loadMarketSignals(){
+  try{const response=await fetch("data/market-signals.json",{cache:"no-store"});if(!response.ok)throw new Error("signals unavailable");marketSignals=await response.json();renderSignals();}catch(error){console.warn("Market signals unavailable:",error);}
 }
 
 async function loadBuyerResearch(){
@@ -66,3 +81,4 @@ document.querySelector("#analyzeBtn").addEventListener("click",()=>showAnalysis(
 grid.addEventListener("click",e=>{const card=e.target.closest(".domain-card");if(card)showAnalysis(card.dataset.domain);});
 render("");
 loadBuyerResearch();
+loadMarketSignals();
