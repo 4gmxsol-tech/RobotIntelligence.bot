@@ -1,0 +1,9 @@
+{
+  "version":"0.8",
+  "method":"explainable_baseline",
+  "note":"Not a market appraisal. Live comparable sales and market APIs must be connected before presenting monetary values.",
+  "factors":{"semantic":0.30,"structure":0.20,"tld_fit":0.20,"buyer_fit":0.15,"market_signal":0.15},
+  "domain_profiles":[
+    {"domain":"RobotIntelligence.bot","semantic":98,"structure":86,"tld_fit":88,"buyer_fit":97,"market_signal":92,"confidence":"research-grade","value_state":"awaiting_live_comps"}
+  ]
+}
