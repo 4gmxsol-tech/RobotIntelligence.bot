@@ -1,0 +1,11 @@
+{
+  "version":"0.8",
+  "connectors":[
+    {"id":"rdap","name":"RDAP","purpose":"registration, registrar, dates, nameservers","status":"adapter-ready","auth":"none_or_provider_key"},
+    {"id":"domain-data","name":"Domain Data","purpose":"domain research and price-estimate adapter","status":"adapter-ready","auth":"server-side API key"},
+    {"id":"namebio","name":"NameBio","purpose":"comparable domain sales","status":"permission-required","auth":"licensed API"},
+    {"id":"news","name":"News/Search","purpose":"fresh company and market signals","status":"adapter-ready","auth":"provider-specific"},
+    {"id":"crm","name":"Lead/CRM","purpose":"lead lifecycle and outreach history","status":"planned","auth":"provider-specific"}
+  ],
+  "security_rule":"No API keys in browser code or repository files. Use server-side environment variables."
+}
