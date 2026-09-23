@@ -125,7 +125,7 @@ async function loadDecisionMakers(){
 async function enrichDecisionMakers(){
   const button=document.querySelector("#enrichContactsBtn"),out=document.querySelector("#contactEnrichmentResult");
   if(!button||!out)return;
-  button.disabled=true;button.textContent="Enriching…";out.textContent="Apollo enrichment is optional and may consume credits. Use only when needed.";
+  button.disabled=true;button.textContent="Disabled";out.textContent="Apollo contact enrichment is disabled. No paid enrichment is used.";return;
   try{
     const response=await fetch("/api/contacts",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({domain:pilot,maxPeople:5})});
     const data=await response.json().catch(()=>({}));
@@ -156,7 +156,7 @@ async function loadBuyerResearch(){
     if(response.ok){
       const live=await response.json();
       buyerResearch={candidates:(live.companies||live.organizations||[]).map(c=>({
-        company:c.name,fit:c.fit||0,reason:c.description||"Apollo-discovered company candidate matched to the domain's semantic terms.",
+        company:c.name,fit:c.fit||0,reason:c.description||"Public research candidate matched to the domain's semantic terms.",
         signals:[...(c.matched_terms||[]),c.industry].filter(Boolean).slice(0,4),
         source:c.website_url||"https://www.apollo.io/",
         live:true
