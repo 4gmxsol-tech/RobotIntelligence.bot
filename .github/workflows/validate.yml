@@ -1,0 +1,20 @@
+name: Validate Agent
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+      - run: node --check app.js
+      - run: node -e "JSON.parse(require('fs').readFileSync('data/domains.json','utf8')); JSON.parse(require('fs').readFileSync('data/buyer-research.json','utf8')); JSON.parse(require('fs').readFileSync('data/market-signals.json','utf8')); JSON.parse(require('fs').readFileSync('data/opportunities.json','utf8')); JSON.parse(require('fs').readFileSync('data/decision-makers.json','utf8')); JSON.parse(require('fs').readFileSync('data/outreach.json','utf8')); JSON.parse(require('fs').readFileSync('data/agent-memory.json','utf8')); JSON.parse(require('fs').readFileSync('data/research-jobs.json','utf8')); JSON.parse(require('fs').readFileSync('data/events.json','utf8')); JSON.parse(require('fs').readFileSync('data/agent-rules.json','utf8')); JSON.parse(require('fs').readFileSync('data/valuation-model.json','utf8')); JSON.parse(require('fs').readFileSync('data/connectors.json','utf8')); JSON.parse(require('fs').readFileSync('data/evidence-schema.json','utf8')); JSON.parse(require('fs').readFileSync('data/portfolio-metrics.json','utf8'));"
