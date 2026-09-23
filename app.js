@@ -1,0 +1,6 @@
+const domains=["RobotIntelligence.bot","RobotEmbodiment.com","HumanoidUI.com","HumanoidBehavior.com","HumanoidPlanning.com","HumanoidIntelligenceAI.com","HumanoidIntelligenceLab.com","HumanoidContext.com","RoboticsBehavior.com","RobotIntelligenceAI.com","RobotIntelligenceLab.com","RobotStack.co","WorldAgents.co","PhysicalManipulation.com","publication.today","Xanvora.com","Czeal.com","ContextShip.com","Dexation.com","Rexation.com","ReasonFlow.xyz","Aividyou.com"];
+const grid=document.querySelector("#domainGrid"),search=document.querySelector("#search"),count=document.querySelector("#domainCount");
+function render(filter){const list=domains.filter(d=>d.toLowerCase().includes((filter||"").toLowerCase()));count.textContent=domains.length;grid.innerHTML=list.map((d,i)=>'<article class="domain-card" data-domain="'+d+'"><strong>'+d+'</strong><small><span class="dot"></span>'+(i===0?"Agent pilot":"Portfolio domain")+' · Research pending</small></article>').join("");}
+search.addEventListener("input",e=>render(e.target.value));
+document.querySelector("#analyzeBtn").addEventListener("click",()=>alert("Portfolio analysis queue will be connected to the research agent in the next build."));
+render("");
