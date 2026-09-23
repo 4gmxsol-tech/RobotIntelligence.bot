@@ -84,6 +84,32 @@ async function findDecisionMakers(organizationIds,{perPage=5}={}){
   };
 }
 
+async function enrichDecisionMakers(domain,{perPage=5,maxPeople=5}={}){
+  const companies=await findCompanies(domain,{perPage:Math.min(10,perPage)});
+  const ids=companies.organizations.map(x=>x.id).filter(Boolean);
+  const people=await findDecisionMakers(ids,{perPage:Math.min(10,perPage)});
+  const candidates=people.people.filter(p=>p.id).slice(0,Math.min(10,Math.max(1,maxPeople)));
+  if(!candidates.length) return {connector:"apollo_enrichment",status:"live",domain,contacts:[],meta:{requested:0,credits:"no enrichment performed"}};
+  const details=candidates.map(p=>({id:p.id}));
+  const data=await request("/people/bulk_match?reveal_personal_emails=false&reveal_phone_number=false",{details});
+  const matches=(data.matches||[]).map(p=>({
+    id:p.id||null,
+    person:[p.first_name,p.last_name].filter(Boolean).join(" ")||p.name||"Unknown",
+    role:p.title||null,
+    company:p.organization?.name||p.organization_name||null,
+    organization_id:p.organization_id||p.organization?.id||null,
+    email:p.email||null,
+    email_status:p.email_status||null,
+    linkedin_url:p.linkedin_url||null,
+    city:p.city||null,
+    state:p.state||null,
+    country:p.country||null,
+    match_confidence:p.match_confidence||null,
+    source:"Apollo People Enrichment"
+  }));
+  return {connector:"apollo_enrichment",status:"live",domain,contacts:matches,meta:{requested:candidates.length,enriched:matches.length,credits:"Apollo enrichment may consume credits when data is returned"}};
+}
+
 async function research(domain,options={}){
   const companies=await findCompanies(domain,options);
   const ids=companies.organizations.map(x=>x.id).filter(Boolean);
@@ -102,4 +128,4 @@ async function research(domain,options={}){
   return {...companies,people,evidence};
 }
 
-module.exports={findCompanies,findDecisionMakers,research};
+module.exports={findCompanies,findDecisionMakers,enrichDecisionMakers,research};
