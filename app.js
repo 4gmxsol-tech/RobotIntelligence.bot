@@ -78,7 +78,7 @@ function renderContacts(){
   if(!container||!empty)return;
   if(!decisionMakers.contacts.length){empty.style.display="block";container.innerHTML="";return;}
   empty.style.display="none";
-  container.innerHTML=decisionMakers.contacts.map(c=>'<article class="contact-card"><div class="contact-top"><div><strong>'+c.person+'</strong><small>'+c.role+' · '+c.company+'</small></div><span class="contact-confidence">'+c.confidence+'</span></div><p>'+c.reason+'</p><div class="contact-route"><strong>Public route</strong><span>'+c.contact_route+'</span></div><a href="'+c.source+'" target="_blank" rel="noopener">Verify source ↗</a></article>').join("");
+  container.innerHTML=decisionMakers.contacts.map(c=>'<article class="contact-card"><div class="contact-top"><div><strong>'+(c.person||"Unknown")+'</strong><small>'+(c.role||"Decision maker")+' · '+(c.company||"Unknown company")+'</small></div><span class="contact-confidence">'+(c.confidence||c.match_confidence||"RESEARCH")+'</span></div><p>'+(c.reason||((c.email?("Work email: "+c.email):"No email revealed")))+'</p><div class="contact-route"><strong>Contact intelligence</strong><span>'+(c.email||"Email not available")+(c.email_status?" · "+c.email_status:"")+(c.linkedin_url?" · LinkedIn available":"")+'</span></div>'+(c.linkedin_url?'<a href="'+c.linkedin_url+'" target="_blank" rel="noopener">LinkedIn ↗</a>':"")+(c.source?' <a href="'+c.source+'" target="_blank" rel="noopener">Source ↗</a>':"")+'</article>').join("");
   const n=document.querySelector("#contactCount");if(n)n.textContent=decisionMakers.contacts.length;
 }
 
@@ -121,6 +121,25 @@ async function loadOutreach(){
 }
 async function loadDecisionMakers(){
   try{const response=await fetch("data/decision-makers.json",{cache:"no-store"});if(!response.ok)throw new Error("contacts unavailable");decisionMakers=await response.json();renderContacts();}catch(error){console.warn("Decision-maker data unavailable:",error);}
+}
+async function enrichDecisionMakers(){
+  const button=document.querySelector("#enrichContactsBtn"),out=document.querySelector("#contactEnrichmentResult");
+  if(!button||!out)return;
+  button.disabled=true;button.textContent="Enriching…";out.textContent="Searching Apollo and enriching up to 5 decision-makers…";
+  try{
+    const response=await fetch("/api/contacts",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({domain:pilot,maxPeople:5})});
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok)throw new Error(data.error||"enrichment_failed");
+    decisionMakers={contacts:(data.contacts||[]).map(c=>({...c,confidence:c.match_confidence||c.email_status||"ENRICHED",reason:c.email?("Apollo returned a work email with status: "+(c.email_status||"unknown")):"Apollo matched the decision-maker but returned no email." ,source:c.linkedin_url||"https://www.apollo.io/" }))};
+    renderContacts();
+    out.textContent="Enriched "+decisionMakers.contacts.length+" decision-makers · "+(data.meta?.credits||"credits may apply");
+    button.textContent="Enrichment complete ✓";
+  }catch(error){
+    out.textContent=error.message==="apollo_not_configured"?"Apollo is not configured on the server.":"Enrichment unavailable: "+error.message;
+    button.textContent="Enrich Decision Makers";
+  }finally{
+    setTimeout(()=>{button.disabled=false;if(button.textContent==="Enrichment complete ✓")button.textContent="Enrich Decision Makers";},1800);
+  }
 }
 
 async function loadOpportunities(){
@@ -203,6 +222,7 @@ async function runValuation(){
  finally{setTimeout(()=>{button.disabled=false;if(button.textContent==="Benchmark updated ✓")button.textContent="Research Live Benchmark";},1600);}
 }
 document.querySelector("#valuationBtn")?.addEventListener("click",runValuation);
+document.querySelector("#enrichContactsBtn")?.addEventListener("click",enrichDecisionMakers);
 document.querySelector("#apiHealth")?.addEventListener("click",async()=>{
  const out=document.querySelector("#apiHealthResult");out.textContent="Checking…";
  try{const r=await fetch("/api/health");if(!r.ok)throw Error();const data=await r.json();out.textContent=data.ok?"API online · "+data.version:"API unavailable";}
