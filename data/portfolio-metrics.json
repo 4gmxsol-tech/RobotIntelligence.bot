@@ -1,0 +1,6 @@
+{
+  "version":"0.8",
+  "portfolio_metrics":{"total_domains":22,"intelligence_ready":22,"live_valuations":0,"active_opportunities":2,"verified_contacts":2,"outreach_drafts":2},
+  "queues":{"valuation":"awaiting_live_comps","research":"active","outreach":"human_review"},
+  "principle":"Prefer evidence density over unsupported precision."
+}
