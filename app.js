@@ -141,8 +141,25 @@ async function loadBuyerResearch(){
   }
 }
 
+async function runAgentResearch(){
+  const button=document.querySelector("#researchBtn"),out=document.querySelector("#researchResult");
+  if(!button||!out)return;
+  button.disabled=true; button.textContent="Running…"; out.textContent="Queueing portfolio scan…";
+  try{
+    const response=await fetch("/api/scan",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({domains:[pilot]})});
+    if(!response.ok)throw new Error("scan_failed");
+    const data=await response.json(),r=data.results&&data.results[0];
+    out.textContent=r ? r.domain+" · "+r.priority+" priority · "+r.evidenceCount+" evidence record · "+r.mode+" mode" : "Scan completed";
+    button.textContent="Research complete ✓";
+    await loadJobs(); await loadEvents();
+  }catch(error){
+    out.textContent="API not deployed or research runtime unavailable.";
+    button.textContent="Run Agent Research";
+  }finally{setTimeout(()=>{button.disabled=false;if(button.textContent==="Research complete ✓")button.textContent="Run Agent Research";},1600);}
+}
 search.addEventListener("input",e=>render(e.target.value));
 document.querySelector("#analyzeBtn").addEventListener("click",()=>showAnalysis(pilot));
+document.querySelector("#researchBtn")?.addEventListener("click",runAgentResearch);
 grid.addEventListener("click",e=>{const card=e.target.closest(".domain-card");if(card)showAnalysis(card.dataset.domain);});
 render("");
 loadBuyerResearch();
