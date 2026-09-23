@@ -1,9 +1,9 @@
 {
-  "version":"0.12",
+  "version":"0.13",
   "connectors":[
     {"id":"rdap","name":"RDAP","purpose":"registration, registrar, dates, nameservers","status":"live","auth":"none","source":"IANA RDAP bootstrap"},
     {"id":"domain-data","name":"Domain Data","purpose":"domain research and price-estimate adapter","status":"adapter-ready","auth":"server-side API key"},
-    {"id":"namebio","name":"NameBio","purpose":"comparable domain sales","status":"permission-required","auth":"licensed API"},
+    {"id":"namebio-benchmark","name":"NameBio Benchmarks","purpose":"live aggregated retail keyword and TLD market benchmarks","status":"live","auth":"none","source":"NameBio free RetailStats + TLDStats"},{"id":"namebio-comps","name":"NameBio Comparable Sales","purpose":"domain-specific comparable sales","status":"permission-required","auth":"licensed API"},
     {"id":"news","name":"GDELT News","purpose":"fresh company and market signals","status":"live","auth":"none","source":"GDELT DOC 2.0"},
     {"id":"crm","name":"Lead/CRM","purpose":"lead lifecycle and outreach history","status":"planned","auth":"provider-specific"}
   ],
