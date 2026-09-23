@@ -1,0 +1,12 @@
+{
+  "version":"0.6",
+  "entities":{
+    "domains":[],
+    "companies":[],
+    "contacts":[],
+    "opportunities":[]
+  },
+  "event_types":["research_created","signal_detected","opportunity_created","contact_verified","outreach_drafted","outreach_sent","reply_received","status_changed","note_added"],
+  "lead_statuses":["research","ready-for-review","contacted","replied","interested","negotiating","closed","archived"],
+  "rule":"Every material change should create a timestamped event with source/evidence when applicable."
+}
