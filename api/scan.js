@@ -8,7 +8,7 @@ module.exports=async(req,res)=>{
   for(const domain of domains.slice(0,25)){
     const data=await Promise.all([connectors.rdap(domain),connectors.market(domain),connectors.news(domain),connectors.buyer(domain)]);
     const evidence=data.flatMap(x=>x.evidence||[]);
-    const evidenceBacked=evidence.length>0;
+    const evidenceBacked=evidence.length>0 && evidence.every(e=>e.status==="observed");
     const score=scoreOpportunity({fit:70,signal:evidenceBacked?40:10,semantic:70,freshness:evidenceBacked?50:0});
     results.push({domain,status:"completed",mode:"simulation",opportunityScore:score,priority:classify(score),evidenceCount:evidence.length,connectors:data.map(x=>x.connector),note:"Simulation only. No live provider data was claimed."});
   }
