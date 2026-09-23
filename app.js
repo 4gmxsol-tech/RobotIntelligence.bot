@@ -133,12 +133,26 @@ async function loadMarketSignals(){
 
 async function loadBuyerResearch(){
   try{
-    const response=await fetch("data/buyer-research.json",{cache:"no-store"});
-    if(!response.ok)throw new Error("research dataset unavailable");
-    buyerResearch=await response.json();
-    renderBuyers();
+    const response=await fetch("/api/buyers?domain="+encodeURIComponent(pilot),{cache:"no-store"});
+    if(response.ok){
+      const live=await response.json();
+      buyerResearch={candidates:(live.companies||live.organizations||[]).map(c=>({
+        company:c.name,fit:c.fit||0,reason:c.description||"Apollo-discovered company candidate matched to the domain's semantic terms.",
+        signals:[...(c.matched_terms||[]),c.industry].filter(Boolean).slice(0,4),
+        source:c.website_url||"https://www.apollo.io/",
+        live:true
+      }))};
+      renderBuyers();
+      return;
+    }
+    throw new Error("live_buyer_unavailable");
   }catch(error){
-    console.warn("Buyer research unavailable:",error);
+    console.warn("Live buyer research unavailable; using evidence-backed static research:",error);
+    try{
+      const response=await fetch("data/buyer-research.json",{cache:"no-store"});
+      if(!response.ok)throw new Error("research dataset unavailable");
+      buyerResearch=await response.json(); renderBuyers();
+    }catch(fallback){console.warn("Buyer research unavailable:",fallback);}
   }
 }
 
@@ -150,7 +164,7 @@ async function runAgentResearch(){
     const response=await fetch("/api/scan",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({domains:[pilot]})});
     if(!response.ok)throw new Error("scan_failed");
     const data=await response.json(),r=data.results&&data.results[0];
-    out.textContent=r ? r.domain+" · "+r.priority+" priority · "+r.evidenceCount+" evidence records · "+r.mode+" mode"+(r.valuation?.benchmark_usd?" · benchmark $"+Number(r.valuation.benchmark_usd).toLocaleString():"") : "Scan completed";
+    out.textContent=r ? r.domain+" · "+r.priority+" priority · "+r.evidenceCount+" evidence records · "+r.mode+" mode"+(r.valuation?.benchmark_usd?" · benchmark $"+Number(r.valuation.benchmark_usd).toLocaleString():"")+(r.buyers?.count?" · "+r.buyers.count+" live buyer candidates":"") : "Scan completed";
     button.textContent="Research complete ✓";
     await loadJobs(); await loadEvents();
   }catch(error){
