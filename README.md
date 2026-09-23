@@ -31,3 +31,8 @@ Research-provider keys and AI credentials must never be committed to the reposit
 ## v0.8 architecture
 
 The project now separates evidence, valuation factors, connector adapters, portfolio metrics, research jobs, opportunities, decision makers, outreach, and agent events. RDAP is the baseline registration-data protocol; production comparable-sales and valuation data require an appropriately licensed provider. API secrets must remain server-side.
+
+
+## Live buyer discovery
+
+The Buyer Engine supports Apollo Organization Search and People API Search. Apollo requires an API key sent server-side in the `x-api-key` header; the repository never stores the key. Set `APOLLO_API_KEY` in the deployment environment, then `/api/buyers?domain=RobotIntelligence.bot` and Agent Research will use live company and decision-maker discovery. Apollo's People API Search does not return email addresses or phone numbers; enrichment is a separate operation.
