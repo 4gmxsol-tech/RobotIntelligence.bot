@@ -8,6 +8,7 @@ let opportunities={opportunities:[]};
 let decisionMakers={contacts:[]};
 let outreach={leads:[]};
 let researchJobs={jobs:[]}, agentEvents={events:[]}, portfolioMetrics={}, valuationModel={};
+let liveValuation=null;
 
 function analyzeDomain(domain){
   const [name,tld]=domain.toLowerCase().split(".");
@@ -149,7 +150,7 @@ async function runAgentResearch(){
     const response=await fetch("/api/scan",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({domains:[pilot]})});
     if(!response.ok)throw new Error("scan_failed");
     const data=await response.json(),r=data.results&&data.results[0];
-    out.textContent=r ? r.domain+" · "+r.priority+" priority · "+r.evidenceCount+" evidence record · "+r.mode+" mode" : "Scan completed";
+    out.textContent=r ? r.domain+" · "+r.priority+" priority · "+r.evidenceCount+" evidence records · "+r.mode+" mode"+(r.valuation?.benchmark_usd?" · benchmark $"+Number(r.valuation.benchmark_usd).toLocaleString():"") : "Scan completed";
     button.textContent="Research complete ✓";
     await loadJobs(); await loadEvents();
   }catch(error){
@@ -170,7 +171,25 @@ loadOutreach();
 loadJobs();
 loadEvents();
 loadPortfolioMetrics();
-loadValuationModel();document.querySelector("#apiHealth")?.addEventListener("click",async()=>{
+loadValuationModel();
+async function runValuation(){
+ const button=document.querySelector("#valuationBtn"),out=document.querySelector("#valuationResult");
+ if(!button||!out)return;
+ button.disabled=true;button.textContent="Researching…";out.textContent="Querying NameBio live market benchmarks…";
+ try{
+   const r=await fetch("/api/valuation?domain="+encodeURIComponent(pilot),{cache:"no-store"});
+   if(!r.ok)throw new Error("valuation_failed");
+   liveValuation=await r.json();
+   const range=liveValuation.indicative_range_usd;
+   const benchmark=liveValuation.benchmark_usd;
+   out.textContent=benchmark?"Live benchmark $"+Number(benchmark).toLocaleString()+(range?" · indicative research range $"+Number(range.low).toLocaleString()+"–$"+Number(range.high).toLocaleString():"")+" · aggregate data, not appraisal.":"No sufficient NameBio benchmark data found.";
+   const status=document.querySelector("#valuationStatus");if(status)status.textContent=benchmark?"LIVE BENCHMARK":"NO DATA";
+   button.textContent="Benchmark updated ✓";
+ }catch(e){out.textContent="Valuation runtime unavailable or provider error.";button.textContent="Research Live Benchmark";}
+ finally{setTimeout(()=>{button.disabled=false;if(button.textContent==="Benchmark updated ✓")button.textContent="Research Live Benchmark";},1600);}
+}
+document.querySelector("#valuationBtn")?.addEventListener("click",runValuation);
+document.querySelector("#apiHealth")?.addEventListener("click",async()=>{
  const out=document.querySelector("#apiHealthResult");out.textContent="Checking…";
  try{const r=await fetch("/api/health");if(!r.ok)throw Error();const data=await r.json();out.textContent=data.ok?"API online · "+data.version:"API unavailable";}
  catch(e){out.textContent="UI ready · API runtime not deployed";} 
