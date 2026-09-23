@@ -1,0 +1,6 @@
+{
+  "version":"0.8",
+  "evidence_record":{"id":"string","type":"source|signal|comp|contact|inference","source":"url","observed_at":"ISO-8601","confidence":"low|medium|high","supports":["claim ids"]},
+  "valuation_record":{"domain":"string","currency":"USD","range":{"low":"number","high":"number"},"confidence":"number","comparables":[],"factors":{},"evidence_ids":[]},
+  "opportunity_record":{"domain":"string","company":"string","score":"number","signals":[],"evidence_ids":[],"next_action":"string","state":"research|ready|contacted|replied|interested|negotiating|closed|archived"}
+}
