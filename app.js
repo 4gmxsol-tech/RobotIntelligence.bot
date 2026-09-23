@@ -153,4 +153,8 @@ loadOutreach();
 loadJobs();
 loadEvents();
 loadPortfolioMetrics();
-loadValuationModel();
+loadValuationModel();document.querySelector("#apiHealth")?.addEventListener("click",async()=>{
+ const out=document.querySelector("#apiHealthResult");out.textContent="Checking…";
+ try{const r=await fetch("/api/health");if(!r.ok)throw Error();const data=await r.json();out.textContent=data.ok?"API online · "+data.version:"API unavailable";}
+ catch(e){out.textContent="UI ready · API runtime not deployed";} 
+});
