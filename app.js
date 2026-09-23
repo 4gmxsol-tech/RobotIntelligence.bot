@@ -7,6 +7,7 @@ let marketSignals={signals:[]};
 let opportunities={opportunities:[]};
 let decisionMakers={contacts:[]};
 let outreach={leads:[]};
+let researchJobs={jobs:[]}, agentEvents={events:[]};
 
 function analyzeDomain(domain){
   const [name,tld]=domain.toLowerCase().split(".");
@@ -40,6 +41,22 @@ function showAnalysis(domain){
   modal.onclick=e=>{if(e.target===modal)modal.remove();};
 }
 
+function renderJobs(){
+ const box=document.querySelector("#jobList"),empty=document.querySelector("#jobEmpty");if(!box||!empty)return;
+ if(!researchJobs.jobs.length){empty.style.display="block";box.innerHTML="";return;} empty.style.display="none";
+ box.innerHTML=researchJobs.jobs.map(j=>'<article class="job-card"><div class="job-top"><div><strong>'+j.id+' · '+j.domain+'</strong><small>'+j.goal+'</small></div><span class="job-status">'+j.status+'</span></div><div class="progress"><span style="width:'+Math.round(j.completed_steps/j.steps.length*100)+'%"></span></div><small>'+j.completed_steps+'/'+j.steps.length+' steps completed · '+j.result+'</small></article>').join("");
+}
+function renderEvents(){
+ const box=document.querySelector("#eventList"),empty=document.querySelector("#eventEmpty");if(!box||!empty)return;
+ if(!agentEvents.events.length){empty.style.display="block";box.innerHTML="";return;} empty.style.display="none";
+ box.innerHTML=agentEvents.events.slice().reverse().map(e=>'<article class="event-row"><span class="event-dot"></span><div><strong>'+e.type.replaceAll("_"," ")+'</strong><small>'+e.entity+' · '+e.timestamp.replace("T"," ").replace("Z"," UTC")+'</small><p>'+e.message+'</p></div></article>').join("");
+}
+async function loadJobs(){
+ try{const r=await fetch("data/research-jobs.json",{cache:"no-store"});if(!r.ok)throw Error();researchJobs=await r.json();renderJobs();}catch(e){console.warn("Research jobs unavailable",e);}
+}
+async function loadEvents(){
+ try{const r=await fetch("data/events.json",{cache:"no-store"});if(!r.ok)throw Error();agentEvents=await r.json();renderEvents();}catch(e){console.warn("Agent events unavailable",e);}
+}
 function renderOutreach(){
   const container=document.querySelector("#outreachList"),empty=document.querySelector("#outreachEmpty");
   if(!container||!empty)return;
@@ -127,3 +144,5 @@ loadMarketSignals();
 loadOpportunities();
 loadDecisionMakers();
 loadOutreach();
+loadJobs();
+loadEvents();
