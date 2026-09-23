@@ -4,6 +4,7 @@ const pilot="RobotIntelligence.bot";
 const profiles={"RobotIntelligence.bot":{category:"AI / Robotics",tld:"bot",signals:["Robot intelligence","AI agents","Robotics"],notes:"Pilot asset for the intelligence engine."}};
 let buyerResearch={candidates:[]};
 let marketSignals={signals:[]};
+let opportunities={opportunities:[]};
 
 function analyzeDomain(domain){
   const [name,tld]=domain.toLowerCase().split(".");
@@ -37,6 +38,16 @@ function showAnalysis(domain){
   modal.onclick=e=>{if(e.target===modal)modal.remove();};
 }
 
+function renderOpportunities(){
+  const container=document.querySelector("#opportunityList");
+  const empty=document.querySelector("#opportunityEmpty");
+  if(!container||!empty)return;
+  if(!opportunities.opportunities.length){empty.style.display="block";container.innerHTML="";return;}
+  empty.style.display="none";
+  container.innerHTML=opportunities.opportunities.map(o=>'<article class="opp-card"><div class="opp-top"><div><span class="eyebrow">OPPORTUNITY</span><strong>'+o.company+' × '+o.domain+'</strong></div><span class="opp-score">'+o.opportunityScore+'</span></div><p>'+o.thesis+'</p><div class="trigger-row">'+o.triggers.map(t=>'<span>'+t+'</span>').join("")+'</div><div class="next-action"><strong>Next action</strong><span>'+o.nextAction+'</span></div></article>').join("");
+  const n=document.querySelector("#opportunityCount"); if(n)n.textContent=opportunities.opportunities.length;
+}
+
 function renderSignals(){
   const container=document.querySelector("#signalList");
   const empty=document.querySelector("#signalEmpty");
@@ -61,6 +72,10 @@ function renderBuyers(){
   if(opp&&top)opp.innerHTML='<span class="op-icon">✦</span><div><strong>Research '+top.company+' for '+pilot+'</strong><p>High semantic fit. Verify current naming, brand usage, corporate structure and the appropriate decision-maker before any outreach.</p></div><span class="tag">RESEARCH</span>';
 }
 
+async function loadOpportunities(){
+  try{const response=await fetch("data/opportunities.json",{cache:"no-store"});if(!response.ok)throw new Error("opportunities unavailable");opportunities=await response.json();renderOpportunities();}catch(error){console.warn("Opportunities unavailable:",error);}
+}
+
 async function loadMarketSignals(){
   try{const response=await fetch("data/market-signals.json",{cache:"no-store"});if(!response.ok)throw new Error("signals unavailable");marketSignals=await response.json();renderSignals();}catch(error){console.warn("Market signals unavailable:",error);}
 }
@@ -82,3 +97,4 @@ grid.addEventListener("click",e=>{const card=e.target.closest(".domain-card");if
 render("");
 loadBuyerResearch();
 loadMarketSignals();
+loadOpportunities();
