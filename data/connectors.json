@@ -1,14 +1,1 @@
-{
-  "version":"0.13",
-  "connectors":[
-    {"id":"rdap","name":"RDAP","purpose":"registration, registrar, dates, nameservers","status":"live","auth":"none","source":"IANA RDAP bootstrap"},
-    {"id":"domain-data","name":"Domain Data","purpose":"domain research and price-estimate adapter","status":"adapter-ready","auth":"server-side API key"},
-    {"id":"namebio-benchmark","name":"NameBio Benchmarks","purpose":"live aggregated retail keyword and TLD market benchmarks","status":"live","auth":"none","source":"NameBio free RetailStats + TLDStats"},
-    {"id":"namebio-comps","name":"NameBio Comparable Sales","purpose":"domain-specific comparable sales","status":"permission-required","auth":"licensed API"},
-    {"id":"apollo","name":"Apollo People Search","purpose":"free company-context and decision-maker discovery","status":"env-required","auth":"server-side API key","source":"Apollo People API Search","credit_usage":"0 credits"},
-    {"id":"apollo-enrichment","name":"Apollo People Enrichment","purpose":"optional server-side decision-maker enrichment and work-email discovery","status":"optional","auth":"server-side API key + credits","source":"Apollo People Enrichment API","credit_usage":"1-9 credits per person depending on returned data"},
-    {"id":"news","name":"GDELT News","purpose":"fresh company and market signals","status":"live","auth":"none","source":"GDELT DOC 2.0"},
-    {"id":"crm","name":"Lead/CRM","purpose":"lead lifecycle and outreach history","status":"planned","auth":"provider-specific"}
-  ],
-  "security_rule":"No API keys in browser code or repository files. Use server-side environment variables."
-}
+{"version":"0.13","connectors":[{"id":"rdap","name":"RDAP","purpose":"registration, registrar, dates, nameservers","status":"live","auth":"none","source":"IANA RDAP bootstrap"},{"id":"domain-data","name":"Domain Data","purpose":"domain research and price-estimate adapter","status":"adapter-ready","auth":"server-side API key"},{"id":"namebio-benchmark","name":"NameBio Benchmarks","purpose":"live aggregated retail keyword and TLD market benchmarks","status":"live","auth":"none","source":"NameBio free RetailStats + TLDStats"},{"id":"namebio-comps","name":"NameBio Comparable Sales","purpose":"domain-specific comparable sales","status":"permission-required","auth":"licensed API"},{"id":"apollo","name":"Apollo","purpose":"optional prospect discovery connector","status":"disabled","auth":"server-side API key","source":"Apollo API","credit_usage":"not used"},{"id":"apollo-enrichment","name":"Apollo People Enrichment","purpose":"optional contact enrichment","status":"disabled","auth":"server-side API key + credits","source":"Apollo People Enrichment API","credit_usage":"not used"},{"id":"news","name":"GDELT News","purpose":"fresh company and market signals","status":"live","auth":"none","source":"GDELT DOC 2.0"},{"id":"crm","name":"Lead/CRM","purpose":"lead lifecycle and outreach history","status":"planned","auth":"provider-specific"}],"security_rule":"No API keys in browser code or repository files. Use server-side environment variables only when an optional connector is explicitly enabled."}
