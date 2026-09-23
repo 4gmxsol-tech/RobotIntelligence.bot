@@ -1,0 +1,43 @@
+{
+  "version":"0.3",
+  "updated":"2026-09-24",
+  "domain":"RobotIntelligence.bot",
+  "signals":[
+    {
+      "company":"Skild AI",
+      "type":"funding",
+      "strength":"high",
+      "date":"2026-01-14",
+      "headline":"Skild AI announced a $1.4B Series C and said it is building a general-purpose brain that can control any robot for any task.",
+      "why_it_matters":"Direct lexical and category alignment with RobotIntelligence.bot.",
+      "source":"https://www.skild.ai/blogs/series-c"
+    },
+    {
+      "company":"Skild AI",
+      "type":"commercial",
+      "strength":"high",
+      "date":"2026-09-10",
+      "headline":"Skild AI reported more than $100M ARR and 60+ paying customers ten months after its first commercial deployment.",
+      "why_it_matters":"A strong current operating signal for a company centered on robotic intelligence.",
+      "source":"https://skild.ai/blogs/skild-crosses-100m-arr"
+    },
+    {
+      "company":"Figure",
+      "type":"product",
+      "strength":"high",
+      "date":"2026-09-17",
+      "headline":"Figure introduced Helix 2.5 and reported zero-shot generalization across 30 homes.",
+      "why_it_matters":"Recent product activity around embodied intelligence and generalization increases topical relevance.",
+      "source":"https://www.figure.ai/news/helix-2-5-zero-shot-30-home-generalization"
+    },
+    {
+      "company":"Figure",
+      "type":"infrastructure",
+      "strength":"high",
+      "date":"2026-09-03",
+      "headline":"Figure announced a strategic partnership with Nscale for up to 100,000 NVIDIA Vera Rubin GPUs, with an initial $3.5B compute commitment.",
+      "why_it_matters":"Large-scale compute investment is directly connected to scaling its robotics AI systems.",
+      "source":"https://www.figure.ai/news/figure-and-nscale-sign-strategic-partnership"
+    }
+  ]
+}
