@@ -26,8 +26,9 @@ module.exports=async(req,res)=>{
       semantic:70,
       freshness:newsCount?80:0
     });
+    const buyerLive=buyerResult.status==="live";
     results.push({
-      domain,status:"completed",mode:"rdap+news+valuation-live",
+      domain,status:"completed",mode:buyerLive?"rdap+news+valuation+apollo-free-search":"rdap+news+valuation-live",
       opportunityScore:score,priority:classify(score),evidenceCount:evidence.length,
       connectors:data.map(x=>({id:x.connector,status:x.status})),
       buyers:{status:buyerResult.status,count:buyerResult.organizations?.length||0,companies:(buyerResult.organizations||[]).slice(0,10),people:(buyerResult.people?.people||buyerResult.people||[]).slice(0,10)},
@@ -36,8 +37,8 @@ module.exports=async(req,res)=>{
       valuation:{status:valuationResult.status,value_state:valuationResult.value_state,benchmark_usd:valuationResult.benchmark_usd,indicative_range_usd:valuationResult.indicative_range_usd,methodology:valuationResult.methodology},
       evidence,
       evidenceBacked,
-      note:"RDAP, GDELT News and NameBio benchmarks are live. Apollo buyer discovery is live when APOLLO_API_KEY is configured; paid comparable sales remain separate."
+      note:"RDAP, GDELT News and NameBio benchmarks are live. Apollo buyer discovery uses People API Search (0 credits) when APOLLO_API_KEY is configured; optional enrichment remains separate and credit-aware."
     });
   }
-  return res.status(200).json({ok:true,mode:"rdap+news+valuation+buyer-live",evidence_required:true,results});
+  return res.status(200).json({ok:true,mode:"rdap+news+valuation+apollo-free-search",evidence_required:true,results});
 };
