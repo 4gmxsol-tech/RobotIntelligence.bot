@@ -5,7 +5,7 @@ A domain-intelligence workspace for portfolio research, potential-buyer discover
 ## Pilot
 **RobotIntelligence.bot** is the first domain analyzed by the platform.
 
-## v0.1 foundation
+## v0.7 agent foundation
 - Portfolio dashboard
 - Canonical 22-domain pilot dataset
 - Domain search
