@@ -1,0 +1,52 @@
+{
+  "version": "0.2",
+  "domain": "RobotIntelligence.bot",
+  "method": {
+    "type": "hypothesis_scoring",
+    "note": "Candidates are research targets, not confirmed buyers. Scores reflect semantic/category fit and documented activity signals; they do not imply purchase intent."
+  },
+  "candidates": [
+    {
+      "company": "Skild AI",
+      "fit": 97,
+      "signals": ["robot intelligence", "robot foundation model", "physical AI", "robot deployment"],
+      "reason": "Its core product is an omni-bodied robotic intelligence layer and the company describes its model as a brain for robots.",
+      "source": "https://skild.ai/"
+    },
+    {
+      "company": "Figure AI",
+      "fit": 94,
+      "signals": ["humanoid intelligence", "robot AI", "general-purpose robots"],
+      "reason": "The company is building general-purpose humanoid robots and AI systems for physical work.",
+      "source": "https://www.figure.ai/"
+    },
+    {
+      "company": "Physical Intelligence",
+      "fit": 93,
+      "signals": ["robot foundation models", "physical AI", "general-purpose robot intelligence"],
+      "reason": "Its product direction is centered on general-purpose intelligence for robots.",
+      "source": "https://www.physicalintelligence.company/"
+    },
+    {
+      "company": "Agility Robotics",
+      "fit": 88,
+      "signals": ["humanoid robotics", "physical AI", "robot deployment"],
+      "reason": "Digit is deployed in industrial workflows and the company explicitly positions itself around humanoid robotics and physical AI.",
+      "source": "https://www.agilityrobotics.com/"
+    },
+    {
+      "company": "Apptronik",
+      "fit": 87,
+      "signals": ["humanoid robots", "AI-powered robotics", "industrial deployment"],
+      "reason": "Apollo and the company's robotics platform create a strong semantic fit with robot intelligence.",
+      "source": "https://apptronik.com/"
+    },
+    {
+      "company": "1X",
+      "fit": 84,
+      "signals": ["humanoid robots", "embodied AI", "robot learning"],
+      "reason": "The company develops humanoid robots and embodied AI systems for real-world environments.",
+      "source": "https://www.1x.tech/"
+    }
+  ]
+}
