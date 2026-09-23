@@ -4,7 +4,7 @@
     {"id":"rdap","name":"RDAP","purpose":"registration, registrar, dates, nameservers","status":"live","auth":"none","source":"IANA RDAP bootstrap"},
     {"id":"domain-data","name":"Domain Data","purpose":"domain research and price-estimate adapter","status":"adapter-ready","auth":"server-side API key"},
     {"id":"namebio-benchmark","name":"NameBio Benchmarks","purpose":"live aggregated retail keyword and TLD market benchmarks","status":"live","auth":"none","source":"NameBio free RetailStats + TLDStats"},{"id":"namebio-comps","name":"NameBio Comparable Sales","purpose":"domain-specific comparable sales","status":"permission-required","auth":"licensed API"},
-    {"id":"news","name":"GDELT News","purpose":"fresh company and market signals","status":"live","auth":"none","source":"GDELT DOC 2.0"},
+    {"id":"apollo","name":"Apollo Buyer Discovery","purpose":"live company and decision-maker discovery","status":"env-required","auth":"server-side API key","source":"Apollo API"},{"id":"news","name":"GDELT News","purpose":"fresh company and market signals","status":"live","auth":"none","source":"GDELT DOC 2.0"},
     {"id":"crm","name":"Lead/CRM","purpose":"lead lifecycle and outreach history","status":"planned","auth":"provider-specific"}
   ],
   "security_rule":"No API keys in browser code or repository files. Use server-side environment variables."
