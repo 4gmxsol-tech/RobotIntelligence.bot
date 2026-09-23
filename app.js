@@ -6,6 +6,7 @@ let buyerResearch={candidates:[]};
 let marketSignals={signals:[]};
 let opportunities={opportunities:[]};
 let decisionMakers={contacts:[]};
+let outreach={leads:[]};
 
 function analyzeDomain(domain){
   const [name,tld]=domain.toLowerCase().split(".");
@@ -39,6 +40,15 @@ function showAnalysis(domain){
   modal.onclick=e=>{if(e.target===modal)modal.remove();};
 }
 
+function renderOutreach(){
+  const container=document.querySelector("#outreachList"),empty=document.querySelector("#outreachEmpty");
+  if(!container||!empty)return;
+  if(!outreach.leads.length){empty.style.display="block";container.innerHTML="";return;}
+  empty.style.display="none";
+  container.innerHTML=outreach.leads.map((l,i)=>'<article class="outreach-card"><div class="outreach-top"><div><strong>'+l.company+'</strong><small>'+l.person+' · '+l.role+'</small></div><span class="status-pill">'+l.status+'</span></div><div class="outreach-angle"><strong>Why this angle</strong><span>'+l.outreach_angle+'</span></div><div class="draft"><small>'+l.draft_subject+'</small><p>'+l.draft+'</p><button class="copy-btn" data-index="'+i+'">Copy draft</button></div></article>').join("");
+  container.querySelectorAll(".copy-btn").forEach(btn=>btn.addEventListener("click",async()=>{const text=outreach.leads[Number(btn.dataset.index)].draft;try{await navigator.clipboard.writeText(text);btn.textContent="Copied ✓";setTimeout(()=>btn.textContent="Copy draft",1200)}catch(e){btn.textContent="Select manually"}}));
+  const n=document.querySelector("#outreachCount");if(n)n.textContent=outreach.leads.length;
+}
 function renderContacts(){
   const container=document.querySelector("#contactList"), empty=document.querySelector("#contactEmpty");
   if(!container||!empty)return;
@@ -82,6 +92,9 @@ function renderBuyers(){
   if(opp&&top)opp.innerHTML='<span class="op-icon">✦</span><div><strong>Research '+top.company+' for '+pilot+'</strong><p>High semantic fit. Verify current naming, brand usage, corporate structure and the appropriate decision-maker before any outreach.</p></div><span class="tag">RESEARCH</span>';
 }
 
+async function loadOutreach(){
+  try{const response=await fetch("data/outreach.json",{cache:"no-store"});if(!response.ok)throw new Error("outreach unavailable");outreach=await response.json();renderOutreach();}catch(error){console.warn("Outreach data unavailable:",error);}
+}
 async function loadDecisionMakers(){
   try{const response=await fetch("data/decision-makers.json",{cache:"no-store"});if(!response.ok)throw new Error("contacts unavailable");decisionMakers=await response.json();renderContacts();}catch(error){console.warn("Decision-maker data unavailable:",error);}
 }
@@ -113,3 +126,4 @@ loadBuyerResearch();
 loadMarketSignals();
 loadOpportunities();
 loadDecisionMakers();
+loadOutreach();
