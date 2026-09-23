@@ -28,59 +28,107 @@ function domainTerms(domain){
   return dictionary.filter(k=>sld.includes(k));
 }
 
-function fitForCompany(org,terms){
-  const hay=[org.name,org.short_description,org.industry,...(org.keywords||[])].filter(Boolean).join(" ").toLowerCase();
+const buyerTitles=["CEO","Founder","Chief Executive Officer","Chief Technology Officer","CTO","VP","Head of AI","Head of Robotics","Robotics"];
+
+function normalizePerson(p){
+  return {
+    id:p.id||null,
+    name:[p.first_name,p.last_name].filter(Boolean).join(" ")||p.name||"Unknown",
+    title:p.title||null,
+    organization_id:p.organization_id||p.organization?.id||null,
+    organization_name:p.organization_name||p.organization?.name||null,
+    organization_domain:p.organization?.primary_domain||p.organization?.domain||null,
+    organization_industry:p.organization?.industry||null,
+    organization_description:p.organization?.short_description||p.organization?.description||null,
+    organization_employees:p.organization?.estimated_num_employees||null,
+    organization_funding:p.organization?.latest_funding_amount||null,
+    linkedin_url:p.linkedin_url||null,
+    source:"Apollo People API Search"
+  };
+}
+
+function normalizeOrganizationFromPerson(p){
+  const o=p.organization||{};
+  return {
+    id:p.organization_id||o.id||null,
+    name:p.organization_name||o.name||null,
+    website_url:o.website_url||o.primary_domain||o.domain||null,
+    primary_domain:o.primary_domain||o.domain||null,
+    industry:o.industry||null,
+    description:o.short_description||o.description||null,
+    employees:o.estimated_num_employees||null,
+    funding:o.latest_funding_amount||null,
+    latest_funding_date:o.latest_funding_date||null,
+    fit:0,
+    matched_terms:[],
+    source:"Apollo People API Search"
+  };
+}
+
+function scoreOrganization(org,terms){
+  const hay=[org.name,org.description,org.industry,org.primary_domain].filter(Boolean).join(" ").toLowerCase();
   const hits=terms.filter(t=>hay.includes(t));
-  const funding=Number(org.latest_funding_amount||0);
-  const employees=Number(org.estimated_num_employees||0);
-  const score=Math.min(100,Math.round(45+hits.length*10+(funding>0?10:0)+(employees>=50?10:0)));
+  const funding=Number(org.funding||0);
+  const employees=Number(org.employees||0);
+  const score=Math.min(100,Math.round(45+hits.length*12+(funding>0?8:0)+(employees>=50?8:0)));
   return {score,hits};
 }
 
+/*
+ * Free-first buyer discovery:
+ * Apollo People API Search is the primary discovery endpoint and uses 0 credits.
+ * It returns people plus enough organization context to build buyer candidates.
+ * Paid organization search is intentionally not used by the runtime.
+ */
 async function findCompanies(domain,{perPage=10}={}){
   const terms=domainTerms(domain);
-  const body={page:1,per_page:Math.min(25,Math.max(1,perPage)),q_organization_keyword_tags:terms.length?terms:["robotics","artificial intelligence"]};
-  const data=await request("/mixed_companies/search",body);
-  const organizations=(data.organizations||[]).map(org=>{
-    const fit=fitForCompany(org,terms);
-    return {
-      id:org.id||org.organization_id||null,
-      name:org.name||"Unknown",
-      website_url:org.website_url||org.primary_domain||null,
-      primary_domain:org.primary_domain||null,
-      industry:org.industry||null,
-      description:org.short_description||org.description||null,
-      employees:org.estimated_num_employees||null,
-      funding:org.latest_funding_amount||null,
-      latest_funding_date:org.latest_funding_date||null,
-      fit:fit.score,
-      matched_terms:fit.hits,
-      source:"Apollo Organization Search"
-    };
+  const data=await request("/mixed_people/api_search",{
+    page:1,
+    per_page:Math.min(25,Math.max(1,perPage)),
+    q_keywords:terms.length?terms.join(" "):"robotics artificial intelligence",
+    person_seniorities:["founder","c_suite","vp","head","director"],
+    person_titles:buyerTitles,
+    include_similar_titles:true
+  });
+  const byId=new Map();
+  (data.people||[]).map(normalizeOrganizationFromPerson).forEach(org=>{
+    if(!org.id||!org.name) return;
+    if(!byId.has(org.id)) byId.set(org.id,org);
+  });
+  const organizations=[...byId.values()].map(org=>{
+    const fit=scoreOrganization(org,terms);
+    return {...org,fit:fit.score,matched_terms:fit.hits};
   }).sort((a,b)=>b.fit-a.fit);
-  return {connector:"apollo",status:"live",domain,terms,organizations,meta:{total:data.pagination?.total_entries||organizations.length,credits:"organization search uses Apollo credits"}};
+  return {
+    connector:"apollo",
+    status:"live",
+    domain,
+    terms,
+    organizations,
+    meta:{
+      total:organizations.length,
+      credits:"0 credits for Apollo People API Search",
+      discovery:"free_people_search"
+    }
+  };
 }
 
 async function findDecisionMakers(organizationIds,{perPage=5}={}){
-  if(!organizationIds.length) return {connector:"apollo_people",status:"live",people:[]};
+  const ids=(organizationIds||[]).filter(Boolean);
+  if(!ids.length) return {connector:"apollo_people",status:"live",people:[],meta:{credits:"0 credits"}};
   const data=await request("/mixed_people/api_search",{
-    page:1,per_page:Math.min(25,Math.max(1,perPage)),
-    organization_ids:organizationIds.slice(0,10),
+    page:1,
+    per_page:Math.min(25,Math.max(1,perPage)),
+    organization_ids:ids.slice(0,10),
     person_seniorities:["founder","c_suite","vp","head","director"],
-    person_titles:["CEO","Founder","Chief Executive Officer","Chief Technology Officer","CTO","VP","Head of AI","Head of Robotics","Robotics"],
+    person_titles:buyerTitles,
     include_similar_titles:true
   });
   return {
-    connector:"apollo_people",status:"live",
-    people:(data.people||[]).map(p=>({
-      id:p.id||null,
-      name:[p.first_name,p.last_name].filter(Boolean).join(" ")||p.name||"Unknown",
-      title:p.title||null,
-      organization_id:p.organization_id||p.organization?.id||null,
-      organization_name:p.organization_name||p.organization?.name||null,
-      linkedin_url:p.linkedin_url||null,
-      source:"Apollo People API Search"
-    }))
+    connector:"apollo_people",
+    status:"live",
+    people:(data.people||[]).map(normalizePerson),
+    meta:{credits:"0 credits for People API Search"}
   };
 }
 
@@ -107,7 +155,7 @@ async function enrichDecisionMakers(domain,{perPage=5,maxPeople=5}={}){
     match_confidence:p.match_confidence||null,
     source:"Apollo People Enrichment"
   }));
-  return {connector:"apollo_enrichment",status:"live",domain,contacts:matches,meta:{requested:candidates.length,enriched:matches.length,credits:"Apollo enrichment may consume credits when data is returned"}};
+  return {connector:"apollo_enrichment",status:"live",domain,contacts:matches,meta:{requested:candidates.length,enriched:matches.length,credits:"Apollo enrichment may consume credits; it is manual and optional"}};
 }
 
 async function research(domain,options={}){
@@ -116,8 +164,8 @@ async function research(domain,options={}){
   const people=await findDecisionMakers(ids,options);
   const evidence=companies.organizations.slice(0,10).map(org=>({
     type:"buyer_candidate",
-    source:"Apollo",
-    source_url:org.website_url||("https://www.apollo.io/"),
+    source:"Apollo People API Search",
+    source_url:org.website_url||"https://www.apollo.io/",
     observed_at:new Date().toISOString(),
     confidence:"medium",
     supports:"company_fit_and_buyer_discovery",
