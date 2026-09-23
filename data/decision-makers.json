@@ -1,0 +1,24 @@
+{
+  "version":"0.5",
+  "domain":"RobotIntelligence.bot",
+  "contacts":[
+    {
+      "company":"Skild AI",
+      "person":"Deepak Pathak",
+      "role":"Co-founder & CEO",
+      "contact_route":"Company website / press@skild.ai",
+      "confidence":"high",
+      "reason":"Skild's own September 2026 article identifies Deepak Pathak as Co-founder and CEO; the official site publishes press@skild.ai as a public company contact.",
+      "source":"https://skild.ai/blogs/skild-crosses-100m-arr"
+    },
+    {
+      "company":"Figure",
+      "person":"Brett Adcock",
+      "role":"Founder & CEO",
+      "contact_route":"Figure official website / careers and company channels",
+      "confidence":"high",
+      "reason":"Figure's official company and culture pages identify Brett Adcock as Founder & CEO.",
+      "source":"https://www.figure.ai/company"
+    }
+  ]
+}
