@@ -1,0 +1,25 @@
+{
+  "version":"0.7",
+  "jobs":[
+    {
+      "id":"JOB-001",
+      "domain":"RobotIntelligence.bot",
+      "goal":"Find new commercial opportunities",
+      "status":"completed",
+      "created_at":"2026-09-24",
+      "steps":["domain_analysis","buyer_discovery","market_signals","opportunity_detection","decision_maker_research","outreach_draft"],
+      "completed_steps":6,
+      "result":"2 active research opportunities"
+    },
+    {
+      "id":"JOB-002",
+      "domain":"RobotIntelligence.bot",
+      "goal":"Detect fresh market changes",
+      "status":"ready",
+      "created_at":"2026-09-24",
+      "steps":["scan_company_news","compare_previous_events","score_signal_freshness","update_memory"],
+      "completed_steps":0,
+      "result":"Awaiting research connector"
+    }
+  ]
+}
