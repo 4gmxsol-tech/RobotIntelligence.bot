@@ -7,7 +7,7 @@ let marketSignals={signals:[]};
 let opportunities={opportunities:[]};
 let decisionMakers={contacts:[]};
 let outreach={leads:[]};
-let researchJobs={jobs:[]}, agentEvents={events:[]};
+let researchJobs={jobs:[]}, agentEvents={events:[]}, portfolioMetrics={}, valuationModel={};
 
 function analyzeDomain(domain){
   const [name,tld]=domain.toLowerCase().split(".");
@@ -50,6 +50,12 @@ function renderEvents(){
  const box=document.querySelector("#eventList"),empty=document.querySelector("#eventEmpty");if(!box||!empty)return;
  if(!agentEvents.events.length){empty.style.display="block";box.innerHTML="";return;} empty.style.display="none";
  box.innerHTML=agentEvents.events.slice().reverse().map(e=>'<article class="event-row"><span class="event-dot"></span><div><strong>'+e.type.replaceAll("_"," ")+'</strong><small>'+e.entity+' · '+e.timestamp.replace("T"," ").replace("Z"," UTC")+'</small><p>'+e.message+'</p></div></article>').join("");
+}
+async function loadPortfolioMetrics(){
+ try{const r=await fetch("data/portfolio-metrics.json",{cache:"no-store"});if(!r.ok)throw Error();portfolioMetrics=await r.json();const m=portfolioMetrics.portfolio_metrics;document.querySelector("#domainCount").textContent=m.total_domains;document.querySelector("#leadCount").textContent=m.active_opportunities;document.querySelector("#opportunityCount").textContent=m.active_opportunities;}catch(e){console.warn("Portfolio metrics unavailable",e);}
+}
+async function loadValuationModel(){
+ try{const r=await fetch("data/valuation-model.json",{cache:"no-store"});if(!r.ok)throw Error();valuationModel=await r.json();const el=document.querySelector("#valuationStatus");if(el)el.textContent="LIVE COMPS REQUIRED";}catch(e){console.warn("Valuation model unavailable",e);}
 }
 async function loadJobs(){
  try{const r=await fetch("data/research-jobs.json",{cache:"no-store"});if(!r.ok)throw Error();researchJobs=await r.json();renderJobs();}catch(e){console.warn("Research jobs unavailable",e);}
@@ -146,3 +152,5 @@ loadDecisionMakers();
 loadOutreach();
 loadJobs();
 loadEvents();
+loadPortfolioMetrics();
+loadValuationModel();
