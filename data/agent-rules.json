@@ -1,0 +1,16 @@
+{
+  "version":"0.7",
+  "signal_rules":[
+    {"id":"freshness","rule":"Prefer recent first-party company updates; freshness decays with time."},
+    {"id":"evidence","rule":"A signal must have a source before it can increase opportunity confidence."},
+    {"id":"multi_signal","rule":"Do not create a high-priority opportunity from a single weak signal."},
+    {"id":"memory","rule":"Every material state change becomes an event."},
+    {"id":"outreach","rule":"Outreach remains review-only until a human explicitly sends it."}
+  ],
+  "opportunity_model":{
+    "fit_weight":0.35,
+    "signal_weight":0.3,
+    "semantic_weight":0.2,
+    "freshness_weight":0.15
+  }
+}
