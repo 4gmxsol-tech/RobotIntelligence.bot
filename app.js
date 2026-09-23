@@ -2,6 +2,8 @@ const domains=["RobotIntelligence.bot","RobotEmbodiment.com","HumanoidUI.com","H
 const grid=document.querySelector("#domainGrid"),search=document.querySelector("#search"),count=document.querySelector("#domainCount");
 const pilot="RobotIntelligence.bot";
 const profiles={"RobotIntelligence.bot":{category:"AI / Robotics",tld:"bot",signals:["Robot intelligence","AI agents","Robotics"],notes:"Pilot asset for the intelligence engine."}};
+let buyerResearch={candidates:[]};
+
 function analyzeDomain(domain){
   const [name,tld]=domain.toLowerCase().split(".");
   const tokens=name.split(/[-_]/).filter(Boolean);
@@ -14,15 +16,53 @@ function analyzeDomain(domain){
   const relevance=Math.min(100,Math.round((keywordScore+structureScore+tldScore)/3));
   return {domain,category:profiles[domain]?.category||"Unclassified",tld,keywordMatches:[...new Set(matches)],scores:{keyword:keywordScore,structure:structureScore,tld:tldScore,relevance},evidence:["Lexical analysis","TLD fit","Portfolio taxonomy"],confidence:"baseline"};
 }
-function render(filter){const list=domains.filter(d=>d.toLowerCase().includes((filter||"").toLowerCase()));count.textContent=domains.length;grid.innerHTML=list.map(d=>{const a=analyzeDomain(d);return '<article class="domain-card" data-domain="'+d+'"><strong>'+d+'</strong><small><span class="dot"></span>'+(d===pilot?"Agent pilot":"Portfolio domain")+' · relevance '+a.scores.relevance+'/100</small></article>';}).join("");}
+
+function render(filter){
+  const list=domains.filter(d=>d.toLowerCase().includes((filter||"").toLowerCase()));
+  count.textContent=domains.length;
+  grid.innerHTML=list.map(d=>{
+    const a=analyzeDomain(d);
+    return '<article class="domain-card" data-domain="'+d+'"><strong>'+d+'</strong><small><span class="dot"></span>'+(d===pilot?"Agent pilot":"Portfolio domain")+' · relevance '+a.scores.relevance+'/100</small></article>';
+  }).join("");
+}
+
 function showAnalysis(domain){
   const a=analyzeDomain(domain);
   const old=document.querySelector("#analysisModal"); if(old) old.remove();
   const modal=document.createElement("div"); modal.id="analysisModal"; modal.className="modal";
-  modal.innerHTML='<div class="modal-card"><button class="close" aria-label="Close">×</button><span class="eyebrow">DOMAIN INTELLIGENCE</span><h2>'+a.domain+'</h2><p class="muted">'+a.category+' · .'+a.tld+'</p><div class="score-grid"><div><small>Relevance</small><strong>'+a.scores.relevance+'</strong></div><div><small>Keyword</small><strong>'+a.scores.keyword+'</strong></div><div><small>Structure</small><strong>'+a.scores.structure+'</strong></div><div><small>TLD fit</small><strong>'+a.scores.tld+'</strong></div></div><h4>Detected concepts</h4><p>'+((a.keywordMatches.length?a.keywordMatches:["No controlled keyword match"]).join(" · "))+'</p><h4>Evidence layer</h4><p class="muted">'+a.evidence.join(" · ")+' · baseline confidence: '+a.confidence+'</p><div class="next-box"><strong>Next agent step</strong><span>Attach live market comps, company discovery and news signals.</span></div></div>';
-  document.body.appendChild(modal); modal.querySelector(".close").onclick=()=>modal.remove(); modal.onclick=e=>{if(e.target===modal)modal.remove();};
+  modal.innerHTML='<div class="modal-card"><button class="close" aria-label="Close">×</button><span class="eyebrow">DOMAIN INTELLIGENCE</span><h2>'+a.domain+'</h2><p class="muted">'+a.category+' · .'+a.tld+'</p><div class="score-grid"><div><small>Relevance</small><strong>'+a.scores.relevance+'</strong></div><div><small>Keyword</small><strong>'+a.scores.keyword+'</strong></div><div><small>Structure</small><strong>'+a.scores.structure+'</strong></div><div><small>TLD fit</small><strong>'+a.scores.tld+'</strong></div></div><h4>Detected concepts</h4><p>'+((a.keywordMatches.length?a.keywordMatches:["No controlled keyword match"]).join(" · "))+'</p><h4>Evidence layer</h4><p class="muted">'+a.evidence.join(" · ")+' · baseline confidence: '+a.confidence+'</p><div class="next-box"><strong>Next agent step</strong><span>Buyer research is now attached. Next: enrich companies, verify decision-makers and collect live market signals.</span></div></div>';
+  document.body.appendChild(modal);
+  modal.querySelector(".close").onclick=()=>modal.remove();
+  modal.onclick=e=>{if(e.target===modal)modal.remove();};
 }
+
+function renderBuyers(){
+  const container=document.querySelector("#buyerList");
+  const empty=document.querySelector("#buyerEmpty");
+  if(!container||!empty)return;
+  if(!buyerResearch.candidates.length){empty.style.display="block";container.innerHTML="";return;}
+  empty.style.display="none";
+  container.innerHTML=buyerResearch.candidates.map((b,i)=>'<article class="buyer-card"><div class="buyer-top"><div><strong>'+b.company+'</strong><small>Research target · hypothesis</small></div><span class="fit">'+b.fit+' fit</span></div><p>'+b.reason+'</p><div class="signal-row">'+b.signals.map(s=>'<span>'+s+'</span>').join("")+'</div><a href="'+b.source+'" target="_blank" rel="noopener">Evidence source ↗</a></article>').join("");
+  const hot=buyerResearch.candidates.filter(b=>b.fit>=90).length;
+  const leadCount=document.querySelector("#leadCount"); if(leadCount)leadCount.textContent=hot;
+  const top=buyerResearch.candidates[0];
+  const opp=document.querySelector("#opportunityContent");
+  if(opp&&top)opp.innerHTML='<span class="op-icon">✦</span><div><strong>Research '+top.company+' for '+pilot+'</strong><p>High semantic fit. Verify current naming, brand usage, corporate structure and the appropriate decision-maker before any outreach.</p></div><span class="tag">RESEARCH</span>';
+}
+
+async function loadBuyerResearch(){
+  try{
+    const response=await fetch("data/buyer-research.json",{cache:"no-store"});
+    if(!response.ok)throw new Error("research dataset unavailable");
+    buyerResearch=await response.json();
+    renderBuyers();
+  }catch(error){
+    console.warn("Buyer research unavailable:",error);
+  }
+}
+
 search.addEventListener("input",e=>render(e.target.value));
 document.querySelector("#analyzeBtn").addEventListener("click",()=>showAnalysis(pilot));
 grid.addEventListener("click",e=>{const card=e.target.closest(".domain-card");if(card)showAnalysis(card.dataset.domain);});
 render("");
+loadBuyerResearch();
