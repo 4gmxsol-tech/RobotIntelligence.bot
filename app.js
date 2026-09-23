@@ -88,7 +88,7 @@ function renderOpportunities(){
   if(!opportunities.opportunities.length){empty.style.display="block";container.innerHTML="";return;}
   empty.style.display="none";
   container.innerHTML=opportunities.opportunities.map(o=>'<article class="opp-card"><div class="opp-top"><div><span class="eyebrow">OPPORTUNITY</span><strong>'+o.company+' × '+o.domain+'</strong></div><span class="opp-score">'+o.opportunityScore+'</span></div><p>'+o.thesis+'</p><div class="trigger-row">'+o.triggers.map(t=>'<span>'+t+'</span>').join("")+'</div><div class="next-action"><strong>Next action</strong><span>'+o.nextAction+'</span></div></article>').join("");
-  const n=document.querySelector("#opportunityCount"); if(n)n.textContent=opportunities.opportunities.length;
+  const n=document.querySelector("#opportunityCount"); if(n)n.textContent=opportunities.opportunities.length; const m=document.querySelector("#opportunityMetric"); if(m)m.textContent=opportunities.opportunities.length;
 }
 
 function renderSignals(){
@@ -98,7 +98,7 @@ function renderSignals(){
   if(!marketSignals.signals.length){empty.style.display="block";container.innerHTML="";return;}
   empty.style.display="none";
   container.innerHTML=marketSignals.signals.map(s=>'<article class="signal-card"><div class="signal-top"><div><strong>'+s.company+'</strong><small>'+s.type+' · '+s.date+'</small></div><span class="signal-strength">'+s.strength+'</span></div><p>'+s.headline+'</p><small class="why">'+s.why_it_matters+'</small><br><a href="'+s.source+'" target="_blank" rel="noopener">Source ↗</a></article>').join("");
-  const n=document.querySelector("#signalCount"); if(n)n.textContent=marketSignals.signals.length;
+  const n=document.querySelector("#signalCount"); if(n)n.textContent=marketSignals.signals.length; const m=document.querySelector("#signalMetric"); if(m)m.textContent=marketSignals.signals.length;
 }
 
 function renderBuyers(){
