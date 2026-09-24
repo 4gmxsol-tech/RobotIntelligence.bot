@@ -170,6 +170,23 @@ export class AgentMemory extends DurableObject {
         );
       }
 
+      const previousVariants=new Set((previous?.extensionWatch?.registered||[]).map(x=>x.domain));
+      const newVariants=(next.extensionWatch?.registered||[]).filter(x=>!previousVariants.has(x.domain));
+      if (newVariants.length) {
+        this.ctx.storage.sql.exec(
+          "INSERT INTO memories (created_at, kind, payload) VALUES (?, ?, ?)",
+          updatedAt,
+          "extension_registration_detected",
+          JSON.stringify({
+            domain,
+            variants:newVariants.map(x=>x.domain),
+            extensions:newVariants.map(x=>x.tld||x.domain.split(".").at(-1)),
+            detected_at:updatedAt,
+            source:"RDAP"
+          })
+        );
+      }
+
       return Response.json({
         ok: true,
         domain,
