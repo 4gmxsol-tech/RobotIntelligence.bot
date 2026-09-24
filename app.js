@@ -62,6 +62,7 @@ function renderExtensionAlerts(){
   }
   extensionAlerts=rows;
   if(countEl)countEl.textContent=rows.length;
+  const navCount=document.querySelector("#extensionNavCount"); if(navCount)navCount.textContent=rows.length;
   if(!rows.length){
     empty.style.display="block";
     container.innerHTML="";
