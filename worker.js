@@ -84,7 +84,7 @@ async function runAgent(controller,env){
   const request=new Request("https://agent.internal/api/scan",{
     method:"POST",
     headers:{"content-type":"application/json","accept":"application/json"},
-    body:JSON.stringify({domains:plan.domains})
+    body:JSON.stringify({domains:plan.domains,persist:true})
   });
   const response=await handleApi(request,env);
   if(!response) throw new Error("agent_scan_route_missing");
@@ -131,7 +131,7 @@ export default {
     return env.ASSETS.fetch(request);
   },
   async scheduled(controller,env,ctx){
-    if(controller.cron==="*/5 * * * *"){
+    if(controller.cron==="17 * * * *"){
       console.log("agent_cron_started", {
         cron: controller.cron,
         scheduled_at: new Date(controller.scheduledTime).toISOString()
