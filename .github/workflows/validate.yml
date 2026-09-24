@@ -34,6 +34,8 @@ jobs:
       - run: node --check api/news.js
       - run: node --check api/agent.js
       - run: node --check api/lib/agent.js
+      - run: node --check api/lib/agent-memory.js
+      - run: node --check api/memory.js
 
       - run: node -e "JSON.parse(require('fs').readFileSync('data/domains.json','utf8')); JSON.parse(require('fs').readFileSync('data/buyer-research.json','utf8')); JSON.parse(require('fs').readFileSync('data/market-signals.json','utf8')); JSON.parse(require('fs').readFileSync('data/opportunities.json','utf8')); JSON.parse(require('fs').readFileSync('data/decision-makers.json','utf8')); JSON.parse(require('fs').readFileSync('data/outreach.json','utf8')); JSON.parse(require('fs').readFileSync('data/agent-memory.json','utf8')); JSON.parse(require('fs').readFileSync('data/research-jobs.json','utf8')); JSON.parse(require('fs').readFileSync('data/events.json','utf8')); JSON.parse(require('fs').readFileSync('data/agent-rules.json','utf8')); JSON.parse(require('fs').readFileSync('data/valuation-model.json','utf8')); JSON.parse(require('fs').readFileSync('data/connectors.json','utf8')); JSON.parse(require('fs').readFileSync('data/evidence-schema.json','utf8')); JSON.parse(require('fs').readFileSync('data/portfolio-metrics.json','utf8'));"
 
@@ -75,6 +77,16 @@ jobs:
                 if (!Array.isArray(j.agent?.domains) || j.agent.domains.length !== 3) {
                   throw new Error("Agent batch is invalid");
                 }
+              }
+            },
+            {
+              name: "memory",
+              url: "https://robotintelligence.bot/api/memory?limit=1",
+              validate: async (r) => {
+                if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                const j = await r.json();
+                if (j.ok !== true) throw new Error("Memory endpoint returned ok=false");
+                if (!Array.isArray(j.memories)) throw new Error("Memory records missing");
               }
             },
             {
