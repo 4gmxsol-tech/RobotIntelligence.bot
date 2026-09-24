@@ -31,3 +31,7 @@ jobs:
       - run: node --check api/news.js
 
       - run: node -e "JSON.parse(require('fs').readFileSync('data/domains.json','utf8')); JSON.parse(require('fs').readFileSync('data/buyer-research.json','utf8')); JSON.parse(require('fs').readFileSync('data/market-signals.json','utf8')); JSON.parse(require('fs').readFileSync('data/opportunities.json','utf8')); JSON.parse(require('fs').readFileSync('data/decision-makers.json','utf8')); JSON.parse(require('fs').readFileSync('data/outreach.json','utf8')); JSON.parse(require('fs').readFileSync('data/agent-memory.json','utf8')); JSON.parse(require('fs').readFileSync('data/research-jobs.json','utf8')); JSON.parse(require('fs').readFileSync('data/events.json','utf8')); JSON.parse(require('fs').readFileSync('data/agent-rules.json','utf8')); JSON.parse(require('fs').readFileSync('data/valuation-model.json','utf8')); JSON.parse(require('fs').readFileSync('data/connectors.json','utf8')); JSON.parse(require('fs').readFileSync('data/evidence-schema.json','utf8')); JSON.parse(require('fs').readFileSync('data/portfolio-metrics.json','utf8'));"
+
+      - name: Production API smoke test
+        run: |
+          node -e "fetch('https://robotintelligence.bot/api/health').then(async r => { if(!r.ok) throw new Error('HTTP '+r.status); const j=await r.json(); if(j.ok!==true) throw new Error('Health check returned ok=false'); if(j.service!=='robot-intelligence-research-api') throw new Error('Unexpected service: '+j.service); console.log('Production API health: OK'); }).catch(e => { console.error(e); process.exit(1); })"
