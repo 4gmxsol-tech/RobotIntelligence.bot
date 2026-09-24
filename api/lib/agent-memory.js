@@ -38,6 +38,9 @@ function buildChange(previous, next) {
   if (previous.valuation?.value_state !== next.valuation?.value_state) {
     changeTypes.push("valuation_state");
   }
+  if (JSON.stringify((previous.extensionWatch?.registered||[]).map(x=>x.domain).sort()) !== JSON.stringify((next.extensionWatch?.registered||[]).map(x=>x.domain).sort())) {
+    changeTypes.push("extension_registration");
+  }
   if (previous.rdap?.status !== next.rdap?.status) {
     changeTypes.push("rdap_status");
   }
@@ -161,6 +164,7 @@ export class AgentMemory extends DurableObject {
             score_delta: change.score_delta,
             previous_score: change.previous_score,
             opportunity_score: normalizeNumber(next.opportunityScore),
+            registered_variants: (next.extensionWatch?.registered||[]).map(x=>x.domain),
             seen_count: seenCount
           })
         );
