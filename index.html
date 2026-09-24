@@ -23,6 +23,7 @@
     <a href="#contacts"><span>♙</span> Contacts</a>
     <a href="#outreach"><span>↗</span> Outreach</a>
     <a href="#valuation"><span>◇</span> Valuation</a>
+    <a href="#extensions"><span>⚠</span> Extension Watch <b id="extensionNavCount">0</b></a>
     <a href="#activity"><span>◷</span> Activity</a>
     <a href="#system"><span>⚙</span> System</a>
   </nav>
@@ -97,6 +98,16 @@
 <section id="outreach" class="panel">
   <div class="panel-head"><div><span class="eyebrow">OUTREACH</span><h2>Evidence-backed drafts</h2></div><span class="tag"><span id="outreachCount">0</span> REVIEW</span></div>
   <div id="outreachList" class="outreach-list"></div><div id="outreachEmpty" class="empty"><span>↗</span><strong>Loading outreach intelligence…</strong><p>Drafts remain review-only.</p></div>
+</section>
+
+<section id="extensions" class="panel">
+  <div class="panel-head">
+    <div><span class="eyebrow">DOMAIN PROTECTION</span><h2>Extension Watch</h2></div>
+    <div class="top-actions"><span class="tag"><span id="extensionAlertCount">0</span> ALERTS</span><button id="extensionWatchBtn" class="secondary">Check extensions</button></div>
+  </div>
+  <div id="extensionWatchResult" class="research-result">Watches the same domain label across common extensions using RDAP.</div>
+  <div id="extensionAlertList" class="extension-alert-list"></div>
+  <div id="extensionAlertEmpty" class="empty"><span>⚠</span><strong>No registration alerts</strong><p>If the same label appears registered in another watched extension, it will be surfaced here and stored in agent memory.</p></div>
 </section>
 
 <section id="activity" class="panel">
