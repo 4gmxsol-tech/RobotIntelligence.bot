@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "robot-intelligence-bot",
+  "name": "robotintelligence-bot",
   "main": "./worker.js",
   "compatibility_date": "2026-09-24",
   "assets": {
@@ -13,17 +13,8 @@
   "secrets": {
     "required": []
   },
-  "routes": [
-    {
-      "pattern": "robotintelligence.bot",
-      "custom_domain": true
-    },
-    {
-      "pattern": "www.robotintelligence.bot",
-      "custom_domain": true
-    }
-  ],
   "compatibility_flags": [
     "nodejs_compat"
-  ]
+  ],
+  "workers_dev": true
 }
