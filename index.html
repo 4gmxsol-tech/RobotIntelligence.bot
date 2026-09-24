@@ -1,9 +1,129 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Robot Intelligence — Domain Intelligence Agent"><title>Robot Intelligence — Domain Intelligence Agent</title><link rel="stylesheet" href="styles.css"></head>
-<body><div class="app-shell"><aside class="sidebar"><div class="brand"><span class="brand-mark">🤖</span><div><strong>Robot Intelligence</strong><small>Domain Agent</small></div></div><nav><a class="active" href="#overview">Overview</a><a href="#domains">Domains</a><a href="#buyers">Buyers</a><a href="#signals">Market Signals</a><a href="#contacts">Decision Makers</a><a href="#outreach">Outreach</a><a href="#jobs">Research Jobs</a><a href="#valuation">Valuation</a><a href="#system">System</a><a href="#activity">Activity</a><a href="#opportunities">Opportunities</a></nav><div class="sidebar-note"><span>●</span> Agent core ready<br><small>RDAP + News + Valuation live.</small></div></aside>
-<main class="main"><header class="topbar"><div><span class="eyebrow">DOMAIN INTELLIGENCE</span><h1>Portfolio Command Center</h1></div><div class="top-actions"><button id="researchBtn" class="primary">Run Agent Research</button><button id="analyzeBtn" class="secondary">Analyze Portfolio ↗</button></div></header>
-<section id="overview" class="hero"><div><p class="eyebrow">LIVE PORTFOLIO</p><h2>Turn domains into intelligence.</h2><p class="muted">Research domains, discover potential buyers, track market signals and surface actionable opportunities from one workspace.</p></div><div class="agent-status"><span class="pulse"></span><div><strong>Agent status</strong><small>Ready for research jobs</small></div></div></section>
-<section class="metrics"><article><span>Domains</span><strong id="domainCount">22</strong><small>Portfolio records</small></article><article><span>Research targets</span><strong id="leadCount">0</strong><small>High-fit hypotheses</small></article><article><span>Market signals</span><strong id="signalMetric">0</strong><small>Evidence records</small></article><article><span>Opportunities</span><strong id="opportunityMetric">0</strong><small>Agent discoveries</small></article></section>
-<section id="domains" class="panel"><div class="panel-head"><div><span class="eyebrow">PORTFOLIO</span><h3>Domain intelligence</h3></div><input id="search" type="search" placeholder="Search domains…"></div><div id="domainGrid" class="domain-grid"></div></section>
-<div id="researchResult" class="research-result">RDAP + News + NameBio benchmarks live · Apollo is optional and disabled.</div><section class="two-col"><article id="buyers" class="panel"><div class="panel-head"><div><span class="eyebrow">BUYER ENGINE</span><h3>Potential buyers</h3></div></div><div id="buyerList" class="buyer-list"></div><div id="buyerEmpty" class="empty"><span>◎</span><strong>Loading live buyer research…</strong><p>Evidence-backed public buyer research is used here. Apollo is optional and disabled.</p></div></article><article id="signals" class="panel"><div class="panel-head"><div><span class="eyebrow">MARKET WATCH</span><h3>Signals</h3></div><span class="tag"><span id="signalCount">0</span> LIVE</span></div><div id="signalList" class="signal-list"></div><div id="signalEmpty" class="empty"><span>◌</span><strong>Loading market signals…</strong><p>Recent funding, product and infrastructure events will appear here.</p></div></article></section>
-<section id="contacts" class="panel"><div class="panel-head"><div><span class="eyebrow">DECISION MAKER INTELLIGENCE</span><h3>Decision-maker intelligence</h3></div><div class="top-actions"><span class="tag"><span id="contactCount">0</span> VERIFIED</span><button id="enrichContactsBtn" class="secondary" disabled title="Apollo enrichment is disabled">Apollo Enrichment Disabled</button></div></div><div id="contactEnrichmentResult" class="research-result">Apollo enrichment is disabled. No paid contact enrichment is used.</div><div id="contactList" class="contact-list"></div><div id="contactEmpty" class="empty"><span>◎</span><strong>Loading decision-maker research…</strong><p>Only public, source-backed identity and contact routes are shown. Email enrichment is performed server-side.</p></div></section><section id="outreach" class="panel"><div class="panel-head"><div><span class="eyebrow">OUTREACH INTELLIGENCE</span><h3>Evidence-backed drafts</h3></div><span class="tag"><span id="outreachCount">0</span> REVIEW</span></div><div id="outreachList" class="outreach-list"></div><div id="outreachEmpty" class="empty"><span>✉</span><strong>Loading outreach intelligence…</strong><p>Drafts are generated from verified evidence and remain review-only.</p></div></section><section id="system" class="panel"><div class="panel-head"><div><span class="eyebrow">SYSTEM CORE</span><h3>Agent infrastructure</h3></div><span class="tag">v0.13</span></div><div class="system-grid"><div><strong>Research API</strong><span>Public research + RDAP + News ready · Apollo optional</span></div><div><strong>Evidence</strong><span>Source required</span></div><div><strong>Memory</strong><span>Event model active</span></div><div><strong>Security</strong><span>Secrets server-side</span></div></div><div class="api-test"><button id="apiHealth">Test API Health</button><span id="apiHealthResult">Not checked</span></div></section><section id="valuation" class="panel"><div class="panel-head"><div><span class="eyebrow">VALUATION ENGINE</span><h3>Explainable valuation layer</h3></div><span class="tag" id="valuationStatus">LIVE BENCHMARK</span></div><div class="valuation-grid"><div><strong>Semantic</strong><span>30%</span></div><div><strong>Structure</strong><span>20%</span></div><div><strong>TLD fit</strong><span>20%</span></div><div><strong>Buyer fit</strong><span>15%</span></div><div><strong>Market signal</strong><span>15%</span></div></div><div class="api-test"><button id="valuationBtn">Research Live Benchmark</button><span id="valuationResult">NameBio aggregate benchmarks are available server-side.</span></div><p class="muted">Benchmark data comes from NameBio RetailStats and TLDStats. A domain-specific comparable-sales appraisal remains pending licensed API access.</p></section><section id="jobs" class="panel"><div class="panel-head"><div><span class="eyebrow">RESEARCH ORCHESTRATION</span><h3>Research jobs</h3></div><span class="tag">AGENT QUEUE</span></div><div id="jobList" class="job-list"></div><div id="jobEmpty" class="empty"><span>◌</span><strong>Loading jobs…</strong><p>Research runs and their completed steps will appear here.</p></div></section><section id="activity" class="panel"><div class="panel-head"><div><span class="eyebrow">AGENT MEMORY</span><h3>Activity timeline</h3></div><span class="tag">EVENTS</span></div><div id="eventList" class="event-list"></div><div id="eventEmpty" class="empty"><span>◌</span><strong>Loading events…</strong><p>Material research and lead state changes are recorded here.</p></div></section><section id="opportunities" class="panel"><div class="panel-head"><div><span class="eyebrow">OPPORTUNITY ENGINE</span><h3>Detected opportunities</h3></div><span class="tag"><span id="opportunityCount">0</span> ACTIVE</span></div><div id="opportunityList" class="opportunity-list"></div><div id="opportunityEmpty" class="empty"><span>✦</span><strong>Loading opportunities…</strong><p>The engine combines buyer fit, market signals and semantic relevance.</p></div></section><footer>Robot Intelligence · Domain Intelligence Agent · v0.13 live research + valuation benchmarks</footer></main></div><script src="app.js"></script></body></html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Robot Intelligence — domain portfolio intelligence console">
+<title>Robot Intelligence — Domain Console</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app-shell">
+<aside class="sidebar">
+  <div class="brand">
+    <span class="brand-mark">◈</span>
+    <div><strong>Robot Intelligence</strong><small>Domain Console</small></div>
+  </div>
+  <div class="workspace"><span class="workspace-dot"></span><span>Portfolio</span><span class="chevron">⌄</span></div>
+  <nav>
+    <a class="active" href="#overview"><span>⌂</span> Overview</a>
+    <a href="#domains"><span>◇</span> Domains</a>
+    <a href="#buyers"><span>◎</span> Buyers</a>
+    <a href="#signals"><span>◌</span> Market</a>
+    <a href="#contacts"><span>♙</span> Contacts</a>
+    <a href="#outreach"><span>↗</span> Outreach</a>
+    <a href="#valuation"><span>◇</span> Valuation</a>
+    <a href="#activity"><span>◷</span> Activity</a>
+    <a href="#system"><span>⚙</span> System</a>
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="agent-mini"><span class="pulse"></span><div><strong>Agent online</strong><small>RDAP · News · Valuation</small></div></div>
+    <div class="sidebar-note">v0.13 · evidence-backed research</div>
+  </div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <div class="mobile-brand"><span>◈</span> Robot Intelligence</div>
+  <div class="command"><span>⌕</span><input id="globalSearch" type="search" placeholder="Search domains, buyers, signals…"></div>
+  <div class="top-actions">
+    <button id="researchBtn" class="primary">Run Agent</button>
+    <button id="analyzeBtn" class="icon-button" title="Analyze pilot domain">✦</button>
+  </div>
+</header>
+
+<section id="overview" class="welcome">
+  <div>
+    <span class="eyebrow">PORTFOLIO CONSOLE</span>
+    <h1>Your domains, under intelligence.</h1>
+    <p>One operational view for ownership, research, valuation, market signals and buyer discovery.</p>
+  </div>
+  <div class="console-state"><span class="pulse"></span><div><strong>Autonomous agent</strong><small>Active · hourly research cycle</small></div></div>
+</section>
+
+<section class="metrics">
+  <article><span>Total domains</span><strong id="domainCount">22</strong><small>Tracked in portfolio</small></article>
+  <article><span>Research targets</span><strong id="leadCount">0</strong><small>High-fit hypotheses</small></article>
+  <article><span>Market signals</span><strong id="signalMetric">0</strong><small>Evidence records</small></article>
+  <article><span>Opportunities</span><strong id="opportunityMetric">0</strong><small>Active discoveries</small></article>
+</section>
+
+<section id="domains" class="panel portfolio-panel">
+  <div class="panel-head">
+    <div><span class="eyebrow">PORTFOLIO</span><h2>Domains</h2></div>
+    <div class="panel-tools"><span class="live-chip"><i></i> Live data</span><input id="search" type="search" placeholder="Filter portfolio…"></div>
+  </div>
+  <div class="table-head"><span>Domain</span><span>Category</span><span>Relevance</span><span>State</span></div>
+  <div id="domainGrid" class="domain-grid"></div>
+</section>
+
+<div id="researchResult" class="research-result">Ready · RDAP + News + NameBio benchmarks connected · Apollo optional and disabled.</div>
+
+<section class="two-col">
+<article id="buyers" class="panel">
+  <div class="panel-head"><div><span class="eyebrow">BUYER INTELLIGENCE</span><h2>Potential buyers</h2></div><span class="tag">RESEARCH</span></div>
+  <div id="buyerList" class="buyer-list"></div>
+  <div id="buyerEmpty" class="empty"><span>◎</span><strong>Loading buyer research…</strong><p>Evidence-backed public research only.</p></div>
+</article>
+<article id="signals" class="panel">
+  <div class="panel-head"><div><span class="eyebrow">MARKET INTELLIGENCE</span><h2>Signals</h2></div><span class="tag"><span id="signalCount">0</span> LIVE</span></div>
+  <div id="signalList" class="signal-list"></div>
+  <div id="signalEmpty" class="empty"><span>◌</span><strong>Loading market signals…</strong><p>Funding, products and infrastructure events.</p></div>
+</article>
+</section>
+
+<section id="contacts" class="panel">
+  <div class="panel-head"><div><span class="eyebrow">DECISION MAKERS</span><h2>Contacts</h2></div><div class="top-actions"><span class="tag"><span id="contactCount">0</span> VERIFIED</span><button id="enrichContactsBtn" class="secondary" disabled>Enrichment disabled</button></div></div>
+  <div id="contactEnrichmentResult" class="research-result">Apollo enrichment is disabled. Public source-backed routes only.</div>
+  <div id="contactList" class="contact-list"></div><div id="contactEmpty" class="empty"><span>♙</span><strong>Loading decision-maker research…</strong><p>Only source-backed identity and contact routes are shown.</p></div>
+</section>
+
+<section id="valuation" class="panel">
+  <div class="panel-head"><div><span class="eyebrow">VALUATION</span><h2>Explainable valuation</h2></div><span class="tag" id="valuationStatus">LIVE BENCHMARK</span></div>
+  <div class="valuation-grid"><div><strong>Semantic</strong><span>30%</span></div><div><strong>Structure</strong><span>20%</span></div><div><strong>TLD fit</strong><span>20%</span></div><div><strong>Buyer fit</strong><span>15%</span></div><div><strong>Market signal</strong><span>15%</span></div></div>
+  <div class="api-test"><button id="valuationBtn" class="secondary">Research live benchmark</button><span id="valuationResult">NameBio aggregate benchmarks are available server-side.</span></div>
+</section>
+
+<section id="outreach" class="panel">
+  <div class="panel-head"><div><span class="eyebrow">OUTREACH</span><h2>Evidence-backed drafts</h2></div><span class="tag"><span id="outreachCount">0</span> REVIEW</span></div>
+  <div id="outreachList" class="outreach-list"></div><div id="outreachEmpty" class="empty"><span>↗</span><strong>Loading outreach intelligence…</strong><p>Drafts remain review-only.</p></div>
+</section>
+
+<section id="activity" class="panel">
+  <div class="panel-head"><div><span class="eyebrow">AGENT MEMORY</span><h2>Activity</h2></div><span class="tag">EVENTS</span></div>
+  <div class="memory-strip"><div><strong>SQLite memory</strong><span>Persistent storage enabled</span></div><div><strong>Cycle</strong><span>Autonomous research</span></div><div><strong>Evidence</strong><span>Required</span></div></div>
+  <div id="eventList" class="event-list"></div><div id="eventEmpty" class="empty"><span>◷</span><strong>Loading activity…</strong><p>Research and lead-state changes appear here.</p></div>
+</section>
+
+<section id="jobs" class="panel">
+  <div class="panel-head"><div><span class="eyebrow">ORCHESTRATION</span><h2>Research jobs</h2></div><span class="tag">AGENT QUEUE</span></div>
+  <div id="jobList" class="job-list"></div><div id="jobEmpty" class="empty"><span>◌</span><strong>Loading jobs…</strong><p>Research runs and completed steps.</p></div>
+</section>
+
+<section id="opportunities" class="panel">
+  <div class="panel-head"><div><span class="eyebrow">OPPORTUNITY ENGINE</span><h2>Detected opportunities</h2></div><span class="tag"><span id="opportunityCount">0</span> ACTIVE</span></div>
+  <div id="opportunityList" class="opportunity-list"></div><div id="opportunityEmpty" class="empty"><span>✦</span><strong>Loading opportunities…</strong><p>Buyer fit, market signals and semantic relevance.</p></div>
+</section>
+
+<section id="system" class="panel">
+  <div class="panel-head"><div><span class="eyebrow">SYSTEM</span><h2>Agent infrastructure</h2></div><span class="tag">v0.13</span></div>
+  <div class="system-grid"><div><strong>Research API</strong><span>RDAP + News + Valuation</span></div><div><strong>Evidence</strong><span>Source required</span></div><div><strong>Memory</strong><span>SQLite Durable Object</span></div><div><strong>Security</strong><span>Secrets server-side</span></div></div>
+  <div class="api-test"><button id="apiHealth" class="secondary">Test API health</button><span id="apiHealthResult">Not checked</span></div>
+</section>
+
+<footer>Robot Intelligence · Domain Console · Evidence-backed domain intelligence</footer>
+</main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
