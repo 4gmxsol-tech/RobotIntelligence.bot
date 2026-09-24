@@ -1,4 +1,4 @@
-const domains=["RobotIntelligence.bot","RobotEmbodiment.com","HumanoidUI.com","HumanoidBehavior.com","HumanoidPlanning.com","HumanoidIntelligenceAI.com","HumanoidIntelligenceLab.com","HumanoidContext.com","RoboticsBehavior.com","RobotIntelligenceAI.com","RobotIntelligenceLab.com","RobotStack.co","WorldAgents.co","PhysicalManipulation.com","publication.today","Xanvora.com","Czeal.com","ContextShip.com","Dexation.com","Rexation.com","ReasonFlow.xyz","Aividyou.com"];
+let domains=[];
 const grid=document.querySelector("#domainGrid"),search=document.querySelector("#search"),count=document.querySelector("#domainCount");
 const pilot="RobotIntelligence.bot";
 const profiles={"RobotIntelligence.bot":{category:"AI / Robotics",tld:"bot",signals:["Robot intelligence","AI agents","Robotics"],notes:"Pilot asset for the intelligence engine."}};
@@ -226,11 +226,21 @@ async function runAgentResearch(){
     button.textContent="Run Agent Research";
   }finally{setTimeout(()=>{button.disabled=false;if(button.textContent==="Research complete ✓")button.textContent="Run Agent Research";},1600);}
 }
+async function loadDomainInventory(){
+  try{
+    const response=await fetch("data/domains.json",{cache:"no-store"});
+    if(!response.ok)throw new Error("domain_inventory_unavailable");
+    const data=await response.json();
+    domains=Array.isArray(data.domains)?data.domains:[];
+    document.querySelector("#domainCount").textContent=domains.length;
+    render(document.querySelector("#search")?.value||"");
+  }catch(error){console.warn("Domain inventory unavailable",error);}
+}
 search.addEventListener("input",e=>render(e.target.value));
 document.querySelector("#analyzeBtn").addEventListener("click",()=>showAnalysis(pilot));
 document.querySelector("#researchBtn")?.addEventListener("click",runAgentResearch);
 grid.addEventListener("click",e=>{const card=e.target.closest(".domain-card");if(card)showAnalysis(card.dataset.domain);});
-render("");
+loadDomainInventory();
 loadLivePortfolio();
 loadMemorySnapshot();
 loadBuyerResearch();
