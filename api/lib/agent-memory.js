@@ -17,6 +17,17 @@ export class AgentMemory extends DurableObject {
         CREATE INDEX IF NOT EXISTS idx_memories_created_at
         ON memories(created_at DESC)
       `);
+      this.ctx.storage.sql.exec(`
+        CREATE TABLE IF NOT EXISTS domain_state (
+          domain TEXT PRIMARY KEY,
+          updated_at TEXT NOT NULL,
+          payload TEXT NOT NULL
+        )
+      `);
+      this.ctx.storage.sql.exec(`
+        CREATE INDEX IF NOT EXISTS idx_domain_state_updated_at
+        ON domain_state(updated_at DESC)
+      `);
     });
   }
 
@@ -37,6 +48,34 @@ export class AgentMemory extends DurableObject {
       );
 
       return Response.json({ ok: true, stored_at: createdAt });
+    }
+
+    if (request.method === "POST" && url.pathname === "/upsert-domain") {
+      const body = await request.json();
+      const domain = String(body.domain || "").trim();
+      if (!domain) return Response.json({ok:false,error:"domain_required"},{status:400});
+      const payload = JSON.stringify(body.payload ?? {});
+      const updatedAt = new Date().toISOString();
+      this.ctx.storage.sql.exec(
+        "INSERT INTO domain_state (domain, updated_at, payload) VALUES (?, ?, ?) ON CONFLICT(domain) DO UPDATE SET updated_at=excluded.updated_at, payload=excluded.payload",
+        domain, updatedAt, payload
+      );
+      return Response.json({ok:true,domain,updated_at:updatedAt});
+    }
+
+    if (request.method === "GET" && url.pathname === "/portfolio") {
+      const rows = this.ctx.storage.sql.exec(
+        "SELECT domain, updated_at, payload FROM domain_state ORDER BY domain ASC"
+      ).toArray();
+      return Response.json({
+        ok:true,
+        count:rows.length,
+        domains:rows.map(row=>({
+          domain:row.domain,
+          updated_at:row.updated_at,
+          ...JSON.parse(row.payload)
+        }))
+      });
     }
 
     if (request.method === "GET" && url.pathname === "/recent") {
