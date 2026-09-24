@@ -67,6 +67,7 @@ async function check(domain,options={}){
     label:parsed.label,
     current_extension:"."+parsed.tld,
     source:"IANA TLD list + RDAP",
+    watch_version:"iana-all-v1",
     tld_source:IANA_TLD_URL,
     tld_count:tlds.length,
     checked:results.length,
