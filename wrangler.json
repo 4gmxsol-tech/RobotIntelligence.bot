@@ -30,7 +30,7 @@
   },
   "triggers": {
     "crons": [
-      "17 * * * *"
+      "*/5 * * * *"
     ]
   },
   "durable_objects": {
