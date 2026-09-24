@@ -9,6 +9,8 @@ let decisionMakers={contacts:[]};
 let outreach={leads:[]};
 let researchJobs={jobs:[]}, agentEvents={events:[]}, portfolioMetrics={}, valuationModel={};
 let liveValuation=null;
+let livePortfolio={domains:[]};
+let memorySnapshot={memories:[]};
 
 function analyzeDomain(domain){
   const [name,tld]=domain.toLowerCase().split(".");
@@ -24,11 +26,15 @@ function analyzeDomain(domain){
 }
 
 function render(filter){
-  const list=domains.filter(d=>d.toLowerCase().includes((filter||"").toLowerCase()));
+  const source=livePortfolio.domains.length?livePortfolio.domains.map(x=>x.domain):domains;
+  const list=source.filter(d=>d.toLowerCase().includes((filter||"").toLowerCase()));
   count.textContent=domains.length;
   grid.innerHTML=list.map(d=>{
-    const a=analyzeDomain(d);
-    return '<article class="domain-card" data-domain="'+d+'"><strong>'+d+'</strong><small><span class="dot"></span>'+(d===pilot?"Agent pilot":"Portfolio domain")+' · relevance '+a.scores.relevance+'/100</small></article>';
+    const live=livePortfolio.domains.find(x=>x.domain===d);
+    const a=live||analyzeDomain(d);
+    const relevance=a.opportunityScore??a.scores?.relevance??0;
+    const updated=live?.updated_at?" · updated "+new Date(live.updated_at).toLocaleString():"";
+    return '<article class="domain-card" data-domain="'+d+'"><strong>'+d+'</strong><small><span class="dot"></span>'+(d===pilot?"Agent pilot":"Portfolio domain")+' · live relevance '+relevance+'/100'+updated+'</small></article>';
   }).join("");
 }
 
@@ -52,6 +58,35 @@ function renderEvents(){
  if(!agentEvents.events.length){empty.style.display="block";box.innerHTML="";return;} empty.style.display="none";
  box.innerHTML=agentEvents.events.slice().reverse().map(e=>'<article class="event-row"><span class="event-dot"></span><div><strong>'+e.type.replaceAll("_"," ")+'</strong><small>'+e.entity+' · '+e.timestamp.replace("T"," ").replace("Z"," UTC")+'</small><p>'+e.message+'</p></div></article>').join("");
 }
+
+async function loadLivePortfolio(){
+  try{
+    const response=await fetch("/api/memory/portfolio?limit=50",{cache:"no-store"});
+    if(!response.ok)throw new Error("live_portfolio_unavailable");
+    livePortfolio=await response.json();
+    const liveNames=livePortfolio.domains.map(x=>x.domain);
+    if(liveNames.length){
+      document.querySelector("#domainCount").textContent=liveNames.length;
+      render(document.querySelector("#search")?.value||"");
+      const updated=livePortfolio.domains.reduce((n,x)=>n+(x.news?.count||0),0);
+      const signals=document.querySelector("#signalMetric"); if(signals)signals.textContent=updated;
+    }
+  }catch(error){console.warn("Live portfolio unavailable",error);}
+}
+async function loadMemorySnapshot(){
+  try{
+    const response=await fetch("/api/memory?limit=12",{cache:"no-store"});
+    if(!response.ok)throw new Error("memory_unavailable");
+    memorySnapshot=await response.json();
+    const activity=document.querySelector("#eventList");
+    const empty=document.querySelector("#eventEmpty");
+    if(activity&&empty&&memorySnapshot.memories?.length){
+      empty.style.display="none";
+      activity.innerHTML=memorySnapshot.memories.map(m=>'<article class="event-row"><span class="event-dot"></span><div><strong>'+String(m.kind).replaceAll("_"," ")+'</strong><small>'+new Date(m.created_at).toLocaleString()+'</small><p>'+((m.payload?.domains||[]).join(" · ")||"Agent memory record")+'</p></div></article>').join("");
+    }
+  }catch(error){console.warn("Live memory unavailable",error);}
+}
+
 async function loadPortfolioMetrics(){
  try{const r=await fetch("data/portfolio-metrics.json",{cache:"no-store"});if(!r.ok)throw Error();portfolioMetrics=await r.json();const m=portfolioMetrics.portfolio_metrics;document.querySelector("#domainCount").textContent=m.total_domains;document.querySelector("#leadCount").textContent=m.active_opportunities;document.querySelector("#opportunityCount").textContent=m.active_opportunities;}catch(e){console.warn("Portfolio metrics unavailable",e);}
 }
@@ -185,7 +220,7 @@ async function runAgentResearch(){
     const data=await response.json(),r=data.results&&data.results[0];
     out.textContent=r ? r.domain+" · "+r.priority+" priority · "+r.evidenceCount+" evidence records · "+r.mode+" mode"+(r.valuation?.benchmark_usd?" · benchmark $"+Number(r.valuation.benchmark_usd).toLocaleString():"")+(r.buyers?.count?" · "+r.buyers.count+" live buyer candidates":"") : "Scan completed";
     button.textContent="Research complete ✓";
-    await loadJobs(); await loadEvents();
+    await loadJobs(); await loadEvents(); await loadLivePortfolio(); await loadMemorySnapshot();
   }catch(error){
     out.textContent="API not deployed or research runtime unavailable.";
     button.textContent="Run Agent Research";
@@ -196,6 +231,8 @@ document.querySelector("#analyzeBtn").addEventListener("click",()=>showAnalysis(
 document.querySelector("#researchBtn")?.addEventListener("click",runAgentResearch);
 grid.addEventListener("click",e=>{const card=e.target.closest(".domain-card");if(card)showAnalysis(card.dataset.domain);});
 render("");
+loadLivePortfolio();
+loadMemorySnapshot();
 loadBuyerResearch();
 loadMarketSignals();
 loadOpportunities();
