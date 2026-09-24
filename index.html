@@ -28,7 +28,7 @@
     <a href="#system"><span>⚙</span> System</a>
   </nav>
   <div class="sidebar-bottom">
-    <div class="agent-mini"><span class="pulse"></span><div><strong>Agent online</strong><small>RDAP · News · Valuation</small></div></div>
+    <div class="agent-mini"><span class="pulse"></span><div><strong>Agent online</strong><small>RDAP · News · Valuation · All TLDs</small></div></div>
     <div class="sidebar-note">v0.13 · evidence-backed research</div>
   </div>
 </aside>
@@ -69,6 +69,20 @@
 </section>
 
 <div id="researchResult" class="research-result">Ready · RDAP + News + NameBio benchmarks connected · Apollo optional and disabled.</div>
+<section id="manualRun" class="panel manual-run">
+  <div class="panel-head">
+    <div><span class="eyebrow">MANUAL CONTROL</span><h2>Run specific domains</h2></div>
+    <span class="tag">CUSTOM SCAN</span>
+  </div>
+  <div class="manual-run-grid">
+    <textarea id="customDomains" rows="3" placeholder="Enter domains, one per line or separated by commas&#10;example: robotintelligence.bot&#10;humanoidui.com&#10;example.space"></textarea>
+    <div>
+      <button id="customRunBtn" class="primary">Run entered domains</button>
+      <small>Runs RDAP, News, Valuation and all current IANA TLD extension checks for the entered domains.</small>
+    </div>
+  </div>
+  <div id="customRunResult" class="research-result">Ready.</div>
+</section>
 
 <section class="two-col">
 <article id="buyers" class="panel">
@@ -105,9 +119,9 @@
     <div><span class="eyebrow">DOMAIN PROTECTION</span><h2>Extension Watch</h2></div>
     <div class="top-actions"><span class="tag"><span id="extensionAlertCount">0</span> ALERTS</span><button id="extensionWatchBtn" class="secondary">Check extensions</button></div>
   </div>
-  <div id="extensionWatchResult" class="research-result">Watches the same domain label across common extensions using RDAP.</div>
+  <div id="extensionWatchResult" class="research-result">Watches the same domain label across the current IANA TLD inventory using RDAP — not a fixed extension list.</div>
   <div id="extensionAlertList" class="extension-alert-list"></div>
-  <div id="extensionAlertEmpty" class="empty"><span>⚠</span><strong>No registration alerts</strong><p>If the same label appears registered in another watched extension, it will be surfaced here and stored in agent memory.</p></div>
+  <div id="extensionAlertEmpty" class="empty"><span>⚠</span><strong>No registration alerts</strong><p>If the same label becomes registered in another TLD, it is compared with the previous baseline and surfaced as a new registration alert.</p></div>
 </section>
 
 <section id="activity" class="panel">
