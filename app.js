@@ -215,7 +215,7 @@ async function runAgentResearch(){
   if(!button||!out)return;
   button.disabled=true; button.textContent="Running…"; out.textContent="Queueing portfolio scan…";
   try{
-    const response=await fetch("/api/scan",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({domains:[pilot]})});
+    const response=await fetch("/api/scan",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({domains:[pilot],persist:true})});
     if(!response.ok)throw new Error("scan_failed");
     const data=await response.json(),r=data.results&&data.results[0];
     out.textContent=r ? r.domain+" · "+r.priority+" priority · "+r.evidenceCount+" evidence records · "+r.mode+" mode"+(r.valuation?.benchmark_usd?" · benchmark $"+Number(r.valuation.benchmark_usd).toLocaleString():"")+(r.buyers?.count?" · "+r.buyers.count+" live buyer candidates":"") : "Scan completed";
