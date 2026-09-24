@@ -123,8 +123,35 @@ export default {
     return env.ASSETS.fetch(request);
   },
   async scheduled(controller,env,ctx){
-    if(controller.cron==="17 * * * *"){
-      await runAgent(controller,env);
+    if(controller.cron==="*/5 * * * *"){
+      console.log("agent_cron_started", {
+        cron: controller.cron,
+        scheduled_at: new Date(controller.scheduledTime).toISOString()
+      });
+      try{
+        const summary=await runAgent(controller,env);
+        console.log("agent_cron_success",summary);
+      }catch(error){
+        console.error("agent_cron_failed",String(error?.stack||error));
+        try{
+          const memoryId=env.AGENT_MEMORY.idFromName("portfolio");
+          const memory=env.AGENT_MEMORY.get(memoryId);
+          await memory.fetch("https://memory.internal/store",{
+            method:"POST",
+            headers:{"content-type":"application/json"},
+            body:JSON.stringify({
+              kind:"agent_cycle_error",
+              payload:{
+                cron:controller.cron,
+                scheduled_at:new Date(controller.scheduledTime).toISOString(),
+                error:String(error?.message||error)
+              }
+            })
+          });
+        }catch(memoryError){
+          console.error("agent_error_memory_failed",String(memoryError?.stack||memoryError));
+        }
+      }
     }
   }
 };
