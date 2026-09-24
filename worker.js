@@ -6,6 +6,8 @@ import valuationHandler from "./api/valuation.js";
 import newsHandler from "./api/news.js";
 import agentHandler from "./api/agent.js";
 import {getAgentPlan} from "./api/lib/agent.js";
+import memoryHandler from "./api/memory.js";
+import {AgentMemory} from "./api/lib/agent-memory.js";
 
 const handlers={
   "/api/health":healthHandler,
@@ -14,7 +16,8 @@ const handlers={
   "/api/contacts":contactsHandler,
   "/api/valuation":valuationHandler,
   "/api/news":newsHandler,
-  "/api/agent":agentHandler
+  "/api/agent":agentHandler,
+  "/api/memory":memoryHandler
 };
 
 function createResponseAdapter(){
@@ -51,7 +54,8 @@ async function handleApi(request){
     query:Object.fromEntries(url.searchParams.entries()),
     body,
     headers:Object.fromEntries(request.headers.entries()),
-    url:request.url
+    url:request.url,
+    env
   };
   const res=createResponseAdapter();
 
@@ -73,7 +77,7 @@ async function handleApi(request){
   }
 }
 
-async function runAgent(controller){
+async function runAgent(controller,env){
   const plan=getAgentPlan(controller.scheduledTime);
   console.log("agent_cycle_started",plan);
   const request=new Request("https://agent.internal/api/scan",{
@@ -99,9 +103,18 @@ async function runAgent(controller){
       valuationState:item.valuation?.value_state||null
     }))||[]
   };
+  const memoryId=env.AGENT_MEMORY.idFromName("portfolio");
+  const memory=env.AGENT_MEMORY.get(memoryId);
+  await memory.fetch("https://memory.internal/store",{
+    method:"POST",
+    headers:{"content-type":"application/json"},
+    body:JSON.stringify({kind:"agent_cycle",payload:summary})
+  });
   console.log("agent_cycle_completed",summary);
   return summary;
 }
+
+export {AgentMemory};
 
 export default {
   async fetch(request,env,ctx){
@@ -111,7 +124,7 @@ export default {
   },
   async scheduled(controller,env,ctx){
     if(controller.cron==="17 * * * *"){
-      await runAgent(controller);
+      await runAgent(controller,env);
     }
   }
 };
