@@ -4,6 +4,8 @@ import buyersHandler from "./api/buyers.js";
 import contactsHandler from "./api/contacts.js";
 import valuationHandler from "./api/valuation.js";
 import newsHandler from "./api/news.js";
+import agentHandler from "./api/agent.js";
+import {getAgentPlan} from "./api/lib/agent.js";
 
 const handlers={
   "/api/health":healthHandler,
@@ -11,7 +13,8 @@ const handlers={
   "/api/buyers":buyersHandler,
   "/api/contacts":contactsHandler,
   "/api/valuation":valuationHandler,
-  "/api/news":newsHandler
+  "/api/news":newsHandler,
+  "/api/agent":agentHandler
 };
 
 function createResponseAdapter(){
@@ -70,10 +73,45 @@ async function handleApi(request){
   }
 }
 
+async function runAgent(controller){
+  const plan=getAgentPlan(controller.scheduledTime);
+  console.log("agent_cycle_started",plan);
+  const request=new Request("https://agent.internal/api/scan",{
+    method:"POST",
+    headers:{"content-type":"application/json","accept":"application/json"},
+    body:JSON.stringify({domains:plan.domains})
+  });
+  const response=await handleApi(request);
+  if(!response) throw new Error("agent_scan_route_missing");
+  const result=await response.json().catch(()=>({}));
+  if(!response.ok || result.ok!==true){
+    throw new Error("agent_scan_failed:"+JSON.stringify(result));
+  }
+  const summary={
+    mode:plan.mode,
+    domains:plan.domains,
+    results:result.results?.map(item=>({
+      domain:item.domain,
+      opportunityScore:item.opportunityScore,
+      priority:item.priority,
+      evidenceCount:item.evidenceCount,
+      newsCount:item.news?.count||0,
+      valuationState:item.valuation?.value_state||null
+    }))||[]
+  };
+  console.log("agent_cycle_completed",summary);
+  return summary;
+}
+
 export default {
   async fetch(request,env,ctx){
     const apiResponse=await handleApi(request);
     if(apiResponse) return apiResponse;
     return env.ASSETS.fetch(request);
+  },
+  async scheduled(controller,env,ctx){
+    if(controller.cron==="17 * * * *"){
+      await runAgent(controller);
+    }
   }
 };
