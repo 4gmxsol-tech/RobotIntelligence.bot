@@ -24,8 +24,8 @@ function getAgentPlan(scheduledTime=Date.now()){
     total_domains:DOMAINS.length,
     domains:getAgentBatch(scheduledTime),
     strategy:"rotate portfolio; scan RDAP + news + valuation; retain evidence-backed outputs; no buyer fabrication",
-    persistence:"stateless_phase_1",
-    next_layer:"persistent_agent_memory"
+    persistence:"sqlite_durable_object",
+    next_layer:"live_portfolio_state"
   };
 }
 
