@@ -37,4 +37,56 @@ jobs:
 
       - name: Production API smoke test
         run: |
-          node -e "fetch('https://robotintelligence.bot/api/health').then(async r => { if(!r.ok) throw new Error('HTTP '+r.status); const j=await r.json(); if(j.ok!==true) throw new Error('Health check returned ok=false'); if(j.service!=='robot-intelligence-research-api') throw new Error('Unexpected service: '+j.service); console.log('Production API health: OK'); }).catch(e => { console.error(e); process.exit(1); })"
+          node - <<'NODE'
+          const checks = [
+            {
+              name: "health",
+              url: "https://robotintelligence.bot/api/health",
+              validate: async (r) => {
+                if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                const j = await r.json();
+                if (j.ok !== true) throw new Error("Health check returned ok=false");
+                if (j.service !== "robot-intelligence-research-api") {
+                  throw new Error("Unexpected service: " + j.service);
+                }
+              }
+            },
+            {
+              name: "news",
+              url: "https://robotintelligence.bot/api/news?q=Skild%20AI&maxrecords=1",
+              validate: async (r) => {
+                if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                const j = await r.json();
+                if (!j || typeof j !== "object") throw new Error("News response is not JSON");
+                if (!j.connector || j.connector !== "gdelt") throw new Error("Unexpected news connector");
+                if (!Array.isArray(j.articles)) throw new Error("News articles array missing");
+              }
+            },
+            {
+              name: "valuation",
+              url: "https://robotintelligence.bot/api/valuation?domain=RobotIntelligence.bot",
+              validate: async (r) => {
+                if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                const j = await r.json();
+                if (j.ok !== true) throw new Error("Valuation returned ok=false");
+                if (!j.value_state) throw new Error("Valuation value_state missing");
+                if (!j.methodology) throw new Error("Valuation methodology missing");
+              }
+            }
+          ];
+
+          for (const check of checks) {
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), 20000);
+            try {
+              const response = await fetch(check.url, {
+                headers: { Accept: "application/json" },
+                signal: controller.signal
+              });
+              await check.validate(response);
+              console.log(`Production API ${check.name}: OK`);
+            } finally {
+              clearTimeout(timer);
+            }
+          }
+          NODE
