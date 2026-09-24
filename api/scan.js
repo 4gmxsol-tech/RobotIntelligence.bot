@@ -1,4 +1,4 @@
-const rdap=require("./lib/rdap");const news=require("./lib/news");const valuation=require("./lib/valuation");const connectors=require("./lib/mock-connectors");const {scoreOpportunity,classify}=require("./lib/scoring");
+const rdap=require("./lib/rdap");const news=require("./lib/news");const valuation=require("./lib/valuation");const connectors=require("./lib/mock-connectors");const {scoreOpportunity,classify}=require("./lib/scoring");const extensionWatch=require("./lib/extension-watch");
 
 module.exports=async(req,res)=>{
   if(req.method!=="POST")return res.status(405).json({error:"method_not_allowed"});
@@ -8,7 +8,7 @@ module.exports=async(req,res)=>{
 
   const results=[];
   for(const domain of domains.slice(0,25)){
-    const [rdapResult,newsResult,market,legacyBuyer,valuationResult]=await Promise.all([
+    const [rdapResult,newsResult,market,legacyBuyer,valuationResult,extensionResult]=await Promise.all([
       rdap.lookup(domain),
       news.searchForDomain(domain),
       connectors.market(domain),
@@ -46,6 +46,7 @@ module.exports=async(req,res)=>{
         count:newsCount,
         articles:(newsResult.articles||[]).slice(0,5)
       },
+      extensionWatch:extensionResult,
       valuation:{
         status:valuationResult.status,
         value_state:valuationResult.value_state,
@@ -84,6 +85,7 @@ module.exports=async(req,res)=>{
               opportunityScore:x.opportunityScore,
               evidenceCount:x.evidenceCount,
               newsCount:x.news.count,
+              extensionAlerts:x.extensionWatch?.alerts?.length||0,
               memory:memoryResults[index]?.memory||null
             }))
           }
