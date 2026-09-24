@@ -7,6 +7,7 @@ import newsHandler from "./api/news.js";
 import agentHandler from "./api/agent.js";
 import {getAgentPlan} from "./api/lib/agent.js";
 import memoryHandler from "./api/memory.js";
+import extensionWatchHandler from "./api/extension-watch.js";
 import {AgentMemory} from "./api/lib/agent-memory.js";
 
 const handlers={
@@ -18,7 +19,8 @@ const handlers={
   "/api/news":newsHandler,
   "/api/agent":agentHandler,
   "/api/memory":memoryHandler,
-  "/api/memory/portfolio":memoryHandler
+  "/api/memory/portfolio":memoryHandler,
+  "/api/extension-watch":extensionWatchHandler
 };
 
 function createResponseAdapter(){
