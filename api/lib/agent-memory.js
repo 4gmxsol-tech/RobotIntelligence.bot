@@ -172,7 +172,7 @@ export class AgentMemory extends DurableObject {
 
       const previousVariants=new Set((previous?.extensionWatch?.registered||[]).map(x=>x.domain));
       const newVariants=(next.extensionWatch?.registered||[]).filter(x=>!previousVariants.has(x.domain));
-      if (previousRow && newVariants.length) {
+      if (previousRow && previous?.extensionWatch?.watch_version==="iana-all-v1" && newVariants.length) {
         this.ctx.storage.sql.exec(
           "INSERT INTO memories (created_at, kind, payload) VALUES (?, ?, ?)",
           updatedAt,
