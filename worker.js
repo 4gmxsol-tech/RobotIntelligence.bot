@@ -106,20 +106,6 @@ async function runAgent(controller,env){
       valuationState:item.valuation?.value_state||null
     }))||[]
   };
-  const memoryId=env.AGENT_MEMORY.idFromName("portfolio");
-  const memory=env.AGENT_MEMORY.get(memoryId);
-  for(const item of result.results||[]){
-    await memory.fetch("https://memory.internal/upsert-domain",{
-      method:"POST",
-      headers:{"content-type":"application/json"},
-      body:JSON.stringify({domain:item.domain,payload:item})
-    });
-  }
-  await memory.fetch("https://memory.internal/store",{
-    method:"POST",
-    headers:{"content-type":"application/json"},
-    body:JSON.stringify({kind:"agent_cycle",payload:summary})
-  });
   console.log("agent_cycle_completed",summary);
   return summary;
 }
@@ -133,7 +119,7 @@ export default {
     return env.ASSETS.fetch(request);
   },
   async scheduled(controller,env,ctx){
-    if(controller.cron==="17 * * * *"){
+    if(controller.cron==="*/15 * * * *"){
       console.log("agent_cron_started", {
         cron: controller.cron,
         scheduled_at: new Date(controller.scheduledTime).toISOString()
