@@ -32,6 +32,8 @@ jobs:
       - run: node --check api/lib/rdap.js
       - run: node --check api/lib/news.js
       - run: node --check api/news.js
+      - run: node --check api/agent.js
+      - run: node --check api/lib/agent.js
 
       - run: node -e "JSON.parse(require('fs').readFileSync('data/domains.json','utf8')); JSON.parse(require('fs').readFileSync('data/buyer-research.json','utf8')); JSON.parse(require('fs').readFileSync('data/market-signals.json','utf8')); JSON.parse(require('fs').readFileSync('data/opportunities.json','utf8')); JSON.parse(require('fs').readFileSync('data/decision-makers.json','utf8')); JSON.parse(require('fs').readFileSync('data/outreach.json','utf8')); JSON.parse(require('fs').readFileSync('data/agent-memory.json','utf8')); JSON.parse(require('fs').readFileSync('data/research-jobs.json','utf8')); JSON.parse(require('fs').readFileSync('data/events.json','utf8')); JSON.parse(require('fs').readFileSync('data/agent-rules.json','utf8')); JSON.parse(require('fs').readFileSync('data/valuation-model.json','utf8')); JSON.parse(require('fs').readFileSync('data/connectors.json','utf8')); JSON.parse(require('fs').readFileSync('data/evidence-schema.json','utf8')); JSON.parse(require('fs').readFileSync('data/portfolio-metrics.json','utf8'));"
 
@@ -60,6 +62,19 @@ jobs:
                 if (!j || typeof j !== "object") throw new Error("News response is not JSON");
                 if (!j.connector || j.connector !== "gdelt") throw new Error("Unexpected news connector");
                 if (!Array.isArray(j.articles)) throw new Error("News articles array missing");
+              }
+            },
+            {
+              name: "agent",
+              url: "https://robotintelligence.bot/api/agent",
+              validate: async (r) => {
+                if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                const j = await r.json();
+                if (j.ok !== true) throw new Error("Agent endpoint returned ok=false");
+                if (j.agent?.status !== "active") throw new Error("Agent is not active");
+                if (!Array.isArray(j.agent?.domains) || j.agent.domains.length !== 3) {
+                  throw new Error("Agent batch is invalid");
+                }
               }
             },
             {
