@@ -14,7 +14,7 @@ module.exports=async(req,res)=>{
       connectors.market(domain),
       connectors.buyer(domain),
       valuation.benchmark(domain),
-      extensionWatch.check(domain)
+      extensionWatch.check(domain,{extensions:body.extensions,concurrency:40})
     ]);
     const data=[rdapResult,newsResult,market,legacyBuyer,valuationResult];
     const evidence=data.flatMap(x=>x.evidence||[]);
@@ -29,7 +29,7 @@ module.exports=async(req,res)=>{
     results.push({
       domain,
       status:"completed",
-      mode:"rdap+news+valuation",
+      mode:"rdap+news+valuation+all-tld-extension-watch",
       opportunityScore:score,
       priority:classify(score),
       evidenceCount:evidence.length,
@@ -99,7 +99,7 @@ module.exports=async(req,res)=>{
 
   return res.status(200).json({
     ok:true,
-    mode:"rdap+news+valuation",
+    mode:"rdap+news+valuation+all-tld-extension-watch",
     evidence_required:true,
     persisted:body.persist===true,
     results
