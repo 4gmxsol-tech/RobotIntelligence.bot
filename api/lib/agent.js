@@ -9,8 +9,8 @@ const DOMAINS=[
 const BATCH_SIZE=3;
 
 function getAgentBatch(scheduledTime=Date.now()){
-  const hour=Math.floor(Number(scheduledTime)/3600000);
-  const start=(hour*BATCH_SIZE)%DOMAINS.length;
+  const slot=Math.floor(Number(scheduledTime)/900000);
+  const start=(slot*BATCH_SIZE)%DOMAINS.length;
   return Array.from({length:BATCH_SIZE},(_,i)=>DOMAINS[(start+i)%DOMAINS.length]);
 }
 
@@ -18,14 +18,14 @@ function getAgentPlan(scheduledTime=Date.now()){
   return {
     mode:"autonomous_research_loop",
     status:"active",
-    schedule:"17 * * * *",
+    schedule:"*/15 * * * *",
     timezone:"UTC",
     batch_size:BATCH_SIZE,
     total_domains:DOMAINS.length,
     domains:getAgentBatch(scheduledTime),
-    strategy:"rotate portfolio; scan RDAP + news + valuation; retain evidence-backed outputs; no buyer fabrication",
+    strategy:"rotate full portfolio; scan RDAP + news + valuation + live all-TLD extension registration; retain evidence-backed outputs; no buyer fabrication",
     persistence:"sqlite_durable_object",
-    next_layer:"extension_registration_monitoring"
+    next_layer:"all_tld_extension_registration_monitoring"
   };
 }
 
