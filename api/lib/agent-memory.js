@@ -79,6 +79,12 @@ export class AgentMemory extends DurableObject {
           seen_count INTEGER NOT NULL DEFAULT 0
         )
       `);
+      try {
+        this.ctx.storage.sql.exec("ALTER TABLE domain_state ADD COLUMN first_seen_at TEXT");
+      } catch {}
+      try {
+        this.ctx.storage.sql.exec("ALTER TABLE domain_state ADD COLUMN seen_count INTEGER NOT NULL DEFAULT 0");
+      } catch {}
       this.ctx.storage.sql.exec(`
         CREATE INDEX IF NOT EXISTS idx_domain_state_updated_at
         ON domain_state(updated_at DESC)
