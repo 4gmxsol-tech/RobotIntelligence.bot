@@ -36,7 +36,7 @@ function createResponseAdapter(){
   };
 }
 
-async function handleApi(request){
+async function handleApi(request,env){
   const url=new URL(request.url);
   const handler=handlers[url.pathname];
   if(!handler) return null;
@@ -85,7 +85,7 @@ async function runAgent(controller,env){
     headers:{"content-type":"application/json","accept":"application/json"},
     body:JSON.stringify({domains:plan.domains})
   });
-  const response=await handleApi(request);
+  const response=await handleApi(request,env);
   if(!response) throw new Error("agent_scan_route_missing");
   const result=await response.json().catch(()=>({}));
   if(!response.ok || result.ok!==true){
@@ -118,7 +118,7 @@ export {AgentMemory};
 
 export default {
   async fetch(request,env,ctx){
-    const apiResponse=await handleApi(request);
+    const apiResponse=await handleApi(request,env);
     if(apiResponse) return apiResponse;
     return env.ASSETS.fetch(request);
   },
