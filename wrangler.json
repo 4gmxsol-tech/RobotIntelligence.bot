@@ -32,5 +32,19 @@
     "crons": [
       "17 * * * *"
     ]
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "AGENT_MEMORY",
+        "class_name": "AgentMemory"
+      }
+    ]
+  },
+  "exports": {
+    "AgentMemory": {
+      "type": "durable-object",
+      "storage": "sqlite"
+    }
   }
 }
