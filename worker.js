@@ -17,7 +17,8 @@ const handlers={
   "/api/valuation":valuationHandler,
   "/api/news":newsHandler,
   "/api/agent":agentHandler,
-  "/api/memory":memoryHandler
+  "/api/memory":memoryHandler,
+  "/api/memory/portfolio":memoryHandler
 };
 
 function createResponseAdapter(){
@@ -105,6 +106,13 @@ async function runAgent(controller,env){
   };
   const memoryId=env.AGENT_MEMORY.idFromName("portfolio");
   const memory=env.AGENT_MEMORY.get(memoryId);
+  for(const item of result.results||[]){
+    await memory.fetch("https://memory.internal/upsert-domain",{
+      method:"POST",
+      headers:{"content-type":"application/json"},
+      body:JSON.stringify({domain:item.domain,payload:item})
+    });
+  }
   await memory.fetch("https://memory.internal/store",{
     method:"POST",
     headers:{"content-type":"application/json"},
