@@ -153,7 +153,7 @@ export class AgentMemory extends DurableObject {
         seenCount
       );
 
-      if (change.changed) {
+      if (change.changed && previousRow) {
         this.ctx.storage.sql.exec(
           "INSERT INTO memories (created_at, kind, payload) VALUES (?, ?, ?)",
           updatedAt,
