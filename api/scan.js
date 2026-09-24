@@ -13,7 +13,8 @@ module.exports=async(req,res)=>{
       news.searchForDomain(domain),
       connectors.market(domain),
       connectors.buyer(domain),
-      valuation.benchmark(domain)
+      valuation.benchmark(domain),
+      extensionWatch.check(domain)
     ]);
     const data=[rdapResult,newsResult,market,legacyBuyer,valuationResult];
     const evidence=data.flatMap(x=>x.evidence||[]);
