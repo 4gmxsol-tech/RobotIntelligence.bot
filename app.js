@@ -54,38 +54,40 @@ function renderExtensionAlerts(){
   const empty=document.querySelector("#extensionAlertEmpty");
   const countEl=document.querySelector("#extensionAlertCount");
   if(!container||!empty)return;
-  const rows=[];
-  for(const item of livePortfolio.domains||[]){
-    for(const alert of item.extensionWatch?.alerts||[]){
-      rows.push({...alert,source_domain:item.domain});
-    }
-  }
+  const rows=(memorySnapshot.memories||[])
+    .filter(m=>m.kind==="extension_registration_detected")
+    .map(m=>({
+      source_domain:m.payload?.domain||"Unknown",
+      variants:m.payload?.variants||[],
+      extensions:m.payload?.extensions||[],
+      detected_at:m.payload?.detected_at||m.created_at,
+      source:"https://lookup.icann.org/"
+    }));
   extensionAlerts=rows;
-  if(countEl)countEl.textContent=rows.length;
-  const navCount=document.querySelector("#extensionNavCount"); if(navCount)navCount.textContent=rows.length;
+  if(countEl)countEl.textContent=rows.reduce((n,x)=>n+x.variants.length,0);
+  const navCount=document.querySelector("#extensionNavCount"); if(navCount)navCount.textContent=rows.reduce((n,x)=>n+x.variants.length,0);
   if(!rows.length){
     empty.style.display="block";
     container.innerHTML="";
     return;
   }
   empty.style.display="none";
-  container.innerHTML=rows.map(x=>'<article class="extension-alert"><div><span class="eyebrow">REGISTRATION DETECTED</span><strong>'+x.registered_variant+'</strong><small>Same label as '+x.source_domain+' · '+x.extension+'</small></div><a href="'+x.source+'" target="_blank" rel="noopener">Verify RDAP ↗</a></article>').join("");
+  container.innerHTML=rows.flatMap(x=>x.variants.map((variant,i)=>'<article class="extension-alert"><div><span class="eyebrow">NEW REGISTRATION DETECTED</span><strong>'+variant+'</strong><small>Same label as '+x.source_domain+' · '+(x.extensions[i]||("."+variant.split(".").at(-1)))+' · '+new Date(x.detected_at).toLocaleString()+'</small></div><a href="'+x.source+'" target="_blank" rel="noopener">Verify RDAP ↗</a></article>')).join("");
 }
 
 async function checkExtensions(domain){
   const out=document.querySelector("#extensionWatchResult");
   if(!out)return;
-  out.textContent="Checking watched extensions…";
+  out.textContent="Checking all current IANA TLDs…";
   try{
     const r=await fetch("/api/extension-watch?domain="+encodeURIComponent(domain),{cache:"no-store"});
     const data=await r.json().catch(()=>({}));
     if(!r.ok)throw new Error(data.error||"extension_watch_failed");
-    out.textContent=data.notification_count
-      ? "⚠ "+data.notification_count+" registered variant(s) detected: "+data.registered.map(x=>x.domain).join(", ")
-      : "No registration detected in the watched extension set.";
+    out.textContent="Checked "+(data.checked||0)+" TLD variants for "+domain+" · "+(data.registered?.length||0)+" currently registered.";
     await loadLivePortfolio();
+    await loadMemorySnapshot();
   }catch(error){
-    out.textContent="Extension watch unavailable.";
+    out.textContent="Extension watch unavailable: "+(error.message||"provider error");
   }
 }
 
@@ -118,9 +120,10 @@ async function loadLivePortfolio(){
 }
 async function loadMemorySnapshot(){
   try{
-    const response=await fetch("/api/memory?limit=12",{cache:"no-store"});
+    const response=await fetch("/api/memory?limit=50",{cache:"no-store"});
     if(!response.ok)throw new Error("memory_unavailable");
     memorySnapshot=await response.json();
+    renderExtensionAlerts();
     const activity=document.querySelector("#eventList");
     const empty=document.querySelector("#eventEmpty");
     if(activity&&empty&&memorySnapshot.memories?.length){
@@ -253,23 +256,70 @@ async function loadBuyerResearch(){
   }
 }
 
+async function runScanBatch(batch,out){
+  const response=await fetch("/api/scan",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({domains:batch,persist:true})
+  });
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(data.error||"scan_failed");
+  return data.results||[];
+}
+
 async function runAgentResearch(){
   const button=document.querySelector("#researchBtn"),out=document.querySelector("#researchResult");
   if(!button||!out)return;
-  button.disabled=true; button.textContent="Running…"; out.textContent="Queueing portfolio scan…";
+  const portfolio=domains.length?domains.slice():[pilot];
+  button.disabled=true; button.textContent="Running portfolio…";
+  const summaries=[];
   try{
-    const response=await fetch("/api/scan",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({domains:[pilot],persist:true})});
-    if(!response.ok)throw new Error("scan_failed");
-    const data=await response.json(),r=data.results&&data.results[0];
-    out.textContent=r ? r.domain+" · "+r.priority+" priority · "+r.evidenceCount+" evidence records · "+r.mode+" mode"+(r.extensionWatch?.registered?.length?" · ⚠ "+r.extensionWatch.registered.length+" registered extension variant(s)":"")+(r.valuation?.benchmark_usd?" · benchmark $"+Number(r.valuation.benchmark_usd).toLocaleString():"")+(r.buyers?.count?" · "+r.buyers.count+" live buyer candidates":"") : "Scan completed";
-    button.textContent="Research complete ✓";
-    await loadJobs(); await loadEvents(); await loadLivePortfolio(); await loadMemorySnapshot();
-    renderExtensionAlerts();
+    for(let i=0;i<portfolio.length;i+=3){
+      const batch=portfolio.slice(i,i+3);
+      out.textContent="Scanning portfolio "+Math.min(i+batch.length,portfolio.length)+"/"+portfolio.length+" · "+batch.join(", ");
+      const results=await runScanBatch(batch,out);
+      summaries.push(...results);
+      await loadLivePortfolio();
+      await loadMemorySnapshot();
+    }
+    const alerts=(memorySnapshot.memories||[]).filter(m=>m.kind==="extension_registration_detected").length;
+    out.textContent="Portfolio scan complete · "+summaries.length+" domains · all current IANA TLDs checked · "+alerts+" recent extension alerts in memory.";
+    button.textContent="Portfolio scan complete ✓";
   }catch(error){
-    out.textContent="API not deployed or research runtime unavailable.";
-    button.textContent="Run Agent Research";
-  }finally{setTimeout(()=>{button.disabled=false;if(button.textContent==="Research complete ✓")button.textContent="Run Agent Research";},1600);}
+    out.textContent="Portfolio scan stopped: "+(error.message||"runtime unavailable");
+    button.textContent="Run Agent";
+  }finally{
+    setTimeout(()=>{button.disabled=false;if(button.textContent==="Portfolio scan complete ✓")button.textContent="Run Agent";},2200);
+  }
 }
+
+async function runCustomDomains(){
+  const button=document.querySelector("#customRunBtn"),input=document.querySelector("#customDomains"),out=document.querySelector("#customRunResult");
+  if(!button||!input||!out)return;
+  const entered=input.value.split(/[\s,;]+/).map(x=>x.trim().toLowerCase()).filter(Boolean);
+  const unique=[...new Set(entered)];
+  if(!unique.length){out.textContent="Enter at least one domain.";return;}
+  button.disabled=true;button.textContent="Running…";
+  const allResults=[];
+  try{
+    for(let i=0;i<unique.length;i+=3){
+      const batch=unique.slice(i,i+3);
+      out.textContent="Scanning entered domains "+Math.min(i+batch.length,unique.length)+"/"+unique.length+" · "+batch.join(", ");
+      const results=await runScanBatch(batch,out);
+      allResults.push(...results);
+      await loadLivePortfolio();
+      await loadMemorySnapshot();
+    }
+    out.textContent="Custom scan complete · "+allResults.length+" domain(s) · all current IANA TLDs checked.";
+    button.textContent="Complete ✓";
+  }catch(error){
+    out.textContent="Custom scan stopped: "+(error.message||"runtime unavailable");
+    button.textContent="Run entered domains";
+  }finally{
+    setTimeout(()=>{button.disabled=false;if(button.textContent==="Complete ✓")button.textContent="Run entered domains";},1800);
+  }
+}
+
 async function loadDomainInventory(){
   try{
     const response=await fetch("data/domains.json",{cache:"no-store"});
@@ -284,6 +334,7 @@ search.addEventListener("input",e=>render(e.target.value));
 document.querySelector("#analyzeBtn").addEventListener("click",()=>showAnalysis(pilot));
 document.querySelector("#researchBtn")?.addEventListener("click",runAgentResearch);
 document.querySelector("#extensionWatchBtn")?.addEventListener("click",()=>checkExtensions(pilot));
+document.querySelector("#customRunBtn")?.addEventListener("click",runCustomDomains);
 grid.addEventListener("click",e=>{const card=e.target.closest(".domain-card");if(card)showAnalysis(card.dataset.domain);});
 loadDomainInventory();
 loadLivePortfolio();
