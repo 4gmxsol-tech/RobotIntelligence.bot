@@ -11,6 +11,7 @@ let researchJobs={jobs:[]}, agentEvents={events:[]}, portfolioMetrics={}, valuat
 let liveValuation=null;
 let livePortfolio={domains:[]};
 let memorySnapshot={memories:[]};
+let extensionAlerts=[];
 
 function analyzeDomain(domain){
   const [name,tld]=domain.toLowerCase().split(".");
@@ -48,6 +49,45 @@ function showAnalysis(domain){
   modal.onclick=e=>{if(e.target===modal)modal.remove();};
 }
 
+function renderExtensionAlerts(){
+  const container=document.querySelector("#extensionAlertList");
+  const empty=document.querySelector("#extensionAlertEmpty");
+  const countEl=document.querySelector("#extensionAlertCount");
+  if(!container||!empty)return;
+  const rows=[];
+  for(const item of livePortfolio.domains||[]){
+    for(const alert of item.extensionWatch?.alerts||[]){
+      rows.push({...alert,source_domain:item.domain});
+    }
+  }
+  extensionAlerts=rows;
+  if(countEl)countEl.textContent=rows.length;
+  if(!rows.length){
+    empty.style.display="block";
+    container.innerHTML="";
+    return;
+  }
+  empty.style.display="none";
+  container.innerHTML=rows.map(x=>'<article class="extension-alert"><div><span class="eyebrow">REGISTRATION DETECTED</span><strong>'+x.registered_variant+'</strong><small>Same label as '+x.source_domain+' · '+x.extension+'</small></div><a href="'+x.source+'" target="_blank" rel="noopener">Verify RDAP ↗</a></article>').join("");
+}
+
+async function checkExtensions(domain){
+  const out=document.querySelector("#extensionWatchResult");
+  if(!out)return;
+  out.textContent="Checking watched extensions…";
+  try{
+    const r=await fetch("/api/extension-watch?domain="+encodeURIComponent(domain),{cache:"no-store"});
+    const data=await r.json().catch(()=>({}));
+    if(!r.ok)throw new Error(data.error||"extension_watch_failed");
+    out.textContent=data.notification_count
+      ? "⚠ "+data.notification_count+" registered variant(s) detected: "+data.registered.map(x=>x.domain).join(", ")
+      : "No registration detected in the watched extension set.";
+    await loadLivePortfolio();
+  }catch(error){
+    out.textContent="Extension watch unavailable.";
+  }
+}
+
 function renderJobs(){
  const box=document.querySelector("#jobList"),empty=document.querySelector("#jobEmpty");if(!box||!empty)return;
  if(!researchJobs.jobs.length){empty.style.display="block";box.innerHTML="";return;} empty.style.display="none";
@@ -68,9 +108,11 @@ async function loadLivePortfolio(){
     if(liveNames.length){
       document.querySelector("#domainCount").textContent=liveNames.length;
       render(document.querySelector("#search")?.value||"");
+      renderExtensionAlerts();
       const updated=livePortfolio.domains.reduce((n,x)=>n+(x.news?.count||0),0);
       const signals=document.querySelector("#signalMetric"); if(signals)signals.textContent=updated;
     }
+    renderExtensionAlerts();
   }catch(error){console.warn("Live portfolio unavailable",error);}
 }
 async function loadMemorySnapshot(){
@@ -218,9 +260,10 @@ async function runAgentResearch(){
     const response=await fetch("/api/scan",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({domains:[pilot],persist:true})});
     if(!response.ok)throw new Error("scan_failed");
     const data=await response.json(),r=data.results&&data.results[0];
-    out.textContent=r ? r.domain+" · "+r.priority+" priority · "+r.evidenceCount+" evidence records · "+r.mode+" mode"+(r.valuation?.benchmark_usd?" · benchmark $"+Number(r.valuation.benchmark_usd).toLocaleString():"")+(r.buyers?.count?" · "+r.buyers.count+" live buyer candidates":"") : "Scan completed";
+    out.textContent=r ? r.domain+" · "+r.priority+" priority · "+r.evidenceCount+" evidence records · "+r.mode+" mode"+(r.extensionWatch?.registered?.length?" · ⚠ "+r.extensionWatch.registered.length+" registered extension variant(s)":"")+(r.valuation?.benchmark_usd?" · benchmark $"+Number(r.valuation.benchmark_usd).toLocaleString():"")+(r.buyers?.count?" · "+r.buyers.count+" live buyer candidates":"") : "Scan completed";
     button.textContent="Research complete ✓";
     await loadJobs(); await loadEvents(); await loadLivePortfolio(); await loadMemorySnapshot();
+    renderExtensionAlerts();
   }catch(error){
     out.textContent="API not deployed or research runtime unavailable.";
     button.textContent="Run Agent Research";
@@ -239,6 +282,7 @@ async function loadDomainInventory(){
 search.addEventListener("input",e=>render(e.target.value));
 document.querySelector("#analyzeBtn").addEventListener("click",()=>showAnalysis(pilot));
 document.querySelector("#researchBtn")?.addEventListener("click",runAgentResearch);
+document.querySelector("#extensionWatchBtn")?.addEventListener("click",()=>checkExtensions(pilot));
 grid.addEventListener("click",e=>{const card=e.target.closest(".domain-card");if(card)showAnalysis(card.dataset.domain);});
 loadDomainInventory();
 loadLivePortfolio();
