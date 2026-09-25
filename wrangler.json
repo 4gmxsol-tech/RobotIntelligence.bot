@@ -29,9 +29,7 @@
     }
   },
   "triggers": {
-    "crons": [
-      "*/15 * * * *"
-    ]
+    "crons": []
   },
   "durable_objects": {
     "bindings": [
