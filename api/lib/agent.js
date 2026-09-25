@@ -16,16 +16,16 @@ function getAgentBatch(scheduledTime=Date.now()){
 
 function getAgentPlan(scheduledTime=Date.now()){
   return {
-    mode:"autonomous_research_loop",
-    status:"active",
+    mode:"manual_research_only",
+    status:"paused",
     schedule:"manual_only",
     timezone:"UTC",
     batch_size:BATCH_SIZE,
     total_domains:DOMAINS.length,
     domains:getAgentBatch(scheduledTime),
-    strategy:"rotate full portfolio; scan RDAP + news + valuation + live all-TLD extension registration; retain evidence-backed outputs; no buyer fabrication",
+    strategy:"manual execution only; automated research and all-TLD extension monitoring are disabled for infrastructure safety",
     persistence:"sqlite_durable_object",
-    next_layer:"all_tld_extension_registration_monitoring"
+    next_layer:"disabled_until_manual_reenable"
   };
 }
 
