@@ -80,36 +80,6 @@ async function handleApi(request,env){
   }
 }
 
-async function runAgent(controller,env){
-  const plan=getAgentPlan(controller.scheduledTime);
-  console.log("agent_cycle_started",plan);
-  const request=new Request("https://agent.internal/api/scan",{
-    method:"POST",
-    headers:{"content-type":"application/json","accept":"application/json"},
-    body:JSON.stringify({domains:plan.domains,persist:true})
-  });
-  const response=await handleApi(request,env);
-  if(!response) throw new Error("agent_scan_route_missing");
-  const result=await response.json().catch(()=>({}));
-  if(!response.ok || result.ok!==true){
-    throw new Error("agent_scan_failed:"+JSON.stringify(result));
-  }
-  const summary={
-    mode:plan.mode,
-    domains:plan.domains,
-    results:result.results?.map(item=>({
-      domain:item.domain,
-      opportunityScore:item.opportunityScore,
-      priority:item.priority,
-      evidenceCount:item.evidenceCount,
-      newsCount:item.news?.count||0,
-      valuationState:item.valuation?.value_state||null
-    }))||[]
-  };
-  console.log("agent_cycle_completed",summary);
-  return summary;
-}
-
 export {AgentMemory};
 
 export default {
@@ -117,37 +87,5 @@ export default {
     const apiResponse=await handleApi(request,env);
     if(apiResponse) return apiResponse;
     return env.ASSETS.fetch(request);
-  },
-  async scheduled(controller,env,ctx){
-    if(controller.cron==="*/15 * * * *"){
-      console.log("agent_cron_started", {
-        cron: controller.cron,
-        scheduled_at: new Date(controller.scheduledTime).toISOString()
-      });
-      try{
-        const summary=await runAgent(controller,env);
-        console.log("agent_cron_success",summary);
-      }catch(error){
-        console.error("agent_cron_failed",String(error?.stack||error));
-        try{
-          const memoryId=env.AGENT_MEMORY.idFromName("portfolio");
-          const memory=env.AGENT_MEMORY.get(memoryId);
-          await memory.fetch("https://memory.internal/store",{
-            method:"POST",
-            headers:{"content-type":"application/json"},
-            body:JSON.stringify({
-              kind:"agent_cycle_error",
-              payload:{
-                cron:controller.cron,
-                scheduled_at:new Date(controller.scheduledTime).toISOString(),
-                error:String(error?.message||error)
-              }
-            })
-          });
-        }catch(memoryError){
-          console.error("agent_error_memory_failed",String(memoryError?.stack||memoryError));
-        }
-      }
-    }
   }
 };
