@@ -1,6 +1,8 @@
 const extensionWatch=require("./lib/extension-watch");
 
 module.exports=async(req,res)=>{
+  return res.status(503).json({ok:false,error:"extension_watch_temporarily_disabled",reason:"infrastructure_safety"});
+/*
   if(req.method!=="GET" && req.method!=="POST") {
     return res.status(405).json({error:"method_not_allowed"});
   }
@@ -16,3 +18,5 @@ module.exports=async(req,res)=>{
       : "No registration detected in the current IANA TLD inventory."
   });
 };
+
+*/
