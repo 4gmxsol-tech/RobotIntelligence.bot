@@ -18,7 +18,7 @@ function getAgentPlan(scheduledTime=Date.now()){
   return {
     mode:"autonomous_research_loop",
     status:"active",
-    schedule:"*/15 * * * *",
+    schedule:"manual_only",
     timezone:"UTC",
     batch_size:BATCH_SIZE,
     total_domains:DOMAINS.length,
