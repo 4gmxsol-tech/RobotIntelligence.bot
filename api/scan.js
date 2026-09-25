@@ -14,7 +14,7 @@ module.exports=async(req,res)=>{
       connectors.market(domain),
       connectors.buyer(domain),
       valuation.benchmark(domain),
-      extensionWatch.check(domain,{extensions:body.extensions,concurrency:40})
+      body.enableExtensionWatch===true ? extensionWatch.check(domain,{extensions:body.extensions,concurrency:40}) : Promise.resolve({status:"disabled",reason:"infrastructure_safety",checked:0,registered:[],alerts:[]})
     ]);
     const data=[rdapResult,newsResult,market,legacyBuyer,valuationResult];
     const evidence=data.flatMap(x=>x.evidence||[]);
