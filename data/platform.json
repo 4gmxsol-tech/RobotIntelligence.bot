@@ -60,6 +60,13 @@
       "focus": "Robot foundation models, simulation and physical-AI infrastructure",
       "url": "https://www.nvidia.com/en-us/robotics/",
       "source": "https://www.nvidia.com/en-us/robotics/"
+    },
+    {
+      "name": "Google DeepMind",
+      "category": "Robotics intelligence",
+      "focus": "Embodied reasoning and vision-language-action models for physical robots",
+      "url": "https://deepmind.google/models/gemini-robotics/",
+      "source": "https://deepmind.google/models/gemini-robotics/"
     }
   ],
   "models": [
@@ -94,6 +101,30 @@
       "url": "https://www.skild.ai/",
       "source": "https://www.skild.ai/",
       "company": "Skild AI"
+    },
+    {
+      "name": "Gemini Robotics 2",
+      "category": "VLA / embodied AI",
+      "focus": "Vision-language-action model for robot control across embodiments, including humanoids",
+      "url": "https://deepmind.google/models/gemini-robotics/vla/",
+      "source": "https://deepmind.google/models/gemini-robotics/vla/",
+      "company": "Google DeepMind"
+    },
+    {
+      "name": "Gemini Robotics ER 2",
+      "category": "Embodied reasoning",
+      "focus": "Embodied reasoning model for physical-world understanding and multi-step planning",
+      "url": "https://deepmind.google/models/gemini-robotics/",
+      "source": "https://deepmind.google/models/gemini-robotics/",
+      "company": "Google DeepMind"
+    },
+    {
+      "name": "Cosmos 3",
+      "category": "World foundation model",
+      "focus": "Omnimodal world-model platform for physical AI and future-state prediction",
+      "url": "https://research.nvidia.com/labs/cosmos-lab/cosmos3/",
+      "source": "https://research.nvidia.com/labs/cosmos-lab/cosmos3/",
+      "company": "NVIDIA"
     }
   ],
   "robots": [
@@ -124,25 +155,25 @@
   ],
   "research": [
     {
-      "type": "RESEARCH",
-      "title": "Robot foundation models",
-      "description": "Vision-language-action and foundation-model approaches are a major part of the current robot-intelligence stack.",
-      "source": "https://humanoid-world.com/en/foundation-models/",
-      "label": "2026 landscape"
+      "type": "MODEL",
+      "title": "Gemini Robotics 2 expands embodied intelligence",
+      "description": "Google DeepMind describes Gemini Robotics 2 as a VLA model for robot action, with whole-body control, dexterity and multi-robot collaboration capabilities.",
+      "source": "https://deepmind.google/blog/gemini-robotics-2-brings-whole-body-intelligence-to-robots/",
+      "label": "Google DeepMind · Jul 2026"
     },
     {
-      "type": "SYSTEMS",
-      "title": "Simulation → real intelligence",
-      "description": "Simulation and synthetic data are being used to scale training and transfer learned behavior to physical systems.",
-      "source": "https://www.nvidia.com/en-us/robotics/",
-      "label": "NVIDIA Robotics"
+      "type": "WORLD MODEL",
+      "title": "World Action Models emerge beyond traditional VLA",
+      "description": "NVIDIA describes World Action Models as jointly learning future world states and robot actions, extending the physical reasoning stack beyond direct VLA action prediction.",
+      "source": "https://www.nvidia.com/en-us/glossary/world-action-model/",
+      "label": "NVIDIA · 2026"
     },
     {
-      "type": "FIELD",
-      "title": "Humanoids move toward deployment",
-      "description": "Recent reporting shows humanoid programs moving from demonstrations toward industrial testing and deployment.",
-      "source": "https://www.axios.com/local/boston/2026/09/21/boston-dynamics-humanoid-robots-hyundai-metaplant",
-      "label": "September 2026"
+      "type": "OPEN ECOSYSTEM",
+      "title": "Physical AI stack expands across simulation, models and deployment",
+      "description": "NVIDIA's 2026 robotics materials connect simulation, robot learning, foundation models and edge deployment into a broader physical-AI development stack.",
+      "source": "https://blogs.nvidia.com/blog/physical-ai-open-models-tools-omniverse/",
+      "label": "NVIDIA · 2026"
     }
   ],
   "jobs": [],
