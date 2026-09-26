@@ -67,6 +67,9 @@ async function boot(){
   const r=await fetch("data/platform.json",{cache:"no-store"});if(!r.ok)throw new Error("platform data unavailable");
   state.data=await r.json();
   renderCapabilities(state.data.capabilities||[]);
+  document.querySelector("#metric-entities").textContent=(state.data.companies?.length||0)+(state.data.models?.length||0)+(state.data.robots?.length||0);
+  document.querySelector("#metric-signals").textContent=(state.data.research?.length||0);
+  document.querySelector("#metric-assets").textContent="22";
   renderResearch(state.data.research||[]);
   renderMarket();
   renderIndex();
