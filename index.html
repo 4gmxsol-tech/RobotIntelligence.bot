@@ -59,11 +59,12 @@
 
 <section id="index" class="section index-section">
   <div class="section-head"><div><span class="eyebrow">02 / THE INDEX</span><h2>Find the pieces<br>behind the <em>intelligence.</em></h2></div><p>Search companies, models, robots and research from a curated, source-linked knowledge layer.</p></div>
-  <div class="index-toolbar"><div class="index-tabs" id="index-tabs"><button class="active" data-tab="companies">Companies</button><button data-tab="models">Models</button><button data-tab="robots">Robots</button><button data-tab="research">Research</button></div><label class="search-box"><span>⌕</span><input id="index-search" type="search" placeholder="Search models, robots, companies…" aria-label="Search the index"></label></div>
+  <div class="index-toolbar"><div class="index-tabs" id="index-tabs"><button class="active" data-tab="all">All intelligence</button><button data-tab="companies">Companies</button><button data-tab="models">Models</button><button data-tab="robots">Robots</button><button data-tab="research">Research</button></div><label class="search-box"><span>⌕</span><input id="index-search" type="search" placeholder="Ask the Intelligence Graph — models, robots, companies, capabilities…" aria-label="Search the index"></label></div>
   <div class="filter-row" id="index-filters"></div>
   <div class="index-meta"><span id="index-count">Loading index…</span><span>CURATED RECORDS · SOURCE-LINKED</span></div>
   <div class="index-results" id="index-results"></div>
   <div class="notice" id="index-notice"></div>
+  <div class="entity-panel" id="entity-panel" hidden></div>
 </section>
 
 <section class="section capability-section">
@@ -81,6 +82,7 @@
 <section id="signals" class="section dark-section">
   <div class="section-head"><div><span class="eyebrow">04 / SIGNAL RADAR</span><h2>Watch the intelligence<br><em>layer move.</em></h2></div><p>Research, systems and field signals organized around the technology — not the marketing cycle.</p></div>
   <div class="research-grid" id="research-grid"></div>
+  <div class="live-strip" id="live-strip"></div>
   <div class="signal-note"><span>WHY THIS MATTERS</span><strong>The robotics stack is converging around data, world models, action models and physical interaction.</strong><small>Source-linked records keep the map auditable and separate observed facts from interpretation.</small></div>
 </section>
 
