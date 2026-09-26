@@ -30,7 +30,7 @@ function renderIndex(){
  document.querySelector("#index-count").textContent=filtered.length+" of "+list.length+" records";
  document.querySelector("#index-results").innerHTML=filtered.length?filtered.map((x,i)=>card(x,i)).join(""):'<div class="empty-state full"><strong>No matching intelligence.</strong><small>Try a model, company, robot or capability.</small></div>';
  document.querySelector("#index-notice").textContent=state.data.notice||"Source-linked records. Verify claims at the linked source.";
- document.querySelectorAll(".entity-open").forEach(b=>b.onclick=()=>openEntity(b.dataset.kind,b.dataset.name));
+ document.querySelectorAll(".entity-open").forEach(b=>b.onclick=()=>smartAssetMatch(b.dataset.kind,b.dataset.name));
 }
 function card(x,i){
  const name=x.name||x.title,cat=x.category||x.type||"Index";
@@ -127,6 +127,19 @@ function openOpportunity(x){
  panel.querySelector(".opp-close").onclick=()=>panel.hidden=true;
  panel.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
+function smartAssetMatch(context=""){
+ const el=document.querySelector("#asset-match-grid");if(!el)return;
+ const q=String(context||"").toLowerCase();
+ const packs=[
+  {keys:["skild","robot intelligence","robot brain","s1"],title:"This is close to the core category.",domains:["RobotIntelligence.bot","RobotIntelligenceAI.com","RobotIntelligenceLab.com"],why:"The naming maps directly to the robot-intelligence layer being explored.",signal:"Robot foundation models are moving toward cross-embodiment learning and deployment."},
+  {keys:["figure","helix","humanoid","atlas","neo","apollo","digit"],title:"A humanoid-intelligence naming path.",domains:["HumanoidBehavior.com","HumanoidPlanning.com","RobotEmbodiment.com"],why:"These assets map to behavior, planning and embodiment—the layers behind capable humanoids.",signal:"Humanoid programs are moving from demonstrations toward industrial and commercial deployment."},
+  {keys:["planning","reasoning","gemini robotics","context"],title:"A planning & reasoning path.",domains:["HumanoidPlanning.com","HumanoidContext.com","RobotIntelligence.bot"],why:"The names fit the intelligence layer between perception, reasoning and action.",signal:"Embodied models increasingly separate reasoning from action/control."},
+  {keys:["manipulation","dexterity","grasp","whole-body"],title:"A manipulation-focused path.",domains:["PhysicalManipulation.com","RobotEmbodiment.com","HumanoidBehavior.com"],why:"The assets describe concrete capability layers rather than a generic robotics brand.",signal:"Dexterity and whole-body control are becoming central evaluation and deployment themes."},
+  {keys:["world model","cosmos","world labs","simulation"],title:"A world-model / agent path.",domains:["WorldAgents.co","RobotStack.co","RobotIntelligence.bot"],why:"These assets connect naturally to world models, agents and the infrastructure around physical AI.",signal:"World models and simulation are increasingly used to generate and train physical-AI behavior."}
+ ];
+ const p=packs.find(x=>x.keys.some(k=>q.includes(k)))||packs[0];
+ el.innerHTML='<div class="asset-match-context"><span class="eyebrow">INTELLIGENCE-TO-ASSET MATCH</span><strong>'+esc(p.title)+'</strong><small>'+esc(p.signal)+'</small></div>'+p.domains.filter(d=>(state.portfolioDomains||[]).includes(d)).slice(0,3).map((d,i)=>'<article class="asset-match-card"><div><span>DOMAIN ASSET · '+String(i+1).padStart(2,"0")+'</span><h4>'+esc(d)+'</h4><p>'+esc(p.why)+'</p></div><a href="#contact">Request details ↗</a></article>').join("");
+}
 function renderAssetMatches(query=""){
  const el=document.querySelector("#asset-match-grid");if(!el)return;
  const domains=(state.portfolioDomains||[]);
@@ -171,13 +184,13 @@ async function boot(){
     renderOpportunities(opps);
     state.portfolioDomains=domains;
     renderPortfolio(domains,opps);
-    renderAssetMatches(state.query||"");
+    smartAssetMatch(state.query||"");
   }catch(e){console.warn("Portfolio intelligence:",e)}
  }catch(e){console.warn("Robot Intelligence data layer:",e);const n=document.querySelector("#index-notice");if(n)n.textContent="Index data is temporarily unavailable."}
 }
 document.addEventListener("DOMContentLoaded",()=>{
  document.querySelectorAll("#index-tabs button").forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;state.filter="all";document.querySelectorAll("#index-tabs button").forEach(x=>x.classList.toggle("active",x===b));renderIndex();});
- document.querySelector("#index-search").addEventListener("input",e=>{state.query=e.target.value;state.tab="all";document.querySelectorAll("#index-tabs button").forEach(x=>x.classList.toggle("active",x.dataset.tab==="all"));renderIndex();visibleIds=focusNodes(e.target.value);renderTimeline(e.target.value);renderAssetMatches(e.target.value);if(e.target.value.trim()){graphQuery(e.target.value);document.querySelector("#knowledge-graph")?.scrollIntoView({behavior:"smooth",block:"center"});draw();}});
+ document.querySelector("#index-search").addEventListener("input",e=>{state.query=e.target.value;state.tab="all";document.querySelectorAll("#index-tabs button").forEach(x=>x.classList.toggle("active",x.dataset.tab==="all"));renderIndex();visibleIds=focusNodes(e.target.value);renderTimeline(e.target.value);smartAssetMatch(e.target.value);if(e.target.value.trim()){graphQuery(e.target.value);document.querySelector("#knowledge-graph")?.scrollIntoView({behavior:"smooth",block:"center"});draw();}});
  const qc=document.querySelector("#graph-query-close");if(qc)qc.onclick=()=>document.querySelector("#graph-query").hidden=true;
  const ta=document.querySelector("#timeline-all");if(ta)ta.onclick=()=>renderTimeline();
 });
