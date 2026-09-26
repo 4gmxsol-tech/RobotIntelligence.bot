@@ -53,6 +53,27 @@ function openEntity(kind,name){
  panel.querySelectorAll(".related-chip").forEach(b=>b.onclick=()=>openEntity(b.dataset.kind,b.dataset.name));
  panel.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
+function renderKnowledgeGraph(){
+ const el=document.querySelector("#knowledge-graph");if(!el||!state.data)return;
+ const d=state.data, nodes=[], edges=[], seen=new Set();
+ const add=(id,label,type,meta={})=>{if(seen.has(id))return;seen.add(id);nodes.push({id,label,type,...meta});};
+ const addEdge=(a,b,label)=>{if(a&&b&&seen.has(a)&&seen.has(b))edges.push({a,b,label})};
+ (d.companies||[]).forEach(x=>add("company:"+x.name,x.name,"COMPANY",{focus:x.focus||x.description||""}));
+ (d.models||[]).forEach(x=>{add("model:"+x.name,x.name,"MODEL",{company:x.company||"",focus:x.focus||x.description||""});if(x.company&&seen.has("company:"+x.company))addEdge("company:"+x.company,"model:"+x.name,"BUILDS")});
+ (d.robots||[]).forEach(x=>{add("robot:"+x.name,x.name,"ROBOT",{company:x.company||"",focus:x.focus||x.description||""});if(x.company&&seen.has("company:"+x.company))addEdge("company:"+x.company,"robot:"+x.name,"BUILDS")});
+ (d.capabilities||[]).forEach(x=>add("cap:"+x.name,x.name,"CAPABILITY",{focus:x.description||""}));
+ (d.models||[]).forEach(x=>(x.capabilities||[]).forEach(cap=>{const cid="cap:"+cap;if(seen.has(cid))addEdge("model:"+x.name,cid,"ENABLES")}));
+ (d.research||[]).forEach(x=>{add("research:"+x.title,x.title,"SIGNAL",{focus:x.description||"",source:x.source||""});const text=(x.title+" "+x.description).toLowerCase();nodes.filter(n=>n.type!=="SIGNAL"&&text.includes(n.label.toLowerCase())).slice(0,4).forEach(n=>addEdge(n.id,"research:"+x.title,"EVIDENCE"))});
+ const W=el.clientWidth||900,H=Math.max(520,Math.min(680,el.clientWidth*.58));let scale=1,offsetX=0,offsetY=0,drag=null,selected=null;
+ const palette={COMPANY:"#b9ff3d",MODEL:"#54d6ff",ROBOT:"#ffb86b",CAPABILITY:"#d08cff",SIGNAL:"#ffffff"};
+ const pos={};nodes.forEach((n,i)=>{const layer={COMPANY:0,MODEL:1,ROBOT:2,CAPABILITY:3,SIGNAL:4}[n.type]??2;const count=nodes.filter(x=>({COMPANY:0,MODEL:1,ROBOT:2,CAPABILITY:3,SIGNAL:4}[x.type]??2)===layer).length;const idx=nodes.slice(0,i+1).filter(x=>({COMPANY:0,MODEL:1,ROBOT:2,CAPABILITY:3,SIGNAL:4}[x.type]??2)===layer).length-1;pos[n.id]={x:90+layer*((W-180)/4),y:55+(idx+1)*(H-100)/Math.max(count,2)}});
+ const svg=()=>'<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><g transform="translate('+offsetX+' '+offsetY+') scale('+scale+')">'+edges.map(e=>'<line class="g-edge '+(selected&&(e.a===selected||e.b===selected)?"hot":"")+'" x1="'+pos[e.a].x+'" y1="'+pos[e.a].y+'" x2="'+pos[e.b].x+'" y2="'+pos[e.b].y+'"/>').join("")+nodes.map(n=>'<g class="g-node '+(selected===n.id?"selected":"")+'" data-id="'+esc(n.id)+'" transform="translate('+pos[n.id].x+' '+pos[n.id].y+')"><circle r="'+(selected===n.id?12:8)+'" fill="'+palette[n.type]+'"/><text x="15" y="3">'+esc(n.label.length>22?n.label.slice(0,21)+"…":n.label)+'</text><small x="15" y="15">'+esc(n.type)+'</small></g>').join("")+'</g></svg>';
+ const draw=()=>{el.innerHTML=svg();el.querySelectorAll(".g-node").forEach(g=>g.onclick=()=>{selected=g.dataset.id;const n=nodes.find(x=>x.id===selected);document.querySelector("#graph-status").textContent=n.label+" / "+n.type;openEntity(n.type.toLowerCase(),n.label);draw()});};
+ draw();
+ document.querySelector("#graph-reset").onclick=()=>{scale=1;offsetX=offsetY=0;selected=null;document.querySelector("#graph-status").textContent="SELECT A NODE";draw()};
+ document.querySelector("#graph-zoom-in").onclick=()=>{scale=Math.min(1.8,scale+.15);draw()};
+ document.querySelector("#graph-zoom-out").onclick=()=>{scale=Math.max(.65,scale-.15);draw()};
+}
 function graphQuery(name){
  const q=String(name||"").trim().toLowerCase();if(!q)return;
  const d=state.data||{},all=allRecords();
@@ -90,6 +111,7 @@ async function boot(){
   renderResearch(state.data.research||[]);
   renderMarket();
   renderIndex();
+  renderKnowledgeGraph();
   try{
     const [dr,or]=await Promise.all([
       fetch("data/domains.json",{cache:"no-store"}),
