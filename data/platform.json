@@ -67,6 +67,20 @@
       "focus": "Embodied reasoning and vision-language-action models for physical robots",
       "url": "https://deepmind.google/models/gemini-robotics/",
       "source": "https://deepmind.google/models/gemini-robotics/"
+    },
+    {
+      "name": "World Labs",
+      "category": "World models",
+      "focus": "World-model research and spatial intelligence for physical environments",
+      "url": "https://www.worldlabs.ai/",
+      "source": "https://www.worldlabs.ai/"
+    },
+    {
+      "name": "FieldAI",
+      "category": "Robot intelligence",
+      "focus": "General-purpose physical AI systems for real-world autonomous work",
+      "url": "https://www.fieldai.com/",
+      "source": "https://www.fieldai.com/"
     }
   ],
   "models": [
