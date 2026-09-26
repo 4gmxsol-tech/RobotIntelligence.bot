@@ -117,7 +117,21 @@ function renderResearch(items){
  if(strip)strip.innerHTML=items.map((x,i)=>'<div class="live-item"><span class="live-dot"></span><div><b>'+esc(x.type)+" / "+esc(x.title)+'</b><small>'+esc(x.label||"Source-linked signal")+'</small></div></div>').join("");
 }
 function renderMarket(){const el=document.querySelector("#market-map");if(!el)return;const layers=[["01","FOUNDATION MODELS","VLA · embodied reasoning"],["02","WORLD MODELS","simulation · prediction · synthetic data"],["03","ROBOT INTELLIGENCE","planning · learning · manipulation"],["04","EMBODIMENT","humanoids · arms · mobile robots"],["05","INFRASTRUCTURE","compute · simulation · datasets · tooling"],["06","DEPLOYMENT","factories · logistics · homes · field systems"]];el.innerHTML=layers.map((x,i)=>'<div class="market-layer '+(i===2?"active":"")+'"><span>'+x[0]+'</span><div><b>'+x[1]+'</b><small>'+x[2]+'</small></div><strong>'+String(i+1).padStart(2,"0")+'</strong></div>').join("");}
-function renderOpportunities(items){const el=document.querySelector("#opportunity-grid");if(!el)return;el.innerHTML=(items||[]).map(x=>'<article class="opportunity-card"><div class="opp-top"><span>RESEARCH LEAD</span><b>'+esc(x.company)+'</b></div><h3>'+esc(x.domain)+'</h3><p>'+esc(x.thesis)+'</p><div class="opp-tags">'+(x.triggers||[]).slice(0,4).map(t=>'<span>'+esc(t)+'</span>').join("")+'</div><div class="opp-bottom"><small>'+esc(x.status||"monitor")+'</small><a href="#contact">Discuss ↗</a></div></article>').join("");}
+function openOpportunity(x){
+ const panel=document.querySelector("#opportunity-panel");if(!panel)return;
+ panel.hidden=false;
+ panel.innerHTML='<div class="opp-panel-head"><div><span class="eyebrow">OPPORTUNITY INTELLIGENCE</span><h3>'+esc(x.company)+' × '+esc(x.domain)+'</h3></div><button class="opp-close">×</button></div>'+
+ '<div class="opp-brief-grid"><div><span>STATUS</span><strong>'+esc(x.status||"monitor")+'</strong></div><div><span>INTERNAL RESEARCH SCORE</span><strong>'+esc(x.opportunityScore??"—")+'</strong></div><div><span>DOMAIN</span><strong>'+esc(x.domain)+'</strong></div></div>'+
+ '<div class="opp-brief"><section><span class="eyebrow">WHY NOW</span><p>'+esc(x.whyNow||x.thesis)+'</p></section><section><span class="eyebrow">WHY THIS FITS</span><p>'+esc(x.thesis)+'</p></section><section><span class="eyebrow">NEXT ACTION</span><p>'+esc(x.nextAction||"Verify the current decision-maker and brand strategy before outreach.")+'</p></section></div>'+
+ '<div class="opp-evidence"><span class="eyebrow">EVIDENCE</span><div>'+(x.evidence||[]).map((s,i)=>'<a href="'+esc(s)+'" target="_blank" rel="noopener">SOURCE '+String(i+1).padStart(2,"0")+' ↗</a>').join("")+'</div></div>';
+ panel.querySelector(".opp-close").onclick=()=>panel.hidden=true;
+ panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function renderOpportunities(items){
+ const el=document.querySelector("#opportunity-grid");if(!el)return;
+ el.innerHTML=(items||[]).map((x,i)=>'<article class="opportunity-card" data-opp="'+i+'"><div class="opp-top"><span>RESEARCH LEAD</span><b>'+esc(x.company)+'</b></div><h3>'+esc(x.domain)+'</h3><p>'+esc(x.thesis)+'</p><div class="opp-tags">'+(x.triggers||[]).slice(0,4).map(t=>'<span>'+esc(t)+'</span>').join("")+'</div><div class="opp-bottom"><small>'+esc(x.status||"monitor")+'</small><a href="#opportunities" class="opp-open">Open intelligence ↗</a></div></article>').join("");
+ el.querySelectorAll(".opp-open").forEach((b,i)=>{b.onclick=e=>{e.preventDefault();openOpportunity((items||[])[i])}});
+}
 function renderPortfolio(domains,opps){const head=document.querySelector("#portfolio-head"),grid=document.querySelector("#portfolio-grid");if(!head||!grid)return;head.innerHTML='<div><strong>'+domains.length+'</strong><span>DOMAINS IN PORTFOLIO</span></div><div><strong>'+opps.length+'</strong><span>ACTIVE RESEARCH LEADS</span></div><div><strong>PHYSICAL AI</strong><span>CORE THEME</span></div>';const signals=new Set(opps.map(x=>x.domain));grid.innerHTML=domains.map((d,i)=>{const active=signals.has(d);const words=d.toLowerCase().replace(/\.(com|bot|co|xyz|today)$/,"").split(/[-.]/);const fit=words.some(w=>["robot","humanoid","intelligence","behavior","planning","embodiment","manipulation","context","stack","agents"].includes(w));return '<article class="portfolio-card '+(active?"hot ":"")+(fit?"fit":"")+'"><span>'+String(i+1).padStart(2,"0")+'</span><h3>'+esc(d)+'</h3><small>'+(active?"OPPORTUNITY LINKED":fit?"SEMANTIC FIT":"PORTFOLIO ASSET")+'</small></article>';}).join("");}
 async function boot(){
  try{
