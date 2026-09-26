@@ -55,6 +55,14 @@ function openEntity(kind,name){
  panel.querySelectorAll(".related-chip").forEach(b=>b.onclick=()=>openEntity(b.dataset.kind,b.dataset.name));
  panel.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
+function renderTimeline(filter=""){
+ const el=document.querySelector("#intelligence-timeline");if(!el||!state.data)return;
+ const items=[...(state.data.timeline||[])].sort((a,b)=>a.date.localeCompare(b.date));
+ const q=String(filter).toLowerCase();
+ const shown=q?items.filter(x=>(x.entity+" "+x.title+" "+x.description+" "+x.type).toLowerCase().includes(q)):items;
+ const status=document.querySelector("#timeline-status");if(status)status.textContent=q?("FOCUS / "+filter.toUpperCase()):"ALL INTELLIGENCE";
+ el.innerHTML=shown.length?shown.map(x=>'<article class="timeline-event"><div class="timeline-date">'+esc(x.date)+'</div><div class="timeline-dot"></div><div class="timeline-body"><span>'+esc(x.type)+' / '+esc(x.entity)+'</span><h3>'+esc(x.title)+'</h3><p>'+esc(x.description)+'</p><a href="'+esc(x.source)+'" target="_blank" rel="noopener">SOURCE ↗</a></div></article>').join(""):'<div class="empty-state"><strong>No timeline evidence.</strong><small>Try another entity.</small></div>';
+}
 function renderKnowledgeGraph(){
  const el=document.querySelector("#knowledge-graph");if(!el||!state.data)return;
  const d=state.data, nodes=[], edges=[], seen=new Set();
@@ -120,6 +128,7 @@ async function boot(){
   document.querySelector("#metric-signals").textContent=(state.data.research?.length||0);
   document.querySelector("#metric-assets").textContent="22";
   renderResearch(state.data.research||[]);
+  renderTimeline();
   renderMarket();
   renderIndex();
   renderKnowledgeGraph();
@@ -137,8 +146,9 @@ async function boot(){
 }
 document.addEventListener("DOMContentLoaded",()=>{
  document.querySelectorAll("#index-tabs button").forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;state.filter="all";document.querySelectorAll("#index-tabs button").forEach(x=>x.classList.toggle("active",x===b));renderIndex();});
- document.querySelector("#index-search").addEventListener("input",e=>{state.query=e.target.value;state.tab="all";document.querySelectorAll("#index-tabs button").forEach(x=>x.classList.toggle("active",x.dataset.tab==="all"));renderIndex();visibleIds=focusNodes(e.target.value);if(e.target.value.trim()){graphQuery(e.target.value);document.querySelector("#knowledge-graph")?.scrollIntoView({behavior:"smooth",block:"center"});draw();}});
+ document.querySelector("#index-search").addEventListener("input",e=>{state.query=e.target.value;state.tab="all";document.querySelectorAll("#index-tabs button").forEach(x=>x.classList.toggle("active",x.dataset.tab==="all"));renderIndex();visibleIds=focusNodes(e.target.value);renderTimeline(e.target.value);if(e.target.value.trim()){graphQuery(e.target.value);document.querySelector("#knowledge-graph")?.scrollIntoView({behavior:"smooth",block:"center"});draw();}});
  const qc=document.querySelector("#graph-query-close");if(qc)qc.onclick=()=>document.querySelector("#graph-query").hidden=true;
+ const ta=document.querySelector("#timeline-all");if(ta)ta.onclick=()=>renderTimeline();
 });
 boot();
 })();
