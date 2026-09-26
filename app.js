@@ -127,6 +127,21 @@ function openOpportunity(x){
  panel.querySelector(".opp-close").onclick=()=>panel.hidden=true;
  panel.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
+function renderAssetMatches(query=""){
+ const el=document.querySelector("#asset-match-grid");if(!el)return;
+ const domains=(state.portfolioDomains||[]);
+ const q=String(query||"").toLowerCase();
+ const rules=[
+  {keys:["humanoid","robot","figure","atlas","neo"],domains:["HumanoidBehavior.com","HumanoidPlanning.com","RobotEmbodiment.com","HumanoidUI.com"],why:"Relevant to humanoid behavior, planning and embodiment."},
+  {keys:["intelligence","brain","skild","physical ai","ai"],domains:["RobotIntelligence.bot","RobotIntelligenceAI.com","RobotIntelligenceLab.com"],why:"Relevant to robot intelligence and physical-AI positioning."},
+  {keys:["manipulation","dexterity","grasp","control"],domains:["PhysicalManipulation.com","HumanoidBehavior.com","RobotEmbodiment.com"],why:"Relevant to manipulation, dexterity and embodied control."},
+  {keys:["world model","cosmos","simulation","world labs"],domains:["WorldAgents.co","RobotIntelligence.bot","RobotStack.co"],why:"Relevant to world models, agents and the physical-AI stack."},
+  {keys:["planning","reasoning","gemini"],domains:["HumanoidPlanning.com","RobotIntelligence.bot","HumanoidContext.com"],why:"Relevant to planning, reasoning and robot intelligence."}
+ ];
+ let rule=rules.find(x=>x.keys.some(k=>q.includes(k)))||rules[1];
+ const matches=rule.domains.filter(d=>domains.includes(d)).slice(0,3);
+ el.innerHTML=matches.map((d,i)=>'<article class="asset-match-card"><div><span>PORTFOLIO ASSET '+String(i+1).padStart(2,"0")+'</span><h4>'+esc(d)+'</h4><p>'+esc(rule.why)+'</p></div><a href="#contact">Discuss ↗</a></article>').join("");
+}
 function renderOpportunities(items){
  const el=document.querySelector("#opportunity-grid");if(!el)return;
  el.innerHTML=(items||[]).map((x,i)=>'<article class="opportunity-card" data-opp="'+i+'"><div class="opp-top"><span>RESEARCH LEAD</span><b>'+esc(x.company)+'</b></div><h3>'+esc(x.domain)+'</h3><p>'+esc(x.thesis)+'</p><div class="opp-tags">'+(x.triggers||[]).slice(0,4).map(t=>'<span>'+esc(t)+'</span>').join("")+'</div><div class="opp-bottom"><small>'+esc(x.status||"monitor")+'</small><a href="#opportunities" class="opp-open">Open intelligence ↗</a></div></article>').join("");
@@ -154,13 +169,15 @@ async function boot(){
     const domains=(await dr.json()).domains||[];
     const opps=(await or.json()).opportunities||[];
     renderOpportunities(opps);
+    state.portfolioDomains=domains;
     renderPortfolio(domains,opps);
+    renderAssetMatches(state.query||"");
   }catch(e){console.warn("Portfolio intelligence:",e)}
  }catch(e){console.warn("Robot Intelligence data layer:",e);const n=document.querySelector("#index-notice");if(n)n.textContent="Index data is temporarily unavailable."}
 }
 document.addEventListener("DOMContentLoaded",()=>{
  document.querySelectorAll("#index-tabs button").forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;state.filter="all";document.querySelectorAll("#index-tabs button").forEach(x=>x.classList.toggle("active",x===b));renderIndex();});
- document.querySelector("#index-search").addEventListener("input",e=>{state.query=e.target.value;state.tab="all";document.querySelectorAll("#index-tabs button").forEach(x=>x.classList.toggle("active",x.dataset.tab==="all"));renderIndex();visibleIds=focusNodes(e.target.value);renderTimeline(e.target.value);if(e.target.value.trim()){graphQuery(e.target.value);document.querySelector("#knowledge-graph")?.scrollIntoView({behavior:"smooth",block:"center"});draw();}});
+ document.querySelector("#index-search").addEventListener("input",e=>{state.query=e.target.value;state.tab="all";document.querySelectorAll("#index-tabs button").forEach(x=>x.classList.toggle("active",x.dataset.tab==="all"));renderIndex();visibleIds=focusNodes(e.target.value);renderTimeline(e.target.value);renderAssetMatches(e.target.value);if(e.target.value.trim()){graphQuery(e.target.value);document.querySelector("#knowledge-graph")?.scrollIntoView({behavior:"smooth",block:"center"});draw();}});
  const qc=document.querySelector("#graph-query-close");if(qc)qc.onclick=()=>document.querySelector("#graph-query").hidden=true;
  const ta=document.querySelector("#timeline-all");if(ta)ta.onclick=()=>renderTimeline();
 });
