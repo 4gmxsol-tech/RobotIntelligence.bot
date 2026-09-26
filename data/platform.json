@@ -191,5 +191,47 @@
     }
   ],
   "jobs": [],
-  "notice": "Directory entries are curated research records. Claims should be verified against the linked source before commercial use."
+  "notice": "Directory entries are curated research records. Claims should be verified against the linked source before commercial use.",
+  "timeline": [
+    {
+      "date": "2025-03-12",
+      "entity": "Gemini Robotics",
+      "type": "MODEL",
+      "title": "Gemini Robotics enters the physical world",
+      "description": "Google DeepMind introduces Gemini Robotics as a vision-language-action model and Gemini Robotics-ER for embodied reasoning.",
+      "source": "https://deepmind.google/blog/gemini-robotics-brings-ai-into-the-physical-world/"
+    },
+    {
+      "date": "2026-01-05",
+      "entity": "Physical AI",
+      "type": "ECOSYSTEM",
+      "title": "Open models, evaluation and training infrastructure expand",
+      "description": "NVIDIA announces new Cosmos and GR00T models, Isaac Lab-Arena evaluation, OSMO and open robotics integrations.",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-releases-new-physical-ai-models-as-global-partners-unveil-next-generation-robots"
+    },
+    {
+      "date": "2026-03-16",
+      "entity": "Physical AI",
+      "type": "ECOSYSTEM",
+      "title": "Physical AI moves toward production-scale deployment",
+      "description": "NVIDIA describes an ecosystem spanning robot brains, world models, simulation and industrial deployment, including FieldAI, Skild AI and World Labs.",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-and-global-robotics-leaders-take-physical-ai-to-the-real-world"
+    },
+    {
+      "date": "2026-05-31",
+      "entity": "Cosmos 3",
+      "type": "MODEL",
+      "title": "Cosmos 3 unifies reasoning, world generation and action prediction",
+      "description": "NVIDIA launches Cosmos 3 as an open physical AI foundation model for reasoning, world simulation and action generation.",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-launches-cosmos-3-the-open-frontier-foundation-model-for-physical-ai"
+    },
+    {
+      "date": "2026-07-30",
+      "entity": "Gemini Robotics 2",
+      "type": "MODEL",
+      "title": "Whole-body intelligence reaches humanoids",
+      "description": "Google DeepMind introduces Gemini Robotics 2, Gemini Robotics ER 2 and On-Device 2, covering whole-body control, embodied reasoning and local execution.",
+      "source": "https://deepmind.google/blog/gemini-robotics-2-brings-whole-body-intelligence-to-robots/"
+    }
+  ]
 }
