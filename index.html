@@ -59,7 +59,15 @@
 
 <section id="index" class="section index-section">
   <div class="section-head"><div><span class="eyebrow">02 / THE INDEX</span><h2>Find the pieces<br>behind the <em>intelligence.</em></h2></div><p>Search companies, models, robots and research from a curated, source-linked knowledge layer.</p></div>
-  <div id="graph-query" class="graph-query" hidden>
+  <section id="knowledge-graph" class="knowledge-graph-section">
+  <div class="section-head">
+    <div><span class="eyebrow">08 / KNOWLEDGE GRAPH</span><h2>See the<br><em>intelligence network.</em></h2></div>
+    <p>Explore the relationships connecting companies, models, robots, capabilities and research signals.</p>
+  </div>
+  <div class="graph-controls"><button id="graph-reset">RESET</button><button id="graph-zoom-in">ZOOM +</button><button id="graph-zoom-out">ZOOM −</button><span id="graph-status">SELECT A NODE</span></div>
+  <div id="knowledge-graph" class="knowledge-graph" aria-label="Interactive intelligence graph"></div>
+</section>
+<div id="graph-query" class="graph-query" hidden>
   <div class="graph-query-head"><span class="eyebrow">RELATIONSHIP QUERY</span><button id="graph-query-close" aria-label="Close">×</button></div>
   <div id="graph-query-body"></div>
 </div>
