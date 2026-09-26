@@ -30,7 +30,7 @@ function renderIndex(){
  document.querySelector("#index-count").textContent=filtered.length+" of "+list.length+" records";
  document.querySelector("#index-results").innerHTML=filtered.length?filtered.map((x,i)=>card(x,i)).join(""):'<div class="empty-state full"><strong>No matching intelligence.</strong><small>Try a model, company, robot or capability.</small></div>';
  document.querySelector("#index-notice").textContent=state.data.notice||"Source-linked records. Verify claims at the linked source.";
- document.querySelectorAll(".entity-open").forEach(b=>b.onclick=()=>smartAssetMatch(b.dataset.kind,b.dataset.name));
+ document.querySelectorAll(".entity-open").forEach(b=>b.onclick=()=>openEntity(b.dataset.kind,b.dataset.name));
 }
 function card(x,i){
  const name=x.name||x.title,cat=x.category||x.type||"Index";
