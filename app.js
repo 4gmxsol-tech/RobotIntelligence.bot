@@ -32,7 +32,7 @@ function renderIndex(){
  });
  document.querySelector("#index-count").textContent=filtered.length+" of "+list.length+" records";
  document.querySelector("#index-results").innerHTML=filtered.length?filtered.map((x,i)=>card(x,i)).join(""):'<div class="empty-state full"><strong>No matching records.</strong><small>Try another search or filter.</small></div>';
- document.querySelector("#index-notice").textContent=state.data.notice||"";
+ document.querySelector("#index-notice").textContent=state.data.notice||"Source-linked records. Verify claims at the linked source.";
 }
 function card(x,i){
  const name=x.name||x.title, cat=x.category||x.type||"Index";
