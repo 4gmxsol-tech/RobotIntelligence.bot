@@ -53,6 +53,23 @@ function openEntity(kind,name){
  panel.querySelectorAll(".related-chip").forEach(b=>b.onclick=()=>openEntity(b.dataset.kind,b.dataset.name));
  panel.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
+function graphQuery(name){
+ const q=String(name||"").trim().toLowerCase();if(!q)return;
+ const d=state.data||{},all=allRecords();
+ const root=all.find(x=>String(x.name||"").toLowerCase()===q)||all.find(x=>String(x.name||"").toLowerCase().includes(q));
+ if(!root)return;
+ const connected=[];
+ const rootName=root.name;
+ all.forEach(x=>{if(x.name===rootName)return;const hay=JSON.stringify(x).toLowerCase();if(hay.includes(rootName.toLowerCase())||String(root.company||"").toLowerCase()===String(x.name||"").toLowerCase()||String(x.company||"").toLowerCase()===String(root.company||"").toLowerCase())connected.push(x);});
+ const research=(d.research||[]).filter(x=>JSON.stringify(x).toLowerCase().includes(String(rootName).toLowerCase()));
+ const panel=document.querySelector("#graph-query"),body=document.querySelector("#graph-query-body");if(!panel||!body)return;
+ panel.hidden=false;
+ body.innerHTML='<div class="gq-root"><span>'+esc(root.kind||root.type)+'</span><h3>'+esc(root.name)+'</h3><p>'+esc(root.focus||root.description||"")+'</p></div>'+
+ '<div class="gq-columns"><div><span class="eyebrow">CONNECTED ENTITIES</span><div class="gq-chips">'+(connected.slice(0,10).map(x=>'<button class="gq-chip" data-name="'+esc(x.name)+'"><b>'+esc(x.name)+'</b><small>'+esc(x.kind||x.type)+'</small></button>').join("")||'<small>No explicit relationship recorded.</small>')+'</div></div>'+
+ '<div><span class="eyebrow">RELATED SIGNALS</span><div class="gq-signals">'+(research.map(x=>'<a href="'+esc(x.source||"#")+'" target="_blank" rel="noopener"><b>'+esc(x.title)+'</b><small>'+esc(x.label||x.type||"source")+' ↗</small></a>').join("")||'<small>No directly linked signal in the curated dataset.</small>')+'</div></div></div>';
+ body.querySelectorAll(".gq-chip").forEach(b=>b.onclick=()=>graphQuery(b.dataset.name));
+ panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
 function renderResearch(items){
  const grid=document.querySelector("#research-grid");if(!grid)return;
  grid.innerHTML=items.map(x=>'<article class="signal"><span class="signal-type">'+esc(x.type)+'</span><h3>'+esc(x.title)+'</h3><p>'+esc(x.description)+'</p><a class="signal-meta source-link" href="'+esc(x.source)+'" target="_blank" rel="noopener">'+esc(x.label)+' · source ↗</a></article>').join("");
@@ -87,7 +104,8 @@ async function boot(){
 }
 document.addEventListener("DOMContentLoaded",()=>{
  document.querySelectorAll("#index-tabs button").forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;state.filter="all";document.querySelectorAll("#index-tabs button").forEach(x=>x.classList.toggle("active",x===b));renderIndex();});
- document.querySelector("#index-search").addEventListener("input",e=>{state.query=e.target.value;state.tab="all";document.querySelectorAll("#index-tabs button").forEach(x=>x.classList.toggle("active",x.dataset.tab==="all"));renderIndex();});
+ document.querySelector("#index-search").addEventListener("input",e=>{state.query=e.target.value;state.tab="all";document.querySelectorAll("#index-tabs button").forEach(x=>x.classList.toggle("active",x.dataset.tab==="all"));renderIndex();if(e.target.value.trim())graphQuery(e.target.value);});
+ const qc=document.querySelector("#graph-query-close");if(qc)qc.onclick=()=>document.querySelector("#graph-query").hidden=true;
 });
 boot();
 })();
