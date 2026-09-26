@@ -59,7 +59,11 @@
 
 <section id="index" class="section index-section">
   <div class="section-head"><div><span class="eyebrow">02 / THE INDEX</span><h2>Find the pieces<br>behind the <em>intelligence.</em></h2></div><p>Search companies, models, robots and research from a curated, source-linked knowledge layer.</p></div>
-  <div class="index-toolbar"><div class="index-tabs" id="index-tabs"><button class="active" data-tab="all">All intelligence</button><button data-tab="companies">Companies</button><button data-tab="models">Models</button><button data-tab="robots">Robots</button><button data-tab="research">Research</button></div><label class="search-box"><span>⌕</span><input id="index-search" type="search" placeholder="Ask the Intelligence Graph — models, robots, companies, capabilities…" aria-label="Search the index"></label></div>
+  <div id="graph-query" class="graph-query" hidden>
+  <div class="graph-query-head"><span class="eyebrow">RELATIONSHIP QUERY</span><button id="graph-query-close" aria-label="Close">×</button></div>
+  <div id="graph-query-body"></div>
+</div>
+<div class="index-toolbar"><div class="index-tabs" id="index-tabs"><button class="active" data-tab="all">All intelligence</button><button data-tab="companies">Companies</button><button data-tab="models">Models</button><button data-tab="robots">Robots</button><button data-tab="research">Research</button></div><label class="search-box"><span>⌕</span><input id="index-search" type="search" placeholder="Ask the Intelligence Graph — models, robots, companies, capabilities…" aria-label="Search the index"></label></div>
   <div class="filter-row" id="index-filters"></div>
   <div class="index-meta"><span id="index-count">Loading index…</span><span>CURATED RECORDS · SOURCE-LINKED</span></div>
   <div class="index-results" id="index-results"></div>
