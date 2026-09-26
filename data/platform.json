@@ -62,6 +62,66 @@
       "source": "https://www.nvidia.com/en-us/robotics/"
     }
   ],
+  "models": [
+    {
+      "name": "Helix",
+      "category": "VLA / humanoids",
+      "focus": "Vision-language-action intelligence for Figure humanoid robots",
+      "url": "https://www.figure.ai/helix",
+      "source": "https://www.figure.ai/helix",
+      "company": "Figure AI"
+    },
+    {
+      "name": "π0",
+      "category": "Foundation model",
+      "focus": "General-purpose robot policy model for diverse physical tasks",
+      "url": "https://www.physicalintelligence.company/",
+      "source": "https://www.physicalintelligence.company/",
+      "company": "Physical Intelligence"
+    },
+    {
+      "name": "GR00T",
+      "category": "Foundation model",
+      "focus": "Robot foundation-model platform for humanoid and embodied agents",
+      "url": "https://www.nvidia.com/en-us/robotics/",
+      "source": "https://www.nvidia.com/en-us/robotics/",
+      "company": "NVIDIA"
+    },
+    {
+      "name": "Skild Brain",
+      "category": "Foundation model",
+      "focus": "General-purpose intelligence designed to transfer across robot embodiments",
+      "url": "https://www.skild.ai/",
+      "source": "https://www.skild.ai/",
+      "company": "Skild AI"
+    }
+  ],
+  "robots": [
+    {
+      "name": "Atlas",
+      "category": "Humanoid",
+      "focus": "Electric humanoid platform developed for dynamic mobility and industrial tasks",
+      "url": "https://bostondynamics.com/atlas/",
+      "source": "https://bostondynamics.com/atlas/",
+      "company": "Boston Dynamics"
+    },
+    {
+      "name": "Figure humanoid",
+      "category": "Humanoid",
+      "focus": "General-purpose humanoid platform paired with learned robot intelligence",
+      "url": "https://www.figure.ai/",
+      "source": "https://www.figure.ai/",
+      "company": "Figure AI"
+    },
+    {
+      "name": "NEO Gamma",
+      "category": "Humanoid",
+      "focus": "Bipedal humanoid research platform from 1X",
+      "url": "https://www.1x.tech/neo",
+      "source": "https://www.1x.tech/neo",
+      "company": "1X"
+    }
+  ],
   "research": [
     {
       "type": "RESEARCH",
