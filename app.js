@@ -38,6 +38,8 @@ function card(x,i){
  return '<article class="index-card entity-open" data-kind="'+esc(x.kind)+'" data-name="'+esc(name)+'" tabindex="0"><div class="index-card-top"><span>'+String(i+1).padStart(2,"0")+'</span><b>'+esc(cat)+'</b></div><h3>'+esc(name)+'</h3><p>'+esc(x.focus||x.description||"")+'</p><div class="index-card-bottom"><span>'+esc(x.company||"Robot Intelligence Index")+'</span><a href="'+esc(url)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">Source ↗</a></div></article>';
 }
 function findEntity(kind,name){
+ if(kind==="capability")return (state.data?.capabilities||[]).find(x=>x.name===name)||null;
+ if(kind==="signal"||kind==="research")return (state.data?.research||[]).map(x=>({...x,name:x.title,kind:"research",type:"RESEARCH"})).find(x=>x.name===name)||null;
  return records(kind==="research"?"research":kind+"s").find(x=>(x.name||x.title)===name) || allRecords().find(x=>x.name===name);
 }
 function openEntity(kind,name){
