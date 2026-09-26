@@ -1,0 +1,90 @@
+{
+  "updated": "2026-09-26",
+  "capabilities": [
+    {
+      "name": "Embodied AI",
+      "slug": "embodied-ai",
+      "description": "Models that perceive, reason and act through physical agents."
+    },
+    {
+      "name": "Robot Learning",
+      "slug": "robot-learning",
+      "description": "Imitation, reinforcement and data-driven robot control."
+    },
+    {
+      "name": "World Models",
+      "slug": "world-models",
+      "description": "Predictive models for environments, physics and action."
+    },
+    {
+      "name": "Manipulation",
+      "slug": "manipulation",
+      "description": "Dexterity, grasping, contact-rich planning and control."
+    },
+    {
+      "name": "Humanoids",
+      "slug": "humanoids",
+      "description": "Full-body intelligence for general-purpose robots."
+    },
+    {
+      "name": "Robot Planning",
+      "slug": "robot-planning",
+      "description": "Turning goals and language into executable robot behavior."
+    }
+  ],
+  "companies": [
+    {
+      "name": "Figure AI",
+      "category": "Humanoid + VLA",
+      "focus": "General-purpose humanoid robotics and learned intelligence",
+      "url": "https://www.figure.ai/",
+      "source": "https://www.figure.ai/"
+    },
+    {
+      "name": "Physical Intelligence",
+      "category": "Foundation models",
+      "focus": "General-purpose robot policies and vision-language-action systems",
+      "url": "https://www.physicalintelligence.company/",
+      "source": "https://www.physicalintelligence.company/"
+    },
+    {
+      "name": "Skild AI",
+      "category": "Foundation models",
+      "focus": "General-purpose robot intelligence across embodiments",
+      "url": "https://www.skild.ai/",
+      "source": "https://www.skild.ai/"
+    },
+    {
+      "name": "NVIDIA",
+      "category": "Platform + models",
+      "focus": "Robot foundation models, simulation and physical-AI infrastructure",
+      "url": "https://www.nvidia.com/en-us/robotics/",
+      "source": "https://www.nvidia.com/en-us/robotics/"
+    }
+  ],
+  "research": [
+    {
+      "type": "RESEARCH",
+      "title": "Robot foundation models",
+      "description": "Vision-language-action and foundation-model approaches are a major part of the current robot-intelligence stack.",
+      "source": "https://humanoid-world.com/en/foundation-models/",
+      "label": "2026 landscape"
+    },
+    {
+      "type": "SYSTEMS",
+      "title": "Simulation → real intelligence",
+      "description": "Simulation and synthetic data are being used to scale training and transfer learned behavior to physical systems.",
+      "source": "https://www.nvidia.com/en-us/robotics/",
+      "label": "NVIDIA Robotics"
+    },
+    {
+      "type": "FIELD",
+      "title": "Humanoids move toward deployment",
+      "description": "Recent reporting shows humanoid programs moving from demonstrations toward industrial testing and deployment.",
+      "source": "https://www.axios.com/local/boston/2026/09/21/boston-dynamics-humanoid-robots-hyundai-metaplant",
+      "label": "September 2026"
+    }
+  ],
+  "jobs": [],
+  "notice": "Directory entries are curated research records. Claims should be verified against the linked source before commercial use."
+}
