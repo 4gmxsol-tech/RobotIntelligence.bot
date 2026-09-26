@@ -68,7 +68,18 @@ async function boot(){
   state.data=await r.json();
   renderCapabilities(state.data.capabilities||[]);
   renderResearch(state.data.research||[]);
+  renderMarket();
   renderIndex();
+  try{
+    const [dr,or]=await Promise.all([
+      fetch("data/domains.json",{cache:"no-store"}),
+      fetch("data/opportunities.json",{cache:"no-store"})
+    ]);
+    const domains=(await dr.json()).domains||[];
+    const opps=(await or.json()).opportunities||[];
+    renderOpportunities(opps);
+    renderPortfolio(domains,opps);
+  }catch(e){console.warn("Portfolio intelligence:",e)}
  }catch(e){console.warn("Robot Intelligence data layer:",e);const n=document.querySelector("#index-notice");if(n)n.textContent="Index data is temporarily unavailable."}
 }
 document.addEventListener("DOMContentLoaded",()=>{
