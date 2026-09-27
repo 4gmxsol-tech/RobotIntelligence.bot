@@ -1,0 +1,39 @@
+name: RobotIntelligence Agent
+on:
+  push:
+    branches: [main]
+    paths:
+      - "agent/**"
+      - "agent.js"
+      - "buyer-radar-live.js"
+      - ".github/workflows/robotintelligence-agent.yml"
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  agent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Run agent
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: node agent/runner.mjs
+      - name: Commit verified agent state
+        run: |
+          git config user.name "robotintelligence-agent"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add agent/state.json agent/runs
+          if git diff --cached --quiet; then
+            echo "No state changes."
+          else
+            git commit -m "agent: persist verified run state"
+            git push
+          fi
