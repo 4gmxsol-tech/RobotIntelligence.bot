@@ -34,8 +34,8 @@ function generateBrief(asset){
     "No sufficiently verified commercial entity was discovered from the current live evidence.";
 }
 
-const genericNoise=/^(embodied ai|physical ai|robotics|humanoid|robot|ai|artificial intelligence|machine learning|robot intelligence|open source|github|workshop|simulator|tutorial|demo|project)$/i;
-const knownNames=/\b(Generalist AI|THEKER Robotics|Rhoda AI|Eka Robotics|Cobalt Robotics|Physical Intelligence|Figure AI|Skild AI|NVIDIA|Google DeepMind|Salem Robotics|LimX Dynamics|Beyond Imagination|Sanctuary AI|Mireye|Azalea Robotics)\b/gi;
+const genericNoise=/^(embodied ai|physical ai|robotics|humanoid|robot|ai|artificial intelligence|machine learning|robot intelligence|open source|github|workshop|simulator|tutorial|demo|project|making|agentic|learning)$/i;
+const knownNames=/\\b(Generalist AI|THEKER Robotics|Rhoda AI|Eka Robotics|Cobalt Robotics|Physical Intelligence|Figure AI|Skild AI|NVIDIA|Google DeepMind|Salem Robotics|LimX Dynamics|Beyond Imagination|Sanctuary AI|Mireye|Azalea Robotics|Genesis Embodied AI|PhysiCar)\\b/gi;
 
 function extractEntities(signal){
   if(typeof signal==="string") signal={title:signal,description:""};
@@ -43,55 +43,70 @@ function extractEntities(signal){
   const desc=String(signal?.description||"");
   const found=[], push=n=>{
     n=normalizeName(n);
-    if(n&&n.length>=3&&n.length<=60&&!genericNoise.test(n)&&!found.some(x=>x.toLowerCase()===n.toLowerCase())) found.push(n);
+    if(n&&n.length>=3&&n.length<=60&&!genericNoise.test(n)&&!/^\\d/.test(n)&&!found.some(x=>x.toLowerCase()===n.toLowerCase())) found.push(n);
   };
   let m;
-  const launch=/Launch HN:\s*([^–-]+?)(?:\s*\(|\s*[–-]|$)/i.exec(title);
+  const launch=/Launch HN:\\s*([^–-]+?)(?:\\s*\\(|\\s*[–-]|$)/i.exec(title);
   if(launch) push(launch[1]);
   const patterns=[
-    /([A-Z][A-Za-z0-9&.]+(?:\s+[A-Z][A-Za-z0-9&.]+){0,4}),?\s+(?:Inc\.?|Corp\.?|Corporation|Company|Robotics|AI|Labs?|Dynamics)\b/g,
-    /([A-Z][A-Za-z0-9&.]+(?:\s+[A-Z][A-Za-z0-9&.]+){0,4})\s+(?:is|was|builds|develops|makes|creates|founded)\b/g
+    /\\b([A-Z][A-Za-z0-9&.]+(?:\\s+[A-Z][A-Za-z0-9&.]+){0,4}),?\\s+(?:Inc\\.?|Corp\\.?|Corporation|Company|Robotics|AI|Labs?|Dynamics)\\b/g,
+    /\\b([A-Z][A-Za-z0-9&.]+(?:\\s+[A-Z][A-Za-z0-9&.]+){0,4})\\s+(?:is|was|builds|develops|makes|creates|founded)\\b/g
   ];
   for(const re of patterns) while((m=re.exec(desc))) push(m[1]);
-  if(signal.ownerType==="Organization"&&signal.ownerLogin) push(signal.ownerLogin);
+  // A GitHub organization is only a candidate signal when its repository description is commercially explicit.
+  if(signal.ownerType==="Organization" && signal.ownerLogin && /\\b(company|startup|founded|funding|product|platform|enterprise|official|robotics|ai company|inc\\.?|corp\\.?)\\b/i.test(desc)) push(signal.ownerLogin);
+  knownNames.lastIndex=0;
   while((m=knownNames.exec(title+" "+desc))) push(m[1]);
   knownNames.lastIndex=0;
   return found;
 }
-function commercialConfidence(name,sig){
+
+function entityVerification(name,sig){
   const text=(name+" "+(sig.title||"")+" "+(sig.description||"")).toLowerCase();
-  const positives=["company","inc."," inc ","corp","robotics","dynamics","founded","startup","funding","platform","product","enterprise","official home","builds robots","humanoid robots"];
-  const negatives=["student","internship","tutorial","course","assignment","portfolio","fictional","example","demo","simulator","workshop","diaroma","how to","symposium","guide"];
-  const p=positives.filter(x=>text.includes(x)).length;
-  const n=negatives.filter(x=>text.includes(x)).length;
-  return Math.max(0,Math.min(1,0.45+p*0.12-n*0.2+(sig.ownerType==="Organization"?0.12:0)));
+  const explicit=/(company|inc\\.?|corp\\.?|corporation|startup|founded|funded|funding|enterprise|product|platform|official home|builds robots|robotics company|ai company|commercial)/i.test(text);
+  const org=sig.ownerType==="Organization";
+  const known=/^(Genesis Embodied AI|Physical Intelligence|Figure AI|Skild AI|NVIDIA|Google DeepMind|Generalist AI|THEKER Robotics|Rhoda AI|Eka Robotics|Cobalt Robotics|Salem Robotics|LimX Dynamics|Beyond Imagination|Sanctuary AI|Mireye|Azalea Robotics|PhysiCar)$/i.test(name);
+  const noise=genericNoise.test(name) || /^(making|agentic|learning|software engineer|ai researcher|intern|portfolio)$/i.test(name);
+  return {verified:!noise&&(known||explicit||org), explicit, org, known, noise};
 }
+
+function assetRelevance(asset,query,name,evidence){
+  const text=(asset+" "+query+" "+name+" "+evidence).toLowerCase();
+  const terms=["robot","robotics","humanoid","embodied","physical ai","robot learning","manipulation","autonomy","simulation","reinforcement learning","foundation model","intelligence"];
+  return terms.filter(t=>text.includes(t)).length;
+}
+
 function buildCandidates(asset,query){
   const groups={};
   for(const sig of liveSignals){
     for(const entity of extractEntities(sig)){
-      const conf=commercialConfidence(entity,sig);
-      if(conf<0.58) continue;
+      const v=entityVerification(entity,sig);
+      if(!v.verified) continue;
+      const relevance=assetRelevance(asset,query,entity,(sig.title||"")+" "+(sig.description||""));
+      if(relevance<2) continue;
       const key=entity.toLowerCase();
-      if(!groups[key]) groups[key]={name:entity,signals:[],confidence:0};
+      if(!groups[key]) groups[key]={name:entity,signals:[],verification:v,relevance:0};
       groups[key].signals.push(sig);
-      groups[key].confidence=Math.max(groups[key].confidence,conf);
+      groups[key].relevance=Math.max(groups[key].relevance,relevance);
     }
   }
   return Object.values(groups).map(g=>{
     const evidence=g.signals.map(s=>(s.title||"")+" "+(s.description||"")).join(" ");
-    const text=(asset+" "+query+" "+g.name+" "+evidence).toLowerCase();
-    const hits=["robot","robotics","ai","intelligence","embodied","physical","humanoid","foundation","automation"].filter(k=>text.includes(k)).length;
+    const recent=g.signals.reduce((n,s)=>{
+      const age=(Date.now()-new Date(s.dateLabel||Date.now()).getTime())/86400000;
+      return n+(isFinite(age)&&age<=180?1:0);
+    },0);
+    const signalCount=g.signals.length;
     const profile={
-      buyerRelevance:Math.min(25,7+hits*2+Math.min(5,g.signals.length)),
-      assetFit:Math.min(30,7+hits*2),
-      recentActivity:Math.min(20,7+g.signals.length*4),
-      evidenceStrength:Math.min(15,4+g.signals.length*3),
-      commercialProximity:Math.min(10,Math.round(4+g.confidence*5))
+      buyerRelevance:Math.min(25,8+g.relevance*2),
+      assetFit:Math.min(30,7+g.relevance*2),
+      recentActivity:Math.min(20,7+recent*4),
+      evidenceStrength:Math.min(15,5+signalCount*3),
+      commercialProximity:Math.min(10,g.verification.known?10:(g.verification.org?8:7))
     };
     return {name:g.name,score:Object.values(profile).reduce((a,v)=>a+v,0),profile,
-      reason:"Commercial entity extracted from live public evidence.",
-      signal:g.signals[0].title,liveEvidence:g.signals.length,confidence:g.confidence};
+      reason:g.verification.known?"Known commercial entity with direct topical evidence.":"Verified organization with commercially relevant public evidence.",
+      signal:g.signals[0].title,liveEvidence:signalCount,confidence:g.verification.known?0.95:(g.verification.org?0.82:0.72)};
   }).sort((a,b)=>b.score-a.score);
 }
 async function getJSON(url){
