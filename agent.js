@@ -206,13 +206,15 @@ async function run(){
       const built=buildCandidates(asset,query);state.run.candidates=built.qualified;state.run.watch=built.watch;state.run.rejected=built.rejected;
       state.run.metrics.qualified=built.qualified.length;state.run.metrics.watch=built.watch.length;state.run.metrics.rejected=built.rejected.length;
       state.run.metrics.fresh=built.qualified.filter(x=>x.trigger.strength==="FRESH").length;
-      state.run.metrics.triggers=[...built.qualified,...built.watch].filter(x=>x.trigger.strength==="FRESH"||x.trigger.strength==="RECENT").length;\n      state.run.metrics.contacts=[...built.qualified,...built.watch].filter(x=>x.contacts?.channels?.length).length;
+      state.run.metrics.triggers=[...built.qualified,...built.watch].filter(x=>x.trigger.strength==="FRESH"||x.trigger.strength==="RECENT").length;
+      state.run.metrics.contacts=[...built.qualified,...built.watch].filter(x=>x.contacts?.channels?.length).length;
       decision("VERIFY","Qualified "+built.qualified.length+" commercial opportunities; rejected "+built.rejected.length+" entities.");
     }
     if(p==="DECIDE")decision("DECIDE",state.run.candidates.length?("Proceed with "+state.run.candidates.length+" evidence-backed buyer opportunities."):(state.run.watch?.length?("No buyer cleared the commercial gate; "+state.run.watch.length+" companies moved to watch status."):("No buyer passed the commercial evidence gate.")));
     if(p==="EXECUTE")decision("EXECUTE","External side effects remain disabled; only local research state is changed.");
     if(p==="TEST"){
-      for(const c of [...state.run.candidates,...(state.run.watch||[])]){if(!c.contacts?.channels?.length)errors.push("Missing contact channels for "+c.name)}\n      const v=tools.validate();
+      for(const c of [...state.run.candidates,...(state.run.watch||[])]){if(!c.contacts?.channels?.length)state.run.errors.push("Missing contact channels for "+c.name)}
+      const v=tools.validate();
       if(!v.ok){state.run.errors.push(v.error);decision("TEST","Validation failed; rollback is required.");state.run.retries++;tools.restore();if(state.run.retries<2){state.run.query=(query+" commercial company").trim();return run()}setPhase("ROLLBACK");return}
       decision("TEST","Qualification gate passed: no noise candidate is allowed into the buyer queue.");
     }
