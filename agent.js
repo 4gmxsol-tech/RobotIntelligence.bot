@@ -191,11 +191,13 @@ async function search(){
   state.run.evidence=normalizeEvidence(state.run.evidence);
   state.run.metrics.signals=state.run.evidence.length;
 }
-async function run(){
+async function run(retry=0){
   stopped=false;
   const goal=$("goal").value.trim(),asset=$("asset").value.trim(),query=$("query").value.trim();
   if(!goal||!asset){write("ERROR","Goal and asset are required.");return}
-  state.run={...base().run,goal,asset,query,plan:makePlan(),watch:[]};
+  const effectiveQuery=retry>0?(query+" commercial company").trim():query;
+  state.run={...base().run,goal,asset,query:effectiveQuery,retries:retry,plan:makePlan(),watch:[]};
+  write("START","Agent started. Running "+(retry?"verification retry":"primary research pass")+"…");
   for(const p of STATES.slice(0,8)){
     if(stopped){write("STOP","Stopped by operator.");return}
     setPhase(p);
@@ -215,7 +217,18 @@ async function run(){
     if(p==="TEST"){
       for(const c of [...state.run.candidates,...(state.run.watch||[])]){if(!c.contacts?.channels?.length)state.run.errors.push("Missing contact channels for "+c.name)}
       const v=tools.validate();
-      if(!v.ok){state.run.errors.push(v.error);decision("TEST","Validation failed; rollback is required.");state.run.retries++;tools.restore();if(state.run.retries<2){state.run.query=(query+" commercial company").trim();return run()}setPhase("ROLLBACK");return}
+      if(!v.ok){
+        state.run.errors.push(v.error);
+        decision("TEST","Validation failed; rollback is required.");
+        if(retry<1){
+          tools.restore();
+          write("ROLLBACK","Validation failed. Re-running once with a broader commercial query…");
+          return run(retry+1);
+        }
+        setPhase("ROLLBACK");
+        write("ROLLBACK","Retry limit reached. No silent loop; run stopped safely.");
+        return;
+      }
       decision("TEST","Qualification gate passed: no noise candidate is allowed into the buyer queue.");
     }
     if(p==="COMMIT"){state.memory.runs.unshift({at:Date.now(),goal:state.run.goal,asset:state.run.asset,evidence:state.run.metrics.signals,qualified:state.run.metrics.qualified,rejected:state.run.metrics.rejected});state.memory.runs=state.memory.runs.slice(0,20);decision("COMMIT","Verified run persisted to local agent memory.")}
