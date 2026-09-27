@@ -33,26 +33,62 @@ function generateBrief(asset,query){
  if(!top){$("buyerBrief").textContent="Run the Radar to generate a structured buyer brief.";return}
  $("buyerBrief").innerHTML='<div class="brief-grid"><div><span>ASSET</span><strong>'+esc(asset)+'</strong></div><div><span>TOP DISCOVERED ENTITY</span><strong>'+esc(top.name)+'</strong></div><div><span>BUYER FIT</span><strong>'+top.score+'/100</strong></div><div><span>LIVE EVIDENCE</span><strong>'+top.liveEvidence+' signals</strong></div></div><p><b>Why surfaced:</b> '+esc(top.reason)+'</p><p><b>Evidence:</b> '+esc(top.signal)+'</p><p><b>Next:</b> Verify the entity as a commercial organization, identify the relevant decision-maker and validate current strategic activity.</p><small>Scores are discovery/research heuristics, not purchase probability.</small>';
 }
-function extractEntities(text){
- const names=["Generalist AI","THEKER Robotics","Rhoda AI","Eka Robotics","Cobalt Robotics","Physical Intelligence","Figure AI","Skild AI","NVIDIA","Google DeepMind","Salem Robotics"];
- return [...new Set(names.filter(n=>new RegExp("\\b"+n.replace(/[.*+?^{}()|[\]\\]/g,"\\$&")+"\\b","i").test(text)))];
+function normalizeName(name){
+ return String(name||"").replace(/[-_]+/g," ").replace(/\\.(ai|com|io|co|org)$/i,"").replace(/\\s+/g," ").trim();
+}
+function extractEntities(signal){
+ const title=String(signal.title||"");
+ const desc=String(signal.description||"");
+ const full=title+" "+desc;
+ const found=[];
+ const explicit=[
+  /(?:Launch HN:\s*)([^–-]+?)(?:\s*\(|\s*[–-])/i,
+  /\\b([A-Z][A-Za-z0-9&]+(?:\\s+[A-Z][A-Za-z0-9&]+){0,3})\\b(?:\\s+is|\\s+develops|\\s+builds|\\s+—)/g,
+  /\\b([A-Z][A-Za-z0-9&]+(?:\\s+[A-Z][A-Za-z0-9&]+){0,3})\\b(?:\\s+AI|\\s+Robotics|\\s+robotics)/g
+ ];
+ explicit.forEach(re=>{let m;while((m=re.exec(full))!==null){if(m[1])found.push(normalizeName(m[1]))}});
+ const repoName=title.split("/").pop().replace(/[-_]+/g," ");
+ if(repoName && !/^(awesome|demo|test|landingpage|portfolio|sdk|website)$/i.test(repoName)) found.push(normalizeName(repoName));
+ return [...new Set(found)].filter(n=>{
+   if(n.length<3 || n.length>60)return false;
+   if(/^(github|hacker news|ask hn|show hn|readme|source code|public repository|ai|robotics)$/i.test(n))return false;
+   if(/(?:username|student|enthusiast|developer|engineer|portfolio)/i.test(n))return false;
+   return true;
+ });
+}
+function entityQuality(entity,signals){
+ const text=(entity+" "+signals.map(s=>s.title+" "+s.description).join(" ")).toLowerCase();
+ const commercialTerms=["company","inc","robotics","ai","automation","platform","product","startup","founded","funding","yc ","physical world","brand","enterprise","software"];
+ const noiseTerms=["student","my portfolio","i'm ","my dream","tutorial","course","assignment","personal","enthusiast","fictional"];
+ const commercial=commercialTerms.filter(k=>text.includes(k)).length;
+ const noise=noiseTerms.filter(k=>text.includes(k)).length;
+ return commercial-noise*3;
 }
 function buildCandidates(asset,query){
  const groups={};
  liveSignals.forEach(sig=>{
-   extractEntities((sig.title||"")+" "+(sig.description||"")).forEach(entity=>{
+   extractEntities(sig).forEach(entity=>{
      const key=entity.toLowerCase();
      if(!groups[key])groups[key]={name:entity,signals:[]};
      groups[key].signals.push(sig);
    });
  });
  return Object.values(groups).map(g=>{
-   const text=(asset+" "+query+" "+g.name+" "+g.signals.map(s=>s.description).join(" ")).toLowerCase();
-   const keywords=["robot","robotics","ai","intelligence","embodied","physical","humanoid","foundation","automation"];
+   const evidence=g.signals.map(s=>s.title+" "+s.description).join(" ");
+   const text=(asset+" "+query+" "+g.name+" "+evidence).toLowerCase();
+   const keywords=["brand","robot","robotics","ai","intelligence","embodied","physical","humanoid","foundation","automation"];
    const hits=keywords.filter(k=>text.includes(k)).length;
-   const profile={buyerRelevance:Math.min(25,10+hits*2),assetFit:Math.min(30,10+hits*2),recentActivity:Math.min(20,8+g.signals.length*4),evidenceStrength:Math.min(15,5+g.signals.length*3),commercialProximity:8};
-   return {name:g.name,score:Object.values(profile).reduce((a,v)=>a+v,0),profile,reason:"Discovered from live public evidence matching the asset research context.",signal:g.signals[0].title,live:true,liveEvidence:g.signals.length};
- }).sort((a,b)=>b.score-a.score);
+   const quality=entityQuality(g.name,g.signals);
+   if(quality<0)return null;
+   const profile={
+     buyerRelevance:Math.min(25,8+hits*2+Math.max(0,quality)),
+     assetFit:Math.min(30,8+hits*2),
+     recentActivity:Math.min(20,8+g.signals.length*4),
+     evidenceStrength:Math.min(15,5+g.signals.length*3),
+     commercialProximity:Math.min(10,Math.max(2,5+Math.min(5,quality)))
+   };
+   return {name:g.name,score:Object.values(profile).reduce((a,v)=>a+v,0),profile,reason:"Entity extracted from live public evidence and filtered for commercial relevance.",signal:g.signals[0].title,live:true,liveEvidence:g.signals.length};
+ }).filter(Boolean).sort((a,b)=>b.score-a.score);
 }
 function showLocal(){
  candidates=[];liveSignals=[];renderMetrics();renderCandidates();renderSignals();
