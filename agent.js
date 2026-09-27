@@ -73,6 +73,8 @@ function canonical(v){
 }
 function signalType(s){
   const t=(s.title+" "+s.description).toLowerCase();
+  const explicitCommercial=/fund|raised|funding|investment|acqui|acquisition|partner|partnership|contract|customer|order|expands|expansion|deployment|deploys|commercial/.test(t);
+  if(s.sourceType==="github" && !explicitCommercial)return"TECHNICAL";
   if(/fund|raised|funding|investment|acqui|acquisition|partner|partnership|launch|launched|contract|customer|order|expands|expansion|deployment|deploys|commercial/.test(t))return"COMMERCIAL";
   if(/hire|hiring|job|recruit|joins|joined|team|opening|vacancy/.test(t))return"HIRING";
   if(/robot|robotics|humanoid|embodied|manipulation|reinforcement|simulation|foundation model|behavior|planning|autonomy|physical ai|vla/.test(t))return"TECHNICAL";
@@ -95,6 +97,13 @@ function resolveEntities(sig){
   const out=[],push=x=>{x=canonical(x);if(x&&!out.some(y=>y.toLowerCase()===x.toLowerCase()))out.push(x)};
   const title=String(sig.title||""),desc=String(sig.description||"");
   let m;
+  if(sig.sourceType==="github"){
+    const full=title+" "+desc;
+    const known=/\b(Figure AI|Physical Intelligence|Skild AI|Sanctuary AI|NVIDIA|Google DeepMind|Toyota|Covariant|Robust\.AI|LimX Dynamics|Genesis Embodied AI|Unitree Robotics|TypeSafe AI|Fluxdyne|Pudu Robotics|Agility Robotics|Apptronik|1X Technologies|NEURA Robotics|Spirit AI|EmbodyX|ANYbotics|Boston Dynamics|AGIBOT|UBTECH Robotics|Tesla|Amazon|Meta|Microsoft|Waymo)\b/gi;
+    while((m=known.exec(full)))push(m[1]);
+    if(sig.ownerType==="Organization" && ALIASES[String(sig.ownerLogin||"").toLowerCase()] && !AMBIGUOUS_ENTITY.has(String(sig.ownerLogin||"").toLowerCase()))push(sig.ownerLogin);
+    return out;
+  }
   const launch=/Launch HN:\s*([^–-]+?)(?:\s*\(|\s*[–-]|$)/i.exec(title);if(launch)push(launch[1]);
   const patterns=[
     /\b([A-Z][A-Za-z0-9&.\-]+(?:\s+[A-Z][A-Za-z0-9&.\-]+){0,4}),?\s+(?:Inc\.?|Corp\.?|Corporation|Company|Robotics|AI|Labs?|Dynamics|Technologies)\b/g,
