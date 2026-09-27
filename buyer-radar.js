@@ -85,13 +85,20 @@ function extractEntities(signal){
   return found;
 }
 function verifyEntity(name,sig){
-  const text=(name+" "+(sig.title||"")+" "+(sig.description||"")).toLowerCase();
-  const known=KNOWN_COMPANIES.has(name.toLowerCase());
+  const rawName=String(name||"").trim();
+  const text=(rawName+" "+(sig.title||"")+" "+(sig.description||"")).toLowerCase();
+  const known=KNOWN_COMPANIES.has(rawName.toLowerCase());
   const org=sig.ownerType==="Organization";
   const explicitCommercial=/\b(company|inc\.?|corp\.?|corporation|startup|founded|funded|funding|enterprise|product|platform|official home|commercial|robotics company|ai company)\b/i.test(text);
+  const explicitIdentity=/\b(?:is|was|builds|develops|makes|creates|founded)\s+(?:a|an)?\s*(?:company|startup|platform|business)\b/i.test(sig.description||"");
+  const companyShape=/\b(?:robotics|robot|ai|labs?|dynamics|technologies|technology|systems|automation|inc\.?|corp\.?|corporation|company|industrial)\b/i.test(rawName);
+  const contaminated=/\bapi evangelist\b|[.:].*\b(?:dexterity|viam|valgo|uncovr)\b/i.test(rawName);
   const project=/\b(portfolio|student|internship|course|tutorial|workshop|assignment|simulator|demo|final project|personal)\b/i.test(text);
-  const noise=GENERIC_ENTITY_NOISE.test(name)||VERB_NOISE.test(name);
-  return {verified:!noise&&!project&&(known||org||explicitCommercial),known,org,explicitCommercial,project};
+  const githubGate=sig.sourceType==="github"
+    ? (known || (!contaminated && ((companyShape && explicitCommercial) || explicitIdentity)))
+    : (known || explicitCommercial || explicitIdentity);
+  const noise=GENERIC_ENTITY_NOISE.test(rawName)||VERB_NOISE.test(rawName);
+  return {verified:!noise&&!project&&githubGate,known,org,explicitCommercial,explicitIdentity,companyShape,project};
 }
 function relevanceScore(asset,query,name,evidence){
   // Measure topical evidence from the signal itself. Asset/query terms must not
