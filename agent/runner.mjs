@@ -8,7 +8,7 @@ const QUERY=process.env.AGENT_QUERY||"humanoid robotics embodied AI robot learni
 const GOAL=process.env.AGENT_GOAL||"Find qualified buyers for robotembodiment.com";
 const ALIASES={"figure":"Figure AI","figure ai":"Figure AI","physical intelligence":"Physical Intelligence","skild ai":"Skild AI","sanctuary ai":"Sanctuary AI","nvidia":"NVIDIA","google deepmind":"Google DeepMind","toyota":"Toyota","dexterity":"Dexterity","covariant":"Covariant","robust.ai":"Robust.AI","unitree":"Unitree Robotics","limx dynamics":"LimX Dynamics","pudu robotics":"Pudu Robotics","agility robotics":"Agility Robotics","apptronik":"Apptronik","1x":"1X Technologies","neura robotics":"NEURA Robotics","spirit ai":"Spirit AI","anybotics":"ANYbotics","boston dynamics":"Boston Dynamics","agibot":"AGIBOT","ubtech":"UBTECH Robotics","tesla":"Tesla","amazon":"Amazon","meta":"Meta","microsoft":"Microsoft","waymo":"Waymo"};
 const KNOWN=new Set(Object.values(ALIASES).map(x=>x.toLowerCase()));
-const COMPANY_SEEDS=["Figure AI","Physical Intelligence","Skild AI","Sanctuary AI","Agility Robotics","Apptronik","1X Technologies","NEURA Robotics","Unitree Robotics","Boston Dynamics","Dexterity","Covariant","Robust.AI","NVIDIA","Google DeepMind","Pudu Robotics","ANYbotics","UBTECH Robotics","LimX Dynamics","Tesla"];
+const COMPANY_SEEDS=["Figure AI","Physical Intelligence","Skild AI","Sanctuary AI","Agility Robotics","Apptronik","1X Technologies","NEURA Robotics","Unitree Robotics","Boston Dynamics","Dexterity","Covariant","Robust.AI","NVIDIA","Google DeepMind","Pudu Robotics","ANYbotics","UBTECH Robotics","LimX Dynamics","Tesla"];\nconst BUYER_DISCOVERY=["robot embodiment startup","embodied AI startup robotics","humanoid foundation model company","robot learning company","robot manipulation startup","physical AI startup robotics","VLA robotics startup","robotics foundation model startup","humanoid robot startup funding","robotics startup raised funding","humanoid robotics hiring","robotics company partnership","robotics company deployment","robotics company contract","robotics company launch"];
 const PROJECT=/\b(portfolio|student|internship|course|tutorial|workshop|assignment|simulator|demo|personal project|textbook|book|notes|university|school|classroom)\b/i;
 const NOISE=/^(physical|physical ai|embodied|embodied ai|robotics|robot|ai|artificial intelligence|machine learning|open source|github|workshop|simulator|tutorial|demo|project|research|engineering|learning|lab)$/i;
 const norm=v=>String(v||"").replace(/[-_]+/g," ").replace(/\s+/g," ").trim();
@@ -72,7 +72,7 @@ async function search(q){
 }
 function load(){try{return JSON.parse(fs.readFileSync(stateFile,"utf8"))}catch{return{version:2,status:"IDLE",runs:[]}}}
 async function main(){const startedAt=new Date().toISOString(),state=load(),terms=[QUERY,ASSET.replace(/\.[a-z0-9]+$/i,"").replace(/[._-]/g," "),QUERY+" company",QUERY+" funding",QUERY+" hiring",QUERY+" launch",QUERY+" humanoid",QUERY+" embodied AI",QUERY+" robotics company",...COMPANY_SEEDS.map(x=>x+" robotics"),...COMPANY_SEEDS.map(x=>x+" funding"),...COMPANY_SEEDS.map(x=>x+" hiring"),...COMPANY_SEEDS.map(x=>x+" launch")],raw=[];
-const uniqueTerms=[...new Set(terms)];
+const uniqueTerms=[...new Set([...terms,...BUYER_DISCOVERY])];
 for(let i=0;i<uniqueTerms.length;i+=16){
   const batch=uniqueTerms.slice(i,i+16);
   console.log("SEARCH_BATCH",Math.floor(i/16)+1,"terms",batch.length);
