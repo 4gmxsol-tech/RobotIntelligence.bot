@@ -22,6 +22,8 @@ const KNOWN=new Set(Object.values(ALIASES).map(x=>x.toLowerCase()));
 const COMPANY_SEEDS=["Figure AI","Physical Intelligence","Skild AI","Sanctuary AI","Agility Robotics","Apptronik","1X Technologies","NEURA Robotics","Unitree Robotics","Boston Dynamics","Dexterity","Covariant","Robust.AI","NVIDIA","Google DeepMind","Pudu Robotics","ANYbotics","UBTECH Robotics","LimX Dynamics","Tesla"];
 const NOISE=/^(physical|physical ai|embodied|embodied ai|robotics|robot|ai|artificial intelligence|machine learning|open source|github|workshop|simulator|tutorial|demo|project|making|agentic|learning|research|engineering|software engineer|ai researcher|intern|portfolio|course|book|textbook|lab|school|university)$/i;
 const PROJECT=/\b(portfolio|student|internship|course|tutorial|workshop|assignment|simulator|demo|personal project|textbook|book|notes|learning resource|university|school|classroom)\b/i;
+const AMBIGUOUS_ENTITY=new Set(["dexterity","gemini","agility","cognitive","deterministic","ai can","billion dollar startup bringing"]);
+const QUESTION_NOISE=/^(ask hn:|show hn:|what tech|what\/how|i am concerned|when do you expect)/i;
 
 function base(){return{version:2,run:{status:"IDLE",goal:"",asset:"",query:"",plan:[],evidence:[],candidates:[],rejected:[],decisions:[],errors:[],providers:0,retries:0,checkpoint:null,metrics:{signals:0,qualified:0,rejected:0,fresh:0,triggers:0,contacts:0}},memory:{runs:[],lastDecision:""},log:[]}}
 function load(){try{const x=JSON.parse(localStorage.getItem(KEY));return x&&x.version===2?x:base()}catch{return base()}}
@@ -63,7 +65,7 @@ function canonical(v){
   const raw=norm(v),key=raw.toLowerCase();
   if(ALIASES[key])return ALIASES[key];
   const n=raw.replace(/^the\s+/i,"");
-  if(!n||n.length<3||n.length>70||NOISE.test(n))return "";
+  if(!n||n.length<3||n.length>70||NOISE.test(n)||AMBIGUOUS_ENTITY.has(n.toLowerCase()))return "";
   if(PROJECT.test(n))return "";
   if(/^(?:[a-z]+\s+){0,2}(?:r&d|research|project|portfolio|workshop|simulator)$/i.test(n))return "";
   return n;
@@ -98,7 +100,7 @@ function resolveEntities(sig){
     /\b([A-Z][A-Za-z0-9&.\-]+(?:\s+[A-Z][A-Za-z0-9&.\-]+){0,4})\s+(?:is|was|builds|develops|makes|creates|founded|launches|announces|raises|partners|hires|deploys)\b/g
   ];
   for(const re of patterns)while((m=re.exec(desc)))push(m[1]);
-  if(sig.ownerType==="Organization" && ALIASES[String(sig.ownerLogin||"").toLowerCase()])push(sig.ownerLogin);
+  if(sig.ownerType==="Organization" && ALIASES[String(sig.ownerLogin||"").toLowerCase()] && !AMBIGUOUS_ENTITY.has(String(sig.ownerLogin||"").toLowerCase()))push(sig.ownerLogin);
   const full=title+" "+desc;
   const known=/\b(Figure AI|Physical Intelligence|Skild AI|Sanctuary AI|NVIDIA|Google DeepMind|Toyota|Dexterity|Covariant|Robust\.AI|LimX Dynamics|Genesis Embodied AI|Unitree Robotics|TypeSafe AI|Fluxdyne|Pudu Robotics|Agility Robotics|Apptronik|1X Technologies|NEURA Robotics|Spirit AI|EmbodyX|ANYbotics|Boston Dynamics|AGIBOT|UBTECH Robotics|Tesla|Amazon|Meta|Microsoft|Waymo)\b/gi;
   while((m=known.exec(full)))push(m[1]);
@@ -106,9 +108,15 @@ function resolveEntities(sig){
 }
 function qualify(name,signals,asset,query){
   const text=(name+" "+signals.map(s=>s.title+" "+s.description).join(" ")).toLowerCase();
-  const known=KNOWN.has(name.toLowerCase());
-  const company=/\b(company|inc\.?|corp\.?|corporation|startup|founded|funded|funding|enterprise|product|platform|commercial|robotics company|ai company|technologies|robotics)\b/i.test(text);
-  const identity=/\b(?:is|was|builds|develops|makes|creates|founded)\s+(?:a|an)?\s*(?:company|startup|platform|business|robotics company|ai company)\b/i.test(text);
+  const known=KNOWN.has(name.toLowerCase()) && !AMBIGUOUS_ENTITY.has(name.toLowerCase());
+  const identity=signals.some(s=>{
+    const t=String(s.title+" "+s.description);
+    if(QUESTION_NOISE.test(t))return false;
+    const low=t.toLowerCase(),n=name.toLowerCase();
+    if(!low.includes(n))return false;
+    return ["company","inc.","corp.","corporation","startup","robotics","robotics company","ai company","technologies","labs","dynamics"].some(w=>low.includes(w));
+  });
+  const company=identity;
   const project=PROJECT.test(text)||/\b(lab|university|school)\b/i.test(name);
   const robotics=/(robot|robotics|humanoid|embodied|physical ai|manipulation|autonomy|robot learning)/i.test(text);
   const commercialSignals=signals.filter(s=>signalType(s)==="COMMERCIAL").length;
