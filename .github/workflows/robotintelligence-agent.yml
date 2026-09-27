@@ -3,7 +3,8 @@ on:
   push:
     branches: [main]
     paths:
-      - "agent/**"
+      - "agent/runner.mjs"
+      - "agent/plan.json"
       - "agent.js"
       - "buyer-radar-live.js"
       - ".github/workflows/robotintelligence-agent.yml"
@@ -26,7 +27,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: node agent/runner.mjs
-      - name: Commit verified agent state
+      - name: Persist verified state
         run: |
           git config user.name "robotintelligence-agent"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
