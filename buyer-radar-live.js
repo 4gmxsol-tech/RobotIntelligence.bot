@@ -7,7 +7,7 @@ const ALIASES={
  "nvidia":"NVIDIA","google deepmind":"Google DeepMind","toyota":"Toyota","dexterity":"Dexterity",
  "covariant":"Covariant","robust.ai":"Robust.AI","robust ai":"Robust.AI","unitree":"Unitree Robotics",
  "unitree robotics":"Unitree Robotics","limx":"LimX Dynamics","limx dynamics":"LimX Dynamics",
- "genesis embodied ai":"Genesis Embodied AI","typesafe ai":"TypeSafe AI","fluxdyne":"Fluxdyne"
+ "genesis embodied ai":"Genesis Embodied AI","typesafe ai":"TypeSafe AI","fluxdyne":"Fluxdyne","pudu robotics":"Pudu Robotics","pudu":"Pudu Robotics","agility robotics":"Agility Robotics","apptronik":"Apptronik","1x":"1X Technologies","1x technologies":"1X Technologies","neura robotics":"NEURA Robotics","x square robot":"X Square Robot","spirit ai":"Spirit AI","embodyx":"EmbodyX","anybotics":"ANYbotics","boston dynamics":"Boston Dynamics","agiBot":"AGIBOT","agibot":"AGIBOT","ubtech":"UBTECH Robotics"
 };
 const KNOWN=new Set(Object.values(ALIASES).map(x=>x.toLowerCase()));
 const NOISE=/^(physical|physical ai|embodied|embodied ai|robotics|robot|ai|artificial intelligence|machine learning|open source|github|workshop|simulator|tutorial|demo|project|making|agentic|learning|software engineer|ai researcher|intern|portfolio|research|engineering)$/i;
