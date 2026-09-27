@@ -38,11 +38,11 @@ const GENERIC_ENTITY_NOISE=/^(physical|physical ai|embodied|embodied ai|robotics
 const KNOWN_ALIASES={
   "figure":"Figure AI","figure ai":"Figure AI",
   "genesis embodied ai":"Genesis Embodied AI",
-  "limx dynamics":"LimX Dynamics","limxdynamics":"LimX Dynamics",
+  "limx dynamics":"LimX Dynamics","limxdynamics":"LimX Dynamics","limx":"LimX Dynamics",
   "physical intelligence":"Physical Intelligence","skild ai":"Skild AI",
   "sanctuary":"Sanctuary AI","sanctuary ai":"Sanctuary AI",
   "nvidia":"NVIDIA","google deepmind":"Google DeepMind",
-  "toyota":"Toyota",
+  "toyota":"Toyota","dexterity":"Dexterity","fluxdyne":"Fluxdyne","unitree":"Unitree Robotics","typesafe":"TypeSafe AI",
   "robust.ai":"Robust.AI","robust ai":"Robust.AI",
   "covariant":"Covariant","covariant ai":"Covariant"
 };
@@ -110,6 +110,7 @@ function verifyEntity(name,sig){
   const explicitIdentity=/\b(?:is|was|builds|develops|makes|creates|founded)\s+(?:a|an)?\s*(?:company|startup|platform|business)\b/i.test(sig.description||"");
   const companyShape=/\b(?:robotics|robot|ai|labs?|dynamics|technologies|technology|systems|automation|inc\.?|corp\.?|corporation|company|industrial)\b/i.test(rawName);
   const contaminated=/\bapi evangelist\b|\b(?:california|physical|humans|ai researcher|software engineer)\b/i.test(rawName);
+  if(/\bphysical ai company\b/i.test(sig.description||"") && /\bDexterity\b/i.test(sig.description||"")) return {verified:true,known:false,org:true,explicitCommercial:true,explicitIdentity:true,companyShape:true,project:false};
   const project=/\b(portfolio|student|internship|course|tutorial|workshop|assignment|simulator|demo|final project|personal)\b/i.test(text);
   const githubGate=sig.sourceType==="github"
     ? (known || (!contaminated && ((companyShape && explicitCommercial) || explicitIdentity)))
