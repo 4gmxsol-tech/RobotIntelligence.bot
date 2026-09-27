@@ -3,7 +3,7 @@ let candidates=[],liveSignals=[],signalFilter="all";
 
 function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");}
 function normalizeName(name){
-  return String(name||"").replace(/[-_]+/g," ").replace(/\.(ai|com|io|co|org)$/i,"").replace(/\s+/g," ").trim();
+  return String(name||"").replace(/[-_]+/g," ").replace(/\s+/g," ").trim();
 }
 function renderMetrics(){
   const avg=candidates.length?Math.round(candidates.reduce((s,x)=>s+x.score,0)/candidates.length):0;
@@ -50,7 +50,10 @@ const KNOWN_COMPANIES=new Set(Object.values(KNOWN_ALIASES).map(x=>x.toLowerCase(
 const VERB_NOISE=/^(physical|remove|find|making|learning|agentic|will|open|build|develop|creates?|makes?|founded|official|software|technical|research|engineer)$/i;
 
 function canonicalEntity(name){
-  let n=normalizeName(name).replace(/^the\s+/i,"").trim();
+  const raw=String(name||"").replace(/\s+/g," ").trim();
+  const rawKey=raw.toLowerCase();
+  if(KNOWN_ALIASES[rawKey]) return KNOWN_ALIASES[rawKey];
+  let n=normalizeName(raw).replace(/^the\s+/i,"").trim();
   const key=n.toLowerCase();
   if(KNOWN_ALIASES[key]) return KNOWN_ALIASES[key];
   if(GENERIC_ENTITY_NOISE.test(n)) return "";
@@ -73,6 +76,10 @@ function extractEntities(signal){
     /\b([A-Z][A-Za-z0-9&.]+(?:\s+[A-Z][A-Za-z0-9&.]+){0,4})\s+(?:is|was|builds|develops|makes|creates|founded)\b/g
   ];
   for(const re of explicitPatterns) while((m=re.exec(desc))) push(m[1]);
+  const namedCompany=/\b([A-Z][A-Za-z0-9&.\-]{2,50})\s*(?:—|-|,)\s*[^.]{0,120}\b(?:company|startup|firm)\b/i.exec(desc);
+  if(namedCompany) push(namedCompany[1]);
+  const companyBeforeDescription=/\b([A-Z][A-Za-z0-9&.\-]{2,50})\s+(?:company|startup|firm)\b/i.exec(desc);
+  if(companyBeforeDescription) push(companyBeforeDescription[1]);
   const sentenceCompany=/^\s*([A-Z][A-Za-z0-9&.\-]{2,50})\s+(?:is|was|builds|develops|makes|creates)\b/m.exec(desc);
   if(sentenceCompany) push(sentenceCompany[1]);
   // A GitHub owner is an account/container, not automatically the commercial entity.
@@ -90,7 +97,7 @@ function extractEntities(signal){
     for(const re of hnPatterns){ const hm=re.exec(title); if(hm) push(hm[1]); }
   }
   const full=title+" "+desc;
-  const known=/\b(Generalist AI|THEKER Robotics|Rhoda AI|Eka Robotics|Cobalt Robotics|Physical Intelligence|Figure AI|Skild AI|NVIDIA|Google DeepMind|Salem Robotics|LimX Dynamics|Beyond Imagination|Sanctuary AI|Mireye|Azalea Robotics|Genesis Embodied AI|PhysiCar|Toyota|Robust\.AI|Robust AI|Covariant)\b/gi;
+  const known=/\b(Generalist AI|THEKER Robotics|Rhoda AI|Eka Robotics|Cobalt Robotics|Physical Intelligence|Figure AI|Skild AI|NVIDIA|Google DeepMind|Salem Robotics|LimX Dynamics|Beyond Imagination|Sanctuary AI|Mireye|Azalea Robotics|Genesis Embodied AI|PhysiCar|Toyota|Robust\.AI|Robust AI|Covariant|Dexterity|Fluxdyne|Unitree Robotics|Unitree|TypeSafe AI)\b/gi;
   while((m=known.exec(full))) push(m[1]);
   return found;
 }
@@ -102,7 +109,7 @@ function verifyEntity(name,sig){
   const explicitCommercial=/\b(company|inc\.?|corp\.?|corporation|startup|founded|funded|funding|enterprise|product|platform|official home|commercial|robotics company|ai company)\b/i.test(text);
   const explicitIdentity=/\b(?:is|was|builds|develops|makes|creates|founded)\s+(?:a|an)?\s*(?:company|startup|platform|business)\b/i.test(sig.description||"");
   const companyShape=/\b(?:robotics|robot|ai|labs?|dynamics|technologies|technology|systems|automation|inc\.?|corp\.?|corporation|company|industrial)\b/i.test(rawName);
-  const contaminated=/\bapi evangelist\b|[.:].*\b(?:dexterity|viam|valgo|uncovr)\b/i.test(rawName);
+  const contaminated=/\bapi evangelist\b|\b(?:california|physical|humans|ai researcher|software engineer)\b/i.test(rawName);
   const project=/\b(portfolio|student|internship|course|tutorial|workshop|assignment|simulator|demo|final project|personal)\b/i.test(text);
   const githubGate=sig.sourceType==="github"
     ? (known || (!contaminated && ((companyShape && explicitCommercial) || explicitIdentity)))
