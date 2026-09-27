@@ -1,0 +1,30 @@
+{
+  "id": "2026-09-27T11-37-05-165Z",
+  "startedAt": "2026-09-27T11:37:05.170Z",
+  "states": [
+    "UNDERSTAND",
+    "PLAN",
+    "SEARCH",
+    "VERIFY",
+    "DECIDE",
+    "TEST",
+    "COMMIT"
+  ],
+  "goal": "Validate RobotIntelligence.bot intelligence pipeline",
+  "query": "humanoid robotics embodied AI robot learning",
+  "evidence": [],
+  "candidates": [],
+  "decision": "READY_FOR_SEARCH",
+  "checkpoint": {
+    "version": 1,
+    "status": "READY_FOR_SEARCH",
+    "runs": [
+      {
+        "id": "2026-09-27T11-36-15-171Z",
+        "at": "2026-09-27T11:36:15.177Z",
+        "decision": "READY_FOR_SEARCH"
+      }
+    ],
+    "lastRun": "2026-09-27T11-36-15-171Z"
+  }
+}
