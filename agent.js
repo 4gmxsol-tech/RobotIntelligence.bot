@@ -154,7 +154,7 @@ function qualify(name,signals,asset,query){
   else if(!marketRelevant)reason="Insufficient market relevance.";
   else if(!(known||company||identity))reason="No reliable company identity.";
   else if(score<55)reason="Commercial qualification threshold not met.";
-  else reason="Company identity and robotics relevance supported by public evidence.";
+  else reason="Company identity and market relevance supported by public evidence.";
   return{qualified,score:Math.max(0,Math.min(100,Math.round(score))),reason,trigger,commercialSignals,hiringSignals,technicalSignals,fresh};
 }
 function buildCandidates(asset,query){
@@ -187,7 +187,7 @@ const tools={
    if(r.providers===0)errors.push("No source responded.");
    if(!r.evidence.length)errors.push("No evidence collected.");
    if(r.candidates.some(x=>x.priority<55))errors.push("Unqualified candidate leaked into the qualified queue.");
-   if(r.candidates.some(x=>x.reason&&/^(Research\/education\/project noise\.|Insufficient robotics \/ embodied-AI relevance\.|Commercial qualification threshold not met\.|No reliable company identity\.)$/i.test(x.reason)))errors.push("Qualification reason contradicts candidate status.");
+   if(r.candidates.some(x=>x.reason&&/^(Research\/education\/project noise\.|Insufficient market relevance\.|Commercial qualification threshold not met\.|No reliable company identity\.)$/i.test(x.reason)))errors.push("Qualification reason contradicts candidate status.");
    return errors.length?this.fail(errors.join(" ")):this.ok({pass:true});
  }
 };
