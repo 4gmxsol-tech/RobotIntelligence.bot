@@ -24,3 +24,8 @@ header{box-shadow:0 10px 35px rgba(0,0,0,.18)}
 .evidence-card:hover{border-color:#2d5662}
 .section-head h2{letter-spacing:-.02em}
 @media(max-width:800px){.hero h1{font-size:42px}.agent-metric{min-height:auto}}
+
+.evidence-card details{margin:8px 0;color:var(--muted)}
+.evidence-card summary{display:inline-block;cursor:pointer;color:var(--accent);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.evidence-card details[open] summary{margin-bottom:6px}
+.evidence-card details p{max-height:360px;overflow:auto;white-space:pre-wrap;word-break:break-word}
