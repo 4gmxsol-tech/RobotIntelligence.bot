@@ -163,7 +163,7 @@ async function getJSON(url){
   if(!r.ok) throw new Error(r.status+" "+r.statusText);
   return r.json();
 }
-async function runLive(){
+function dedupeSignals(items){\n  const seen=new Set();\n  return items.filter(x=>{\n    const k=(x.sourceType+"|"+(x.title||"")).toLowerCase();\n    if(seen.has(k)) return false; seen.add(k); return true;\n  });\n}\nasync function runLive(){
   const asset=$("asset").value.trim(),query=$("query").value.trim();
   if(!asset){$("status").textContent="ENTER AN ASSET FIRST";return;}
   $("status").textContent="LIVE RADAR · DISCOVERING…";
@@ -179,11 +179,11 @@ async function runLive(){
       description:hit.title||"Recent public discussion/news signal.",entity:""})));
   const results=await Promise.allSettled([gh,hn]);
   let providers=0;
-  for(const r of results) if(r.status==="fulfilled"){providers++;liveSignals.push(...r.value);}
+  for(const r of results) if(r.status==="fulfilled"){providers++;liveSignals.push(...r.value);}\n  liveSignals=dedupeSignals(liveSignals).filter(s=>{ const age=(Date.now()-new Date(s.publishedAt||0).getTime())/86400000; return !isFinite(age)||age<=730; }).slice(0,40);
   for(const sig of liveSignals) sig.entity=extractEntities(sig)[0]||"Unattributed public signal";
   candidates=buildCandidates(asset,query);
   renderMetrics();renderCandidates();renderSignals();generateBrief(asset);
-  $("status").textContent="LIVE RADAR · "+providers+"/2 SOURCES · "+liveSignals.length+" SIGNALS · "+candidates.length+" ENTITIES";
+  $("status").textContent="LIVE RADAR · "+providers+"/2 SOURCE TYPES · "+liveSignals.length+" VERIFIED SIGNALS · "+candidates.length+" ENTITIES";
 }
 function init(){
   $("run")?.addEventListener("click",()=>runLive().catch(err=>{$("status").textContent="RADAR ERROR · "+err.message;console.error(err);}));
