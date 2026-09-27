@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "status": "READY_FOR_SEARCH",
+  "version": 2,
+  "status": "DONE",
   "runs": [
     {
       "id": "2026-09-27T11-36-15-171Z",
@@ -16,7 +16,14 @@
       "id": "2026-09-27T11-51-35-109Z",
       "at": "2026-09-27T11:51:35.164Z",
       "decision": "READY_FOR_SEARCH"
+    },
+    {
+      "id": "2026-09-27T11-55-36-062Z",
+      "at": "2026-09-27T11:55:36.062Z",
+      "decision": "NO_QUALIFIED_BUYER",
+      "qualified": 0,
+      "rejected": 38
     }
   ],
-  "lastRun": "2026-09-27T11-51-35-109Z"
+  "lastRun": "2026-09-27T11-55-36-062Z"
 }
