@@ -27,6 +27,23 @@ function renderSignals(){
   $("signalsGrid").innerHTML=visible.map(x=>'<article class="signal-card"><div class="signal-meta"><span>'+esc(x.sourceTypeLabel)+'</span><span>'+esc(x.dateLabel)+'</span></div><h3>'+esc(x.title)+'</h3><p>'+esc(x.description)+'</p><p><b>Entity:</b> '+esc(x.entity||"Unattributed public signal")+'</p><a class="signal-link" href="'+esc(x.source)+'" target="_blank" rel="noopener">'+esc(x.sourceLabel)+' ↗</a></article>').join("")||
     '<div class="empty">No live signals for this source filter.</div>';
 }
+
+function renderCompanyIntelligence(asset,query){
+  const box=$("companyCards"); if(!box) return;
+  box.innerHTML=candidates.map((x,i)=>{
+    const ev=liveSignals.filter(s=>(x.name && (s.entity||"").toLowerCase()===x.name.toLowerCase()) || extractEntities(s).some(e=>e.toLowerCase()===x.name.toLowerCase())).slice(0,4);
+    const evidence=ev.map(s=>'<li><b>'+esc(s.sourceTypeLabel)+'</b> · '+esc(s.title)+' <a href="'+esc(s.source)+'" target="_blank" rel="noopener">↗</a></li>').join("") || "<li>No direct source-linked evidence retained.</li>";
+    const recent=ev.filter(s=>{const a=(Date.now()-new Date(s.publishedAt||0).getTime())/86400000;return isFinite(a)&&a<=180;}).length;
+    const targetHints = /robot|robotics|humanoid|physical ai|embodied/i.test((x.name+" "+x.reason)) ?
+      "Relevant roles to research: CEO / Founder, Head of Robotics, Head of AI, VP Engineering, Business Development." :
+      "Relevant roles to research: Founder / CEO, technical leadership, partnerships or business development.";
+    return '<article class="candidate intelligence-card"><div class="candidate-top"><span class="rank">COMPANY INTELLIGENCE '+String(i+1).padStart(2,"0")+'</span><span class="score">'+x.score+'/100</span></div>'+
+      '<h3>'+esc(x.name)+'</h3><p>'+esc(x.reason)+'</p>'+
+      '<div class="intel-grid"><div><span>FIT</span><strong>'+x.profile.assetFit+'/30</strong></div><div><span>RECENCY</span><strong>'+recent+' recent</strong></div><div><span>EVIDENCE</span><strong>'+x.liveEvidence+' signals</strong></div><div><span>CONFIDENCE</span><strong>'+Math.round(x.confidence*100)+'%</strong></div></div>'+
+      '<p><b>Why it matters:</b> '+esc(x.signal)+' · research fit against <b>'+esc(asset)+'</b> / '+esc(query||"default radar query")+'</p>'+
+      '<div class="intel-columns"><div><span class="intel-label">SOURCE EVIDENCE</span><ul>'+evidence+'</ul></div><div><span class="intel-label">DECISION-MAKER RESEARCH</span><p>'+esc(targetHints)+'</p><small>No private contact data or purchase intent is inferred.</small></div></div></article>';
+  }).join("") || '<div class="empty">No verified company intelligence available yet. Run the Radar first.</div>';
+}
 function generateBrief(asset){
   const top=candidates[0];
   $("buyerBrief").innerHTML=top?
@@ -182,7 +199,7 @@ function dedupeSignals(items){\n  const seen=new Set();\n  return items.filter(x
   for(const r of results) if(r.status==="fulfilled"){providers++;liveSignals.push(...r.value);}\n  liveSignals=dedupeSignals(liveSignals).filter(s=>{ const age=(Date.now()-new Date(s.publishedAt||0).getTime())/86400000; return !isFinite(age)||age<=730; }).slice(0,40);
   for(const sig of liveSignals) sig.entity=extractEntities(sig)[0]||"Unattributed public signal";
   candidates=buildCandidates(asset,query);
-  renderMetrics();renderCandidates();renderSignals();generateBrief(asset);
+  renderMetrics();renderCandidates();renderSignals();renderCompanyIntelligence(asset,query);generateBrief(asset);
   $("status").textContent="LIVE RADAR · "+providers+"/2 SOURCE TYPES · "+liveSignals.length+" VERIFIED SIGNALS · "+candidates.length+" ENTITIES";
 }
 function init(){
@@ -191,7 +208,7 @@ function init(){
     document.querySelectorAll("#signalFilters button").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");signalFilter=btn.dataset.signalFilter;renderSignals();
   }));
-  renderMetrics();renderCandidates();renderSignals();
+  renderMetrics();renderCandidates();renderSignals();renderCompanyIntelligence("", "");
   $("buyerBrief").textContent="Run the Radar to discover buyer candidates from live evidence.";
 }
 if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init); else init();
