@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agent Console — RobotIntelligence.bot</title>
+<link rel="stylesheet" href="../agent.css">
+</head>
+<body>
+<header><a class="brand" href="../index.html"><span>RI</span> Agent Console</a><nav><a href="../index.html">Graph</a><a href="../buyer-radar.html">Opportunity Engine</a><a class="active" href="./">Agent</a></nav></header>
+<main>
+<section class="hero"><span class="eyebrow">ROBOTINTELLIGENCE.BOT / AGENT</span><h1>Understand. Search. <em>Qualify. Decide.</em> Verify. Recover.</h1>
+<p>A reversible buyer-intelligence operator. It searches public market signals, resolves entities, rejects project/education noise, qualifies commercial opportunities and preserves an auditable evidence chain. External side effects remain gated.</p>
+<div class="goal-grid"><label>Goal<input id="goal" value="Find qualified buyers for robotembodiment.com"></label><label>Asset<input id="asset" value="robotembodiment.com"></label><label>Query<input id="query" value="humanoid robotics embodied AI robot learning"></label></div>
+<div class="actions"><button id="run">RUN AGENT <span>↗</span></button><button id="stop" class="ghost">STOP</button><button id="retry" class="ghost">RETRY</button><button id="continue" class="ghost">CONTINUE</button><button id="reset" class="danger">RESET</button></div>
+<div class="agent-statusline"><span class="live-dot"></span><b>INTELLIGENCE ENGINE ONLINE</b><span>PUBLIC SIGNALS</span><span>ENTITY RESOLUTION</span><span>BUYER QUALIFICATION</span><span>CONTACT DISCOVERY</span></div></section>
+<section><div class="section-head"><div><span>01 / EXECUTION STATE</span><h2 id="stateName">IDLE</h2></div><div id="health">READY</div></div><div class="state-grid" id="stateGrid"></div></section>
+<section><div class="section-head"><div><span>02 / PLAN</span><h2>Current task graph</h2></div></div><div id="plan" class="plan"></div></section>
+<section class="opportunity-section"><div class="section-head"><div><span>03 / BUYER QUALIFICATION</span><h2>Commercial opportunity queue</h2></div><div class="section-live">LIVE INTELLIGENCE</div></div><div id="metrics" class="agent-metrics"></div><div id="opportunities" class="agent-opportunities"></div></section>
+<section><div class="section-head"><div><span>04 / EVIDENCE</span><h2>Public evidence ledger</h2></div><div id="evidenceCount">0 evidence</div></div><div id="evidence" class="evidence-grid"></div></section>
+<section><div class="section-head"><div><span>05 / DECISIONS</span><h2>Agent decision trace</h2></div></section><div id="decisions" class="decisions"></div></section>
+<section><div class="section-head"><div><span>06 / OPERATIONS LOG</span><h2>Execution history</h2></div><button id="clearLog" class="mini">CLEAR VIEW</button></div><div id="log" class="log"></div></section>
+<section><div class="section-head"><div><span>07 / SAFETY BOUNDARY</span><h2>Actual capabilities</h2></div></section><div class="boundary"><div><b>AUTOMATIC</b><p>Search public sources, normalize evidence, resolve entities, qualify companies, score opportunities, checkpoint local state, validate outputs, rollback local state and revise the plan.</p></div><div><b>GATED</b><p>Sending outreach, changing external systems, publishing, purchasing, deleting, or using secrets is disabled in browser mode until a server/worker approval boundary exists.</p></div></div></section>
+</main><script src="../agent.js?v=20260927-5"></script></body></html>
