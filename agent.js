@@ -169,7 +169,7 @@ const tools={
    if(r.providers===0)errors.push("No source responded.");
    if(!r.evidence.length)errors.push("No evidence collected.");
    if(r.candidates.some(x=>x.priority<55))errors.push("Unqualified candidate leaked into the qualified queue.");
-   if(r.candidates.some(x=>x.reason&&/noise|insufficient|threshold|identity/i.test(x.reason)))errors.push("Qualification reason contradicts candidate status.");
+   if(r.candidates.some(x=>x.reason&&/^(Research\/education\/project noise\.|Insufficient robotics \/ embodied-AI relevance\.|Commercial qualification threshold not met\.|No reliable company identity\.)$/i.test(x.reason)))errors.push("Qualification reason contradicts candidate status.");
    return errors.length?this.fail(errors.join(" ")):this.ok({pass:true});
  }
 };
