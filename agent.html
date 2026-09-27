@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agent Console — RobotIntelligence.bot</title>
+<link rel="stylesheet" href="agent.css">
+</head>
+<body>
+<header>
+<a class="brand" href="index.html"><span>RI</span> Agent Console</a>
+<nav><a href="index.html">Graph</a><a href="buyer-radar.html">Buyer Radar</a><a class="active" href="agent.html">Agent</a></nav>
+</header>
+<main>
+<section class="hero">
+<span class="eyebrow">ROBOTINTELLIGENCE.BOT / AGENT</span>
+<h1>Understand. Search. Decide. <em>Act. Verify. Recover.</em></h1>
+<p>A reversible research operator for RobotIntelligence.bot. Browser mode searches public sources, validates evidence and maintains memory. External side effects remain behind a future server approval boundary.</p>
+<div class="goal-grid">
+<label>Goal<input id="goal" value="Find qualified buyers for robotembodiment.com"></label>
+<label>Asset<input id="asset" value="robotembodiment.com"></label>
+<label>Query<input id="query" value="humanoid robotics embodied AI robot learning"></label>
+</div>
+<div class="actions">
+<button id="run">RUN AGENT ↗</button><button id="stop" class="ghost">STOP</button><button id="retry" class="ghost">RETRY</button><button id="continue" class="ghost">CONTINUE</button><button id="reset" class="danger">RESET</button>
+</div>
+</section>
+<section>
+<div class="section-head"><div><span>01 / EXECUTION STATE</span><h2 id="stateName">IDLE</h2></div><div id="health">READY</div></div>
+<div class="state-grid" id="stateGrid"></div>
+</section>
+<section><div class="section-head"><div><span>02 / PLAN</span><h2>Current task graph</h2></div></div><div id="plan" class="plan"></div></section>
+<section><div class="section-head"><div><span>03 / EVIDENCE</span><h2>What the agent found</h2></div><div id="evidenceCount">0 evidence</div></div><div id="evidence" class="evidence-grid"></div></section>
+<section><div class="section-head"><div><span>04 / DECISIONS</span><h2>Agent decision trace</h2></div></div><div id="decisions" class="decisions"></div></section>
+<section><div class="section-head"><div><span>05 / OPERATIONS LOG</span><h2>Execution history</h2></div><button id="clearLog" class="mini">CLEAR VIEW</button></div><div id="log" class="log"></div></section>
+<section><div class="section-head"><div><span>06 / SAFETY BOUNDARY</span><h2>Actual capabilities</h2></div></div>
+<div class="boundary"><div><b>AUTOMATIC</b><p>Search public sources, normalize evidence, resolve entities, score candidates, validate outputs, checkpoint local state, rollback local state and revise the plan.</p></div>
+<div><b>GATED</b><p>Sending outreach, changing external systems, publishing, purchasing, deleting, or using secrets is disabled in browser mode until a server/worker approval boundary exists.</p></div></div>
+</section>
+</main>
+<script src="agent.js?v=20260927-1"></script>
+</body>
+</html>
