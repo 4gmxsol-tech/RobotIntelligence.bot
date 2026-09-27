@@ -1,5 +1,6 @@
 const $=id=>document.getElementById(id);
-const KEY="robotintelligence.agent.v2";
+const KEY="robotintelligence.agent.v3";
+const CACHE_TTL=6*60*60*1000;
 const STATES=["UNDERSTAND","PLAN","SEARCH","VERIFY","DECIDE","EXECUTE","TEST","COMMIT","ROLLBACK","DONE"];
 let stopped=false;
 let state=load();
@@ -25,6 +26,9 @@ function load(){try{const x=JSON.parse(localStorage.getItem(KEY));return x&&x.ve
 function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
 function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
 function norm(v){return String(v||"").replace(/[-_]+/g," ").replace(/\s+/g," ").trim()}
+function cacheKey(k,q){return "ri.cache."+k+"."+q.toLowerCase().trim()}
+function cacheGet(k,q){try{const x=JSON.parse(localStorage.getItem(cacheKey(k,q))||"null");return x&&Date.now()-x.t<CACHE_TTL?x.data:null}catch{return null}}
+function cachePut(k,q,d){try{localStorage.setItem(cacheKey(k,q),JSON.stringify({t:Date.now(),data:d.slice(0,60)}))}catch{}}
 function ageDays(v){const t=new Date(v||0).getTime();return isFinite(t)?Math.max(0,(Date.now()-t)/86400000):9999}
 function write(kind,msg){state.log.unshift({t:Date.now(),kind,msg});state.log=state.log.slice(0,200);save()}
 function decision(type,msg){state.run.decisions.unshift({t:Date.now(),type,msg});state.memory.lastDecision=msg;write("DECISION",msg)}
@@ -129,8 +133,8 @@ function buildCandidates(asset,query){
 const tools={
  ok:(data,meta={})=>({ok:true,data,error:null,meta}),
  fail:(error,meta={})=>({ok:false,data:null,error,meta}),
- async github(q){try{const r=await fetch("https://api.github.com/search/repositories?q="+encodeURIComponent(q)+"&sort=updated&order=desc&per_page=15",{headers:{Accept:"application/json"}});if(!r.ok)return this.fail(r.status+" "+r.statusText,{tool:"github"});const d=await r.json();return this.ok((d.items||[]).map(x=>({source:"GitHub",sourceType:"github",sourceLabel:"GitHub",title:x.full_name,description:x.description||"",url:x.html_url,publishedAt:x.updated_at,ownerLogin:x.owner?.login||"",ownerType:x.owner?.type||""})),{tool:"github"})}catch(e){return this.fail(e.message,{tool:"github"})}},
- async hn(q){try{const r=await fetch("https://hn.algolia.com/api/v1/search?query="+encodeURIComponent(q)+"&tags=story&hitsPerPage=15");if(!r.ok)return this.fail(r.status+" "+r.statusText,{tool:"hackernews"});const d=await r.json();return this.ok((d.hits||[]).map(x=>({source:"Hacker News",sourceType:"hackernews",sourceLabel:"Hacker News",title:x.title||"",description:x.title||"",url:x.url||("https://news.ycombinator.com/item?id="+x.objectID),publishedAt:x.created_at})),{tool:"hackernews"})}catch(e){return this.fail(e.message,{tool:"hackernews"})}},
+ async github(q){const hit=cacheGet("github",q);if(hit)return this.ok(hit,{tool:"github",cached:true});try{const r=await fetch("https://api.github.com/search/repositories?q="+encodeURIComponent(q)+"&sort=updated&order=desc&per_page=15",{headers:{Accept:"application/json"}});if(!r.ok)return this.fail(r.status+" "+r.statusText,{tool:"github"});const d=await r.json();return this.ok((d.items||[]).map(x=>({source:"GitHub",sourceType:"github",sourceLabel:"GitHub",title:x.full_name,description:x.description||"",url:x.html_url,publishedAt:x.updated_at,ownerLogin:x.owner?.login||"",ownerType:x.owner?.type||""})),{tool:"github"})}catch(e){return this.fail(e.message,{tool:"github"})}},
+ async hn(q){const hit=cacheGet("hn",q);if(hit)return this.ok(hit,{tool:"hackernews",cached:true});try{const r=await fetch("https://hn.algolia.com/api/v1/search?query="+encodeURIComponent(q)+"&tags=story&hitsPerPage=15");if(!r.ok)return this.fail(r.status+" "+r.statusText,{tool:"hackernews"});const d=await r.json();return this.ok((d.hits||[]).map(x=>({source:"Hacker News",sourceType:"hackernews",sourceLabel:"Hacker News",title:x.title||"",description:x.title||"",url:x.url||("https://news.ycombinator.com/item?id="+x.objectID),publishedAt:x.created_at})),{tool:"hackernews"})}catch(e){return this.fail(e.message,{tool:"hackernews"})}},
  checkpoint(){state.run.checkpoint=JSON.parse(JSON.stringify(state.run));write("CHECKPOINT","Checkpoint saved before public-source search.");return this.ok(true)},
  restore(){if(!state.run.checkpoint)return this.fail("No checkpoint");state.run=JSON.parse(JSON.stringify(state.run.checkpoint));write("ROLLBACK","Restored the last checkpoint.");return this.ok(true)},
  validate(){
