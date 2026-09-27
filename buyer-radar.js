@@ -41,54 +41,51 @@ function extractEntities(signal){
  const desc=String(signal.description||"");
  const full=title+" "+desc;
  const found=[];
- const explicit=[
-  /(?:Launch HN:\s*)([^–-]+?)(?:\s*\(|\s*[–-])/i,
-  /\\b([A-Z][A-Za-z0-9&]+(?:\\s+[A-Z][A-Za-z0-9&]+){0,3})\\b(?:\\s+is|\\s+develops|\\s+builds|\\s+—)/g,
-  /\\b([A-Z][A-Za-z0-9&]+(?:\\s+[A-Z][A-Za-z0-9&]+){0,3})\\b(?:\\s+AI|\\s+Robotics|\\s+robotics)/g
+ const push=n=>{n=normalizeName(n);if(n&&n.length>=3&&n.length<=60)found.push(n)};
+ let m;
+ const launch=/Launch HN:\s*([^–-]+?)(?:\s*\\(|\s*[–-])/i.exec(title); if(launch)push(launch[1]);
+ const companyPatterns=[
+  /([A-Z][A-Za-z0-9&.]+(?:\\s+[A-Z][A-Za-z0-9&.]+){0,4}),?\\s+(?:Inc\\.?|Corp\\.?|Corporation|Company|Robotics|AI|Labs?|Dynamics)\\b/g,
+  /([A-Z][A-Za-z0-9&.]+(?:\\s+[A-Z][A-Za-z0-9&.]+){0,4})\\s+(?:is|was|builds|develops|makes|creates|founded)\\b/g
  ];
- explicit.forEach(re=>{let m;while((m=re.exec(full))!==null){if(m[1])found.push(normalizeName(m[1]))}});
- const repoName=title.split("/").pop().replace(/[-_]+/g," ");
- if(repoName && !/^(awesome|demo|test|landingpage|portfolio|sdk|website)$/i.test(repoName)) found.push(normalizeName(repoName));
- return [...new Set(found)].filter(n=>{
-   if(n.length<3 || n.length>60)return false;
-   if(/^(github|hacker news|ask hn|show hn|readme|source code|public repository|ai|robotics)$/i.test(n))return false;
-   if(/(?:username|student|enthusiast|developer|engineer|portfolio)/i.test(n))return false;
-   return true;
- });
+ companyPatterns.forEach(re=>{while((m=re.exec(desc))!==null)push(m[1])});
+ if(signal.ownerType==="Organization" && signal.ownerLogin) push(signal.ownerLogin);
+ const known=/\\b(Generalist AI|THEKER Robotics|Rhoda AI|Eka Robotics|Cobalt Robotics|Physical Intelligence|Figure AI|Skild AI|NVIDIA|Google DeepMind|Salem Robotics|LimX Dynamics|Beyond Imagination|Sanctuary AI|Mireye|Azalea Robotics)\\b/gi;
+ while((m=known.exec(full))!==null)push(m[1]);
+ return [...new Set(found)];
 }
-function entityQuality(entity,signals){
- const text=(entity+" "+signals.map(s=>s.title+" "+s.description).join(" ")).toLowerCase();
- const commercialTerms=["company","inc","robotics","ai","automation","platform","product","startup","founded","funding","yc ","physical world","brand","enterprise","software"];
- const noiseTerms=["student","my portfolio","i'm ","my dream","tutorial","course","assignment","personal","enthusiast","fictional"];
- const commercial=commercialTerms.filter(k=>text.includes(k)).length;
- const noise=noiseTerms.filter(k=>text.includes(k)).length;
- return commercial-noise*3;
+function isCommercialEntity(name,signals){
+ const text=(name+" "+signals.map(s=>(s.title||"")+" "+(s.description||"")).join(" ")).toLowerCase();
+ const positive=["company","inc.","inc ","corp","robotics","robotics company","ai company","ai lab","labs","dynamics","founded","startup","funding","yc ","official home","platform","product","enterprise","physical ai","robot intelligence","humanoid robots"];
+ const negative=["student","internship","tutorial","course","assignment","my dream","i'm ","i am ","portfolio","fictional","example","demo","open source humanoid robot while","how to","advice on","ask hn","show hn","symposium","workshop","diaroma","birdplane","simulator","memory"];
+ const p=positive.filter(x=>text.includes(x)).length;
+ const n=negative.filter(x=>text.includes(x)).length;
+ return p>=1 && p>=n*2;
 }
 function buildCandidates(asset,query){
  const groups={};
  liveSignals.forEach(sig=>{
    extractEntities(sig).forEach(entity=>{
+     if(!isCommercialEntity(entity,[sig]))return;
      const key=entity.toLowerCase();
      if(!groups[key])groups[key]={name:entity,signals:[]};
      groups[key].signals.push(sig);
    });
  });
  return Object.values(groups).map(g=>{
-   const evidence=g.signals.map(s=>s.title+" "+s.description).join(" ");
+   const evidence=g.signals.map(s=>(s.title||"")+" "+(s.description||"")).join(" ");
    const text=(asset+" "+query+" "+g.name+" "+evidence).toLowerCase();
-   const keywords=["brand","robot","robotics","ai","intelligence","embodied","physical","humanoid","foundation","automation"];
+   const keywords=["robot","robotics","ai","intelligence","embodied","physical","humanoid","foundation","automation"];
    const hits=keywords.filter(k=>text.includes(k)).length;
-   const quality=entityQuality(g.name,g.signals);
-   if(quality<0)return null;
    const profile={
-     buyerRelevance:Math.min(25,8+hits*2+Math.max(0,quality)),
+     buyerRelevance:Math.min(25,8+hits*2+Math.min(5,g.signals.length)),
      assetFit:Math.min(30,8+hits*2),
      recentActivity:Math.min(20,8+g.signals.length*4),
      evidenceStrength:Math.min(15,5+g.signals.length*3),
-     commercialProximity:Math.min(10,Math.max(2,5+Math.min(5,quality)))
+     commercialProximity:Math.min(10,5+Math.min(5,g.signals.length))
    };
-   return {name:g.name,score:Object.values(profile).reduce((a,v)=>a+v,0),profile,reason:"Entity extracted from live public evidence and filtered for commercial relevance.",signal:g.signals[0].title,live:true,liveEvidence:g.signals.length};
- }).filter(Boolean).sort((a,b)=>b.score-a.score);
+   return {name:g.name,score:Object.values(profile).reduce((a,v)=>a+v,0),profile,reason:"Commercial entity extracted from live public evidence.",signal:g.signals[0].title,live:true,liveEvidence:g.signals.length};
+ }).sort((a,b)=>b.score-a.score);
 }
 function showLocal(){
  candidates=[];liveSignals=[];renderMetrics();renderCandidates();renderSignals();
@@ -101,7 +98,7 @@ function runLive(){
  if(!asset){$("status").textContent="ENTER AN ASSET FIRST";return}
  $("status").textContent="LIVE RADAR · DISCOVERING ENTITIES…";
  const searchQuery=(query||asset)+" robotics AI";
- const gh=getJSON("https://api.github.com/search/repositories?q="+encodeURIComponent(searchQuery)+"&sort=updated&order=desc&per_page=10").then(data=>(data.items||[]).map(repo=>({sourceType:"github",sourceTypeLabel:"GITHUB SIGNAL",source:repo.html_url,sourceLabel:"GitHub",dateLabel:repo.updated_at?new Date(repo.updated_at).toLocaleDateString():"recent",title:repo.full_name,description:repo.description||"Public repository activity matching the research query.",entity:"",live:true})));
+ const gh=getJSON("https://api.github.com/search/repositories?q="+encodeURIComponent(searchQuery)+"&sort=updated&order=desc&per_page=10").then(data=>(data.items||[]).map(repo=>({sourceType:"github",sourceTypeLabel:"GITHUB SIGNAL",source:repo.html_url,sourceLabel:"GitHub",dateLabel:repo.updated_at?new Date(repo.updated_at).toLocaleDateString():"recent",title:repo.full_name,description:repo.description||"Public repository activity matching the research query.",ownerLogin:(repo.owner&&repo.owner.login)||"",ownerType:(repo.owner&&repo.owner.type)||"",entity:"",live:true})));
  const hn=getJSON("https://hn.algolia.com/api/v1/search?query="+encodeURIComponent(searchQuery)+"&tags=story&hitsPerPage=10").then(data=>(data.hits||[]).map(hit=>({sourceType:"hackernews",sourceTypeLabel:"HACKER NEWS",source:hit.url||("https://news.ycombinator.com/item?id="+hit.objectID),sourceLabel:"Hacker News",dateLabel:hit.created_at?new Date(hit.created_at).toLocaleDateString():"recent",title:hit.title||"Hacker News signal",description:hit.title||"Recent public discussion/news signal.",entity:"",live:true})));
  Promise.allSettled([gh,hn]).then(results=>{
    liveSignals=[];let providers=0;
