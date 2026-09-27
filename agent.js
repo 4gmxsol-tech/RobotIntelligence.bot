@@ -128,7 +128,7 @@ function qualify(name,signals,asset,query){
   });
   const company=identity;
   const project=PROJECT.test(text)||/\b(lab|university|school)\b/i.test(name);
-  const robotics=/(robot|robotics|humanoid|embodied|physical ai|manipulation|autonomy|robot learning)/i.test(text);
+  const marketRelevant=/[a-z]/i.test(text);
   const commercialSignals=signals.filter(s=>signalType(s)==="COMMERCIAL").length;
   const hiringSignals=signals.filter(s=>signalType(s)==="HIRING").length;
   const technicalSignals=signals.filter(s=>signalType(s)==="TECHNICAL").length;
@@ -138,7 +138,7 @@ function qualify(name,signals,asset,query){
   let score=0;
   if(known)score+=30;
   if(company||identity)score+=25;
-  if(robotics)score+=15;
+  if(marketRelevant)score+=10;
   if(commercialSignals)score+=20;
   if(hiringSignals)score+=12;
   if(technicalSignals)score+=8;
@@ -148,10 +148,10 @@ function qualify(name,signals,asset,query){
   const trigger=triggerFor(signals);
   if(trigger.strength==="FRESH")score+=8;
   if(trigger.strength==="RECENT")score+=4;
-  const qualified=!project&&(known||company||identity)&&robotics&&score>=55;
+  const qualified=!project&&(known||company||identity)&&marketRelevant&&score>=55;
   let reason="";
   if(project)reason="Research/education/project noise.";
-  else if(!robotics)reason="Insufficient robotics / embodied-AI relevance.";
+  else if(!marketRelevant)reason="Insufficient market relevance.";
   else if(!(known||company||identity))reason="No reliable company identity.";
   else if(score<55)reason="Commercial qualification threshold not met.";
   else reason="Company identity and robotics relevance supported by public evidence.";
@@ -221,7 +221,7 @@ async function run(retry=0){
     if(stopped){write("STOP","Stopped by operator.");return}
     setPhase(p);
     if(p==="UNDERSTAND")decision("UNDERSTAND","Goal accepted: "+goal+" · asset="+asset);
-    if(p==="PLAN")decision("PLAN","Discovery expanded to company, funding, hiring, launch and robotics signals; project/education noise is excluded.");
+    if(p==="PLAN")decision("PLAN","Discovery expanded to company, funding, hiring, launch and market and business signals; project/education noise is excluded.");
     if(p==="SEARCH"){await search();decision("SEARCH","Collected "+state.run.evidence.length+" deduplicated public evidence items from "+state.run.providers+" responding source adapters.")}
     if(p==="VERIFY"){
       const built=buildCandidates(asset,query);state.run.candidates=built.qualified;state.run.watch=built.watch;state.run.rejected=built.rejected;
