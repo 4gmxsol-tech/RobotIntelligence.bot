@@ -5,6 +5,49 @@ function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").
 function normalizeName(name){
   return String(name||"").replace(/[-_]+/g," ").replace(/\s+/g," ").trim();
 }
+
+function inferAssetProfile(asset,query){
+  const a=(asset+" "+query).toLowerCase();
+  const themes=[];
+  if(/humanoid|embodied|robot/.test(a)) themes.push("Humanoid / Embodied AI");
+  if(/behavior|planning|intelligence/.test(a)) themes.push("Robot intelligence layer");
+  if(/manipulation|control/.test(a)) themes.push("Manipulation / control");
+  if(/ui|interface/.test(a)) themes.push("Robot interface");
+  if(/stack|platform/.test(a)) themes.push("Robotics platform");
+  if(!themes.length) themes.push("Physical AI / robotics");
+  const words=(asset||"").split(".")[0].replace(/[-_]+/g," ").trim();
+  return {name:asset||"Asset",core:words, themes:[...new Set(themes)],
+    uses:["Brand / product positioning","Research or technical hub","Campaign / launch property","Redirect / category ownership"]};
+}
+function renderAssetIntelligence(asset,query){
+  const box=$("assetProfile"); if(!box) return;
+  const p=inferAssetProfile(asset,query);
+  box.innerHTML='<div class="asset-profile-grid"><div><span>ASSET</span><strong>'+esc(p.name)+'</strong></div><div><span>CORE CONCEPT</span><strong>'+esc(p.core||"—")+'</strong></div><div><span>RESEARCH THEMES</span><strong>'+esc(p.themes.join(" · "))+'</strong></div></div>'+
+    '<div class="asset-themes">'+p.themes.map(x=>'<span>'+esc(x)+'</span>').join("")+'</div>'+
+    '<div class="asset-uses"><span class="intel-label">POTENTIAL COMMERCIAL USE CASES</span><div>'+p.uses.map(x=>'<span>'+esc(x)+'</span>').join("")+'</div></div>'+
+    '<small>Asset interpretation is heuristic and should be validated against the current market context.</small>';
+}
+function renderBuyerMap(asset,query){
+  const box=$("buyerMap"); if(!box) return;
+  box.innerHTML=candidates.slice(0,6).map((x,i)=>{
+    const ev=liveSignals.filter(s=>extractEntities(s).some(e=>e.toLowerCase()===x.name.toLowerCase()) || (s.entity||"").toLowerCase()===x.name.toLowerCase());
+    const recent=ev.filter(s=>{const age=(Date.now()-new Date(s.publishedAt||0).getTime())/86400000;return isFinite(age)&&age<=180;});
+    const commercial=ev.filter(s=>signalType(s)==="COMMERCIAL");
+    const timing=recent.length>=2?"ACTIVE SIGNAL WINDOW":recent.length===1?"RECENT SIGNAL":"NO RECENT SIGNAL";
+    const angle=commercial.length?"Lead with the recent commercial/market event, then connect the asset to the company’s current narrative.":"Lead with the specific thematic fit and use the public technical evidence as the opening context.";
+    const roles=/humanoid|robot|robotics|embodied/i.test(x.name+" "+x.signal)?"CEO / Founder · Robotics / AI leadership · Partnerships":"CEO / Founder · Product · Partnerships / Business Development";
+    return '<article class="buyer-map-card"><div class="buyer-map-head"><span>#'+String(i+1).padStart(2,"0")+' '+esc(x.name)+'</span><b>'+esc(timing)+'</b></div><p><b>WHY THIS ASSET:</b> '+esc(x.reason)+' '+esc(x.signal)+'</p><p><b>WHY NOW:</b> '+esc(recent.length?recent.length+" recent public signal(s) detected.":"No recent signal has been verified; treat as exploratory.")+'</p><p><b>OUTREACH ANGLE:</b> '+esc(angle)+'</p><p><b>TARGET ROLES:</b> '+esc(roles)+'</p><a class="signal-link" href="'+esc(ev[0]?.source||"#")+'" target="_blank" rel="noopener">OPEN PRIMARY EVIDENCE ↗</a></article>';
+  }).join("") || '<div class="empty">Run the Radar to build the buyer map.</div>';
+}
+function renderOutreachIntelligence(asset){
+  const box=$("outreachIntel"); if(!box) return;
+  const x=candidates[0];
+  if(!x){box.textContent="No verified candidate yet.";return;}
+  const ev=liveSignals.filter(s=>extractEntities(s).some(e=>e.toLowerCase()===x.name.toLowerCase()));
+  const hook=ev[0]?.title||"the recent activity detected by the radar";
+  box.innerHTML='<div class="outreach-grid"><div><span>LEAD</span><strong>'+esc(x.name)+'</strong></div><div><span>HOOK</span><strong>'+esc(hook)+'</strong></div><div><span>ANGLE</span><strong>'+esc(asset)+' × '+esc(x.name)+'</strong></div></div>'+
+    '<div class="outreach-draft"><span class="intel-label">RESEARCH-READY OUTREACH ANGLE</span><p>“I’m reaching out because '+esc(x.name)+' is active around '+esc(hook)+'. I own '+esc(asset)+' and believe there may be a strong naming / product / category fit with your current direction. I thought it was worth putting the asset on your radar.”</p><small>Draft is intentionally a research starting point; verify the current signal and recipient before sending.</small></div>';
+}
 function renderMetrics(){
   const avg=candidates.length?Math.round(candidates.reduce((s,x)=>s+x.score,0)/candidates.length):0;
   const providers=new Set(liveSignals.map(x=>x.sourceType)).size;
@@ -213,7 +256,7 @@ function dedupeSignals(items){\n  const seen=new Set();\n  return items.filter(x
   for(const r of results) if(r.status==="fulfilled"){providers++;liveSignals.push(...r.value);}\n  liveSignals=dedupeSignals(liveSignals).filter(s=>{ const age=(Date.now()-new Date(s.publishedAt||0).getTime())/86400000; return !isFinite(age)||age<=730; }).slice(0,40);
   for(const sig of liveSignals) sig.entity=extractEntities(sig)[0]||"Unattributed public signal";
   candidates=buildCandidates(asset,query);
-  renderMetrics();renderCandidates();renderSignals();renderCompanyIntelligence(asset,query);generateBrief(asset);
+  renderAssetIntelligence(asset,query);renderMetrics();renderCandidates();renderSignals();renderCompanyIntelligence(asset,query);renderBuyerMap(asset,query);renderOutreachIntelligence(asset);generateBrief(asset);
   $("status").textContent="LIVE RADAR · "+providers+"/2 SOURCE TYPES · "+liveSignals.length+" VERIFIED SIGNALS · "+candidates.length+" ENTITIES";
 }
 function init(){
@@ -222,7 +265,7 @@ function init(){
     document.querySelectorAll("#signalFilters button").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");signalFilter=btn.dataset.signalFilter;renderSignals();
   }));
-  renderMetrics();renderCandidates();renderSignals();renderCompanyIntelligence("", "");
+  renderAssetIntelligence($("asset")?.value||"", $("query")?.value||"");renderMetrics();renderCandidates();renderSignals();renderCompanyIntelligence("", "");renderBuyerMap("", "");renderOutreachIntelligence("");
   $("buyerBrief").textContent="Run the Radar to discover buyer candidates from live evidence.";
 }
 if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init); else init();
