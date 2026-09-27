@@ -63,6 +63,7 @@ function write(kind,msg){state.log.unshift({t:Date.now(),kind,msg});state.log=st
 function decision(type,msg){state.run.decisions.unshift({t:Date.now(),type,msg});state.memory.lastDecision=msg;write("DECISION",msg)}
 function canonical(v){
   const raw=norm(v),key=raw.toLowerCase();
+  if(AMBIGUOUS_ENTITY.has(key))return "";
   if(ALIASES[key])return ALIASES[key];
   const n=raw.replace(/^the\s+/i,"");
   if(!n||n.length<3||n.length>70||NOISE.test(n)||AMBIGUOUS_ENTITY.has(n.toLowerCase()))return "";
