@@ -1,136 +1,148 @@
 const demo = [
-  {name:"Figure AI",keywords:["humanoid","robot","robotics","embodied","physical ai","intelligence"],base:96,type:"company",reason:"Strong semantic overlap with humanoid robotics and embodied intelligence.",signal:"Humanoid deployment and robot-learning activity."},
+  {name:"Figure AI",keywords:["humanoid","robot","robotics","embodied","physical ai","intelligence"],base:96,type:"company",reason:"Strong overlap with humanoid robotics and embodied intelligence.",signal:"Humanoid deployment and robot-learning activity."},
   {name:"Skild AI",keywords:["robot","robotics","embodied","physical ai","foundation model","intelligence"],base:94,type:"company",reason:"Strong overlap with general-purpose robot intelligence and embodied AI.",signal:"Robot foundation-model activity."},
   {name:"Physical Intelligence",keywords:["robot","robotics","embodied","physical ai","foundation model","intelligence"],base:92,type:"company",reason:"Strong overlap with physical AI, robot learning and general-purpose models.",signal:"Foundation-model approach to physical tasks."},
-  {name:"NVIDIA",keywords:["robot","robotics","simulation","physical ai","ai","intelligence"],base:89,type:"company",reason:"Relevant robotics infrastructure, simulation and physical-AI ecosystem activity.",signal:"Robotics platforms and physical-AI infrastructure."},
+  {name:"NVIDIA",keywords:["robot","robotics","simulation","physical ai","ai","intelligence"],base:89,type:"company",reason:"Relevant robotics infrastructure and physical-AI ecosystem activity.",signal:"Robotics platforms and physical-AI infrastructure."},
   {name:"Google DeepMind",keywords:["robot","robotics","embodied","physical ai","foundation model","intelligence"],base:87,type:"company",reason:"Relevant embodied-AI, robot-learning and foundation-model research.",signal:"Embodied AI and robotics research."}
 ];
 
-const $ = id => document.getElementById(id);
-const API_TIMEOUT = 7000;
-let currentResults = [];
-let currentFilter = "all";
+var $ = function(id){ return document.getElementById(id); };
+var currentResults = demo.map(function(x){ return Object.assign({},x,{score:x.base,live:false,evidence:"Local benchmark candidate profile."}); });
+var currentFilter = "all";
 
-function tokenize(value){return value.toLowerCase().replace(/[^a-z0-9.\s-]/g," ").split(/[\s-]+/).filter(Boolean)}
+function tokenize(value){
+  return String(value || "").toLowerCase().replace(/[^a-z0-9.\s-]/g," ").split(/[\s-]+/).filter(Boolean);
+}
 
 function scoreBuyer(buyer,asset,query){
-  const tokens=new Set(tokenize(asset+" "+query));
-  const hits=buyer.keywords.filter(k=>k.split(" ").some(w=>tokens.has(w)));
+  var tokens = new Set(tokenize(asset+" "+query));
+  var hits = buyer.keywords.filter(function(k){
+    return k.split(" ").some(function(word){ return tokens.has(word); });
+  });
   return Math.min(100,buyer.base+Math.min(8,hits.length*2));
 }
 
-async function fetchJSON(url){
-  const controller=new AbortController();
-  const timer=setTimeout(()=>controller.abort(),API_TIMEOUT);
-  try{
-    const response=await fetch(url,{headers:{"Accept":"application/vnd.github+json"}});
-    if(!response.ok)throw new Error(response.status+" "+response.statusText);
-    return await response.json();
-  }finally{clearTimeout(timer)}
-}
-
-async function githubSignals(query){
-  const q=encodeURIComponent(query+" robotics");
-  const data=await fetchJSON("https://api.github.com/search/repositories?q="+q+"&sort=updated&order=desc&per_page=8");
-  return (data.items||[]).map(repo=>({
-    name:repo.owner?.login||repo.name,type:"signal",score:Math.min(88,50+Math.min(38,(repo.stargazers_count||0)/100)),
-    reason:"Public GitHub activity matching the research query.",
-    signal:repo.full_name+" · updated "+new Date(repo.updated_at).toLocaleDateString(),
-    evidence:repo.description||"Public repository signal.",source:repo.html_url,sourceLabel:"GitHub",companyHint:repo.owner?.login||repo.name
-  }));
-}
-
-async function hackerNewsSignals(query){
-  const q=encodeURIComponent(query+" robotics");
-  const data=await fetchJSON("https://hn.algolia.com/api/v1/search?query="+q+"&tags=story&hitsPerPage=8");
-  return (data.hits||[]).map(hit=>({
-    name:hit.title||"Hacker News signal",type:"signal",score:58,
-    reason:"Recent public discussion/news signal matching the query.",
-    signal:hit.title||"Recent Hacker News result",
-    evidence:"Published "+(hit.created_at?new Date(hit.created_at).toLocaleDateString():"recently"),
-    source:hit.url||("https://news.ycombinator.com/item?id="+hit.objectID),sourceLabel:"Hacker News"
-  }));
-}
-
-function dedupeSignals(items){
-  const seen=new Set();
-  return items.filter(x=>{const key=(x.source||x.name).toLowerCase();if(seen.has(key))return false;seen.add(key);return true});
+function escapeHTML(value){
+  return String(value == null ? "" : value)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#039;");
 }
 
 function renderMetrics(items,providers){
-  const companies=items.filter(x=>x.type==="company").length;
-  const live=items.filter(x=>x.live).length;
-  const avg=items.length?Math.round(items.reduce((s,x)=>s+x.score,0)/items.length):0;
-  $("metrics").innerHTML=[
-    ["CANDIDATES",companies],["LIVE SIGNALS",live],["AVG RELEVANCE",avg+"/100"],["SOURCES",providers]
-  ].map(x=>"<div class="metric"><b>"+x[1]+"</b><span>"+x[0]+"</span></div>").join("");
+  var companies = items.filter(function(x){return x.type==="company";}).length;
+  var live = items.filter(function(x){return x.live;}).length;
+  var avg = items.length ? Math.round(items.reduce(function(s,x){return s+x.score;},0)/items.length) : 0;
+  $("metrics").innerHTML =
+    '<div class="metric"><b>'+companies+'</b><span>CANDIDATES</span></div>'+
+    '<div class="metric"><b>'+live+'</b><span>LIVE SIGNALS</span></div>'+
+    '<div class="metric"><b>'+avg+'/100</b><span>AVG RELEVANCE</span></div>'+
+    '<div class="metric"><b>'+providers+'</b><span>SOURCES</span></div>';
 }
 
 function render(items){
-  currentResults=items;
-  const visible=currentFilter==="all"?items:items.filter(x=>x.type===currentFilter);
-  $("results").innerHTML=visible.map(x=>`
-    <article class="card">
-      <div class="score">${x.score}/100 · ${x.live?"LIVE SIGNAL":"CANDIDATE"}</div>
-      <h3>${x.name}</h3>
-      <p>${x.reason}</p>
-      <div class="evidence"><b>SIGNAL</b><br>${x.signal}<br><br><b>EVIDENCE</b><br>${x.evidence}
-      ${x.source?`<br><br><a href="${x.source}" target="_blank" rel="noopener">${x.sourceLabel} ↗</a>`:""}</div>
-    </article>`).join("")||"<div class='empty'>No results for this filter.</div>";
+  currentResults = items;
+  var visible = currentFilter==="all" ? items : items.filter(function(x){return x.type===currentFilter;});
+  $("results").innerHTML = visible.map(function(x){
+    var source = x.source ? '<br><br><a href="'+escapeHTML(x.source)+'" target="_blank" rel="noopener">'+escapeHTML(x.sourceLabel || "SOURCE")+' ↗</a>' : "";
+    return '<article class="card">'+
+      '<div class="score">'+escapeHTML(x.score)+'/100 · '+(x.live?"LIVE SIGNAL":"CANDIDATE")+'</div>'+
+      '<h3>'+escapeHTML(x.name)+'</h3>'+
+      '<p>'+escapeHTML(x.reason)+'</p>'+
+      '<div class="evidence"><b>SIGNAL</b><br>'+escapeHTML(x.signal)+'<br><br><b>EVIDENCE</b><br>'+escapeHTML(x.evidence)+source+'</div>'+
+      '</article>';
+  }).join("") || '<div class="empty">No results for this filter.</div>';
 }
 
 function generateBrief(items,asset,query){
-  const companies=items.filter(x=>x.type==="company").sort((a,b)=>b.score-a.score);
-  const signals=items.filter(x=>x.type==="signal").slice(0,5);
-  const top=companies[0];
-  $("buyerBrief").innerHTML=top?`
-    <div class="brief-grid">
-      <div><span>ASSET</span><strong>${asset}</strong></div>
-      <div><span>TOP CANDIDATE</span><strong>${top.name}</strong></div>
-      <div><span>RELEVANCE</span><strong>${top.score}/100</strong></div>
-      <div><span>RESEARCH QUERY</span><strong>${query}</strong></div>
-    </div>
-    <p><b>Why this candidate:</b> ${top.reason}</p>
-    <p><b>Known signal:</b> ${top.signal}</p>
-    <p><b>Next research:</b> verify current company positioning, relevant product/domain usage, decision-maker ownership and recent strategic activity before outreach.</p>
-    <small>${signals.length} live signals were available in this run. Scores are research heuristics, not evidence of purchase intent.</small>`:"Run the Radar to generate a structured brief.";
+  var companies = items.filter(function(x){return x.type==="company";}).sort(function(a,b){return b.score-a.score;});
+  var top = companies[0];
+  if(!top){ $("buyerBrief").textContent="Run the Radar to generate a buyer brief."; return; }
+  $("buyerBrief").innerHTML =
+    '<div class="brief-grid">'+
+    '<div><span>ASSET</span><strong>'+escapeHTML(asset)+'</strong></div>'+
+    '<div><span>TOP CANDIDATE</span><strong>'+escapeHTML(top.name)+'</strong></div>'+
+    '<div><span>RELEVANCE</span><strong>'+top.score+'/100</strong></div>'+
+    '<div><span>QUERY</span><strong>'+escapeHTML(query)+'</strong></div>'+
+    '</div>'+
+    '<p><b>Why:</b> '+escapeHTML(top.reason)+'</p>'+
+    '<p><b>Signal:</b> '+escapeHTML(top.signal)+'</p>'+
+    '<p><b>Next:</b> Verify current positioning, decision-maker ownership and recent strategic activity before outreach.</p>'+
+    '<small>Relevance score is a research heuristic, not evidence of purchase intent.</small>';
 }
 
-async function runRadar(){
-  const asset=$("asset").value.trim()||"RobotIntelligence.bot";
-  const query=$("query").value.trim()||"robot intelligence physical AI";
-  $("status").textContent="LIVE RADAR · COLLECTING…";
-
-  const [gh,hn]=await Promise.allSettled([githubSignals(query),hackerNewsSignals(query)]);
-  const live=dedupeSignals([
-    ...(gh.status==="fulfilled"?gh.value:[]),
-    ...(hn.status==="fulfilled"?hn.value:[])
-  ]).map(x=>({...x,live:true}));
-
-  const companies=demo.map(b=>({...b,score:scoreBuyer(b,asset,query),live:false,evidence:"Local benchmark candidate profile."}));
-  const ranked=[...companies,...live].sort((a,b)=>b.score-a.score);
-  const providerCount=(gh.status==="fulfilled"?1:0)+(hn.status==="fulfilled"?1:0);
-
-  renderMetrics(ranked,providerCount);
-  render(ranked);
-  generateBrief(ranked,asset,query);
-  $("status").textContent=`LIVE RADAR · ${providerCount}/2 PUBLIC SOURCES · ${live.length} LIVE SIGNALS`;
+function showLocal(){
+  var asset = $("asset").value.trim() || "RobotIntelligence.bot";
+  var query = $("query").value.trim() || "robot intelligence physical AI";
+  currentResults = demo.map(function(b){
+    return Object.assign({},b,{score:scoreBuyer(b,asset,query),live:false,evidence:"Local benchmark candidate profile."});
+  }).sort(function(a,b){return b.score-a.score;});
+  renderMetrics(currentResults,0);
+  render(currentResults);
+  generateBrief(currentResults,asset,query);
+  $("status").textContent="LOCAL ENGINE READY · LIVE SOURCES WILL LOAD AFTER RUN";
 }
 
-$("run").addEventListener("click",()=>runRadar().catch(error=>{
-  $("status").textContent="LIVE RADAR ERROR · FALLBACK";
-  const asset=$("asset").value.trim()||"RobotIntelligence.bot";
-  const query=$("query").value.trim()||"robot intelligence physical AI";
-  const ranked=demo.map(b=>({...b,score:scoreBuyer(b,asset,query),live:false,evidence:"Live sources unavailable; local benchmark retained."}));
-  renderMetrics(ranked,0);render(ranked);generateBrief(ranked,asset,query);
-}));
+function getJSON(url){
+  return fetch(url).then(function(response){
+    if(!response.ok) throw new Error(response.status+" "+response.statusText);
+    return response.json();
+  });
+}
 
-document.querySelectorAll("#filters button").forEach(button=>button.addEventListener("click",()=>{
-  document.querySelectorAll("#filters button").forEach(b=>b.classList.remove("active"));
-  button.classList.add("active");currentFilter=button.dataset.filter;render(currentResults);
-}));
+function runLive(){
+  var asset = $("asset").value.trim() || "RobotIntelligence.bot";
+  var query = $("query").value.trim() || "robot intelligence physical AI";
+  $("status").textContent="LIVE RADAR · QUERYING…";
 
-renderMetrics(demo,0);
-render(demo.map(b=>({...b,score:b.base,live:false,evidence:"Local benchmark candidate profile."})));
-generateBrief(demo,"robotembodiment.com","humanoid robotics embodied AI robot learning");
-$("status").textContent="LIVE RADAR READY · PUBLIC SOURCES · NO API KEY";
+  var gh = getJSON("https://api.github.com/search/repositories?q="+encodeURIComponent(query+" robotics")+"&sort=updated&order=desc&per_page=8")
+    .then(function(data){
+      return (data.items||[]).map(function(repo){
+        return {name:(repo.owner&&repo.owner.login)||repo.name,type:"signal",
+          score:Math.min(88,50+Math.min(38,(repo.stargazers_count||0)/100)),live:true,
+          reason:"Public GitHub activity matching the research query.",
+          signal:repo.full_name+" · updated "+new Date(repo.updated_at).toLocaleDateString(),
+          evidence:repo.description||"Public repository signal.",source:repo.html_url,sourceLabel:"GitHub"};
+      });
+    });
+
+  var hn = getJSON("https://hn.algolia.com/api/v1/search?query="+encodeURIComponent(query+" robotics")+"&tags=story&hitsPerPage=8")
+    .then(function(data){
+      return (data.hits||[]).map(function(hit){
+        return {name:hit.title||"Hacker News signal",type:"signal",score:58,live:true,
+          reason:"Recent public discussion/news signal matching the query.",
+          signal:hit.title||"Recent Hacker News result.",
+          evidence:"Published "+(hit.created_at?new Date(hit.created_at).toLocaleDateString():"recently"),
+          source:hit.url||("https://news.ycombinator.com/item?id="+hit.objectID),sourceLabel:"Hacker News"};
+      });
+    });
+
+  Promise.allSettled([gh,hn]).then(function(results){
+    var live=[];
+    var providers=0;
+    results.forEach(function(result){
+      if(result.status==="fulfilled"){ providers++; live=live.concat(result.value); }
+    });
+    var companies=demo.map(function(b){
+      return Object.assign({},b,{score:scoreBuyer(b,asset,query),live:false,evidence:"Local benchmark candidate profile."});
+    });
+    var ranked=companies.concat(live).sort(function(a,b){return b.score-a.score;});
+    currentResults=ranked;
+    renderMetrics(ranked,providers);
+    render(ranked);
+    generateBrief(ranked,asset,query);
+    $("status").textContent="LIVE RADAR · "+providers+"/2 SOURCES · "+live.length+" LIVE SIGNALS";
+  });
+}
+
+if($("run")) $("run").addEventListener("click",runLive);
+
+document.querySelectorAll("#filters button").forEach(function(button){
+  button.addEventListener("click",function(){
+    document.querySelectorAll("#filters button").forEach(function(b){b.classList.remove("active");});
+    button.classList.add("active");
+    currentFilter=button.dataset.filter;
+    render(currentResults);
+  });
+});
+
+showLocal();
