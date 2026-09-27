@@ -155,35 +155,72 @@ async function getJSON(url){
   if(!r.ok) throw new Error(r.status+" "+r.statusText);
   return r.json();
 }
+async function fetchTechCrunch(query){
+  const feeds=[
+    "https://techcrunch.com/category/robotics/feed/",
+    "https://techcrunch.com/category/artificial-intelligence/feed/"
+  ];
+  const results=[];
+  for(const url of feeds){
+    try{
+      const xml=await getText(url);
+      const doc=new DOMParser().parseFromString(xml,"text/xml");
+      [...doc.querySelectorAll("item")].forEach(item=>{
+        const title=item.querySelector("title")?.textContent?.trim()||"";
+        const link=item.querySelector("link")?.textContent?.trim()||"";
+        const pub=item.querySelector("pubDate")?.textContent?.trim()||"";
+        const desc=item.querySelector("description")?.textContent?.replace(/<[^>]+>/g," ").trim()||"";
+        if(title && new RegExp((query||"AI").split(/\s+/).filter(Boolean).join("|"),"i").test(title+" "+desc))
+          results.push({sourceType:"techcrunch",sourceTypeLabel:"TECHCRUNCH",source:link,sourceLabel:"TechCrunch",dateLabel:pub?new Date(pub).toLocaleDateString():"recent",publishedAt:pub||null,title,description:desc,entity:""});
+      });
+    }catch(e){}
+  }
+  return results.slice(0,12);
+}
+async function getText(url){
+  const r=await fetch(url,{headers:{"Accept":"application/rss+xml, application/xml, text/xml"}});
+  if(!r.ok) throw new Error(r.status+" "+r.statusText);
+  return r.text();
+}
 async function runLive(){
   const asset=$("asset").value.trim(),query=$("query").value.trim();
   if(!asset){$("status").textContent="ENTER AN ASSET FIRST";return;}
   $("status").textContent="LIVE RADAR · DISCOVERING…";
   liveSignals=[]; candidates=[]; renderMetrics(); renderCandidates(); renderSignals();
-  const searchQuery=(query||asset)+" robotics AI";
-  const gh=getJSON("https://api.github.com/search/repositories?q="+encodeURIComponent(searchQuery)+"&sort=updated&order=desc&per_page=10")
-    .then(d=>(d.items||[]).map(repo=>({sourceType:"github",sourceTypeLabel:"GITHUB SIGNAL",source:repo.html_url,sourceLabel:"GitHub",
-      dateLabel:repo.updated_at?new Date(repo.updated_at).toLocaleDateString():"recent",publishedAt:repo.updated_at||null,title:repo.full_name,description:repo.description||"Public repository activity matching the research query.",
-      ownerLogin:repo.owner?.login||"",ownerType:repo.owner?.type||"",entity:""})));
-  const hn=getJSON("https://hn.algolia.com/api/v1/search?query="+encodeURIComponent(searchQuery)+"&tags=story&hitsPerPage=10")
-    .then(d=>(d.hits||[]).map(hit=>({sourceType:"hackernews",sourceTypeLabel:"HACKER NEWS",source:hit.url||("https://news.ycombinator.com/item?id="+hit.objectID),
-      sourceLabel:"Hacker News",dateLabel:hit.created_at?new Date(hit.created_at).toLocaleDateString():"recent",publishedAt:hit.created_at||null,title:hit.title||"Hacker News signal",
-      description:hit.title||"Recent public discussion/news signal.",entity:""})));
-  const results=await Promise.allSettled([gh,hn]);
+  const q=(query||asset).trim();
+  const ghQueries=[
+    q+" robotics AI",
+    q+" humanoid embodied robotics",
+    q+" robot learning physical AI"
+  ];
+  const gh=Promise.all(ghQueries.map(searchQuery=>
+    getJSON("https://api.github.com/search/repositories?q="+encodeURIComponent(searchQuery)+"&sort=updated&order=desc&per_page=10")
+      .then(d=>(d.items||[]).map(repo=>({sourceType:"github",sourceTypeLabel:"GITHUB SIGNAL",source:repo.html_url,sourceLabel:"GitHub",
+        dateLabel:repo.updated_at?new Date(repo.updated_at).toLocaleDateString():"recent",publishedAt:repo.updated_at||null,title:repo.full_name,description:repo.description||"Public repository activity matching the research query.",
+        ownerLogin:repo.owner?.login||"",ownerType:repo.owner?.type||"",entity:""})))
+  )).then(parts=>{
+    const seen=new Set();
+    return parts.flat().filter(x=>{if(seen.has(x.source))return false;seen.add(x.source);return true;}).slice(0,15);
+  });
+  const hnQueries=[q+" robotics",q+" embodied AI",q+" robot learning"];
+  const hn=Promise.all(hnQueries.map(searchQuery=>
+    getJSON("https://hn.algolia.com/api/v1/search?query="+encodeURIComponent(searchQuery)+"&tags=story&hitsPerPage=10")
+      .then(d=>(d.hits||[]).map(hit=>({sourceType:"hackernews",sourceTypeLabel:"HACKER NEWS",source:hit.url||("https://news.ycombinator.com/item?id="+hit.objectID),
+        sourceLabel:"Hacker News",dateLabel:hit.created_at?new Date(hit.created_at).toLocaleDateString():"recent",publishedAt:hit.created_at||null,title:hit.title||"Hacker News signal",
+        description:hit.title||"Recent public discussion/news signal.",entity:""})))
+  )).then(parts=>{
+    const seen=new Set();
+    return parts.flat().filter(x=>{if(seen.has(x.source))return false;seen.add(x.source);return true;}).slice(0,15);
+  });
+  const tc=fetchTechCrunch(q);
+  const results=await Promise.allSettled([gh,hn,tc]);
   let providers=0;
   for(const r of results) if(r.status==="fulfilled"){providers++;liveSignals.push(...r.value);}
+  const seenSignals=new Set();
+  liveSignals=liveSignals.filter(s=>{const k=s.source+"|"+s.title;if(seenSignals.has(k))return false;seenSignals.add(k);return true;}).slice(0,40);
   for(const sig of liveSignals) sig.entity=extractEntities(sig)[0]||"Unattributed public signal";
   candidates=buildCandidates(asset,query);
-  renderMetrics();renderCandidates();renderSignals();generateBrief(asset);
-  $("status").textContent="LIVE RADAR · "+providers+"/2 SOURCES · "+liveSignals.length+" SIGNALS · "+candidates.length+" ENTITIES";
+  renderMetrics();renderCandidates();renderSignals();generateBrief();
+  $("status").textContent="LIVE RADAR · "+providers+"/3 SOURCES · "+liveSignals.length+" SIGNALS · "+candidates.length+" ENTITIES";
 }
-function init(){
-  $("run")?.addEventListener("click",()=>runLive().catch(err=>{$("status").textContent="RADAR ERROR · "+err.message;console.error(err);}));
-  document.querySelectorAll("#signalFilters button").forEach(btn=>btn.addEventListener("click",()=>{
-    document.querySelectorAll("#signalFilters button").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");signalFilter=btn.dataset.signalFilter;renderSignals();
-  }));
-  renderMetrics();renderCandidates();renderSignals();
-  $("buyerBrief").textContent="Run the Radar to discover buyer candidates from live evidence.";
-}
-if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init); else init();
+
