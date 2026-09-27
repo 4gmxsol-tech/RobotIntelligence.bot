@@ -1,6 +1,7 @@
 const $=id=>document.getElementById(id);
 const KEY="robotintelligence.agent.v3";
 const CACHE_TTL=6*60*60*1000;
+const CONTACT_CACHE_TTL=24*60*60*1000;
 const STATES=["UNDERSTAND","PLAN","SEARCH","VERIFY","DECIDE","EXECUTE","TEST","COMMIT","ROLLBACK","DONE"];
 let stopped=false;
 let state=load();
@@ -21,7 +22,7 @@ const COMPANY_SEEDS=["Figure AI","Physical Intelligence","Skild AI","Sanctuary A
 const NOISE=/^(physical|physical ai|embodied|embodied ai|robotics|robot|ai|artificial intelligence|machine learning|open source|github|workshop|simulator|tutorial|demo|project|making|agentic|learning|research|engineering|software engineer|ai researcher|intern|portfolio|course|book|textbook|lab|school|university)$/i;
 const PROJECT=/\b(portfolio|student|internship|course|tutorial|workshop|assignment|simulator|demo|personal project|textbook|book|notes|learning resource|university|school|classroom)\b/i;
 
-function base(){return{version:2,run:{status:"IDLE",goal:"",asset:"",query:"",plan:[],evidence:[],candidates:[],rejected:[],decisions:[],errors:[],providers:0,retries:0,checkpoint:null,metrics:{signals:0,qualified:0,rejected:0,fresh:0,triggers:0}},memory:{runs:[],lastDecision:""},log:[]}}
+function base(){return{version:2,run:{status:"IDLE",goal:"",asset:"",query:"",plan:[],evidence:[],candidates:[],rejected:[],decisions:[],errors:[],providers:0,retries:0,checkpoint:null,metrics:{signals:0,qualified:0,rejected:0,fresh:0,triggers:0,contacts:0}},memory:{runs:[],lastDecision:""},log:[]}}
 function load(){try{const x=JSON.parse(localStorage.getItem(KEY));return x&&x.version===2?x:base()}catch{return base()}}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
 function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
@@ -29,6 +30,31 @@ function norm(v){return String(v||"").replace(/[-_]+/g," ").replace(/\s+/g," ").
 function cacheKey(k,q){return "ri.cache."+k+"."+q.toLowerCase().trim()}
 function cacheGet(k,q){try{const x=JSON.parse(localStorage.getItem(cacheKey(k,q))||"null");return x&&Date.now()-x.t<CACHE_TTL?x.data:null}catch{return null}}
 function cachePut(k,q,d){try{localStorage.setItem(cacheKey(k,q),JSON.stringify({t:Date.now(),data:d.slice(0,60)}))}catch{}}
+function contactKey(name){return "ri.contact."+name.toLowerCase().replace(/[^a-z0-9]+/g,"-")}
+function contactGet(name){try{const x=JSON.parse(localStorage.getItem(contactKey(name))||"null");return x&&Date.now()-x.t<CONTACT_CACHE_TTL?x.data:null}catch{return null}}
+function contactPut(name,data){try{localStorage.setItem(contactKey(name),JSON.stringify({t:Date.now(),data}))}catch{}}
+function slug(name){return name.toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]+/g,"").replace(/ai$/,"")}
+function channelIcon(type){return type==="X"?"𝕏":type==="LinkedIn"?"in":type==="GitHub"?"⌘":type==="Email"?"✉":"↗"}
+function contactChannels(name,signals){
+  const cached=contactGet(name);if(cached)return cached;
+  const n=norm(name),s=slug(n),lower=n.toLowerCase();
+  const websiteMap={"figure ai":"figure.ai","physical intelligence":"physicalintelligence.company","skild ai":"skild.ai","sanctuary ai":"sanctuary.ai","agility robotics":"agilityrobotics.com","apptronik":"apptronik.com","1x technologies":"1x.tech","neura robotics":"neura-robotics.com","unitree robotics":"unitree.com","boston dynamics":"bostondynamics.com","dexterity":"dexterity.ai","covariant":"covariant.ai","robust.ai":"robust.ai","nvidia":"nvidia.com","google deepmind":"deepmind.google","pudu robotics":"pudurobotics.com","anybotics":"anybotics.com","ubtech robotics":"ubtrobot.com","limx dynamics":"limxdynamics.com","tesla":"tesla.com"};
+  const host=websiteMap[lower];
+  const channels=[];
+  if(host)channels.push({type:"Website",label:"Website",url:"https://"+host,confidence:96});
+  channels.push({type:"LinkedIn",label:"LinkedIn",url:"https://www.linkedin.com/company/"+s,confidence:68});
+  channels.push({type:"X",label:"X",url:"https://x.com/"+s,confidence:62});
+  channels.push({type:"GitHub",label:"GitHub",url:"https://github.com/"+s,confidence:48});
+  const evidenceText=signals.map(x=>(x.title+" "+x.description+" "+(x.url||""))).join(" ");
+  const email=(evidenceText.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/ig)||[])[0];
+  if(email)channels.unshift({type:"Email",label:email,url:"mailto:"+email,confidence:99});
+  const result={channels:channels.filter((x,i,a)=>a.findIndex(y=>y.type===x.type)===i),strategy:email?"EMAIL FIRST":host?"WEBSITE → LINKEDIN / X":"LINKEDIN → X → WEBSITE"};
+  contactPut(name,result);return result;
+}
+function outreach(name,asset,trigger){
+  const t=trigger?.signal?.title||trigger?.reason||"your recent robotics work";
+  return "Hi "+name+" team — I own "+asset+" and noticed "+t+". The name aligns closely with your work in humanoid / embodied robotics. If this is relevant to your roadmap, I can share the domain and terms.";
+}
 function ageDays(v){const t=new Date(v||0).getTime();return isFinite(t)?Math.max(0,(Date.now()-t)/86400000):9999}
 function write(kind,msg){state.log.unshift({t:Date.now(),kind,msg});state.log=state.log.slice(0,200);save()}
 function decision(type,msg){state.run.decisions.unshift({t:Date.now(),type,msg});state.memory.lastDecision=msg;write("DECISION",msg)}
@@ -122,7 +148,7 @@ function buildCandidates(asset,query){
   const qualified=[],watch=[],rejected=[];
   for(const g of Object.values(groups)){
     const q=qualify(g.name,g.signals,asset,query);
-    const item={name:g.name,signals:g.signals,evidence:g.signals.length,relevance:q.score,recent:q.fresh,commercial:q.commercialSignals,hiring:q.hiringSignals,technical:q.technicalSignals,trigger:q.trigger,roles:roleMap(g.name,g.signals),priority:q.score,reason:q.reason};
+    const contacts=contactChannels(g.name,g.signals);const item={name:g.name,signals:g.signals,evidence:g.signals.length,relevance:q.score,recent:q.fresh,commercial:q.commercialSignals,hiring:q.hiringSignals,technical:q.technicalSignals,trigger:q.trigger,roles:roleMap(g.name,g.signals),priority:q.score,reason:q.reason,contacts,contactStrategy:contacts.strategy,outreach:outreach(g.name,asset,q.trigger)};
     if(q.qualified)qualified.push(item);
     else if(!/noise|project|education/i.test(q.reason) && q.score>=35 && (q.technicalSignals||q.commercialSignals||q.hiringSignals))watch.push(item);
     else rejected.push(item);
@@ -180,13 +206,13 @@ async function run(){
       const built=buildCandidates(asset,query);state.run.candidates=built.qualified;state.run.watch=built.watch;state.run.rejected=built.rejected;
       state.run.metrics.qualified=built.qualified.length;state.run.metrics.watch=built.watch.length;state.run.metrics.rejected=built.rejected.length;
       state.run.metrics.fresh=built.qualified.filter(x=>x.trigger.strength==="FRESH").length;
-      state.run.metrics.triggers=[...built.qualified,...built.watch].filter(x=>x.trigger.strength==="FRESH"||x.trigger.strength==="RECENT").length;
+      state.run.metrics.triggers=[...built.qualified,...built.watch].filter(x=>x.trigger.strength==="FRESH"||x.trigger.strength==="RECENT").length;\n      state.run.metrics.contacts=[...built.qualified,...built.watch].filter(x=>x.contacts?.channels?.length).length;
       decision("VERIFY","Qualified "+built.qualified.length+" commercial opportunities; rejected "+built.rejected.length+" entities.");
     }
     if(p==="DECIDE")decision("DECIDE",state.run.candidates.length?("Proceed with "+state.run.candidates.length+" evidence-backed buyer opportunities."):(state.run.watch?.length?("No buyer cleared the commercial gate; "+state.run.watch.length+" companies moved to watch status."):("No buyer passed the commercial evidence gate.")));
     if(p==="EXECUTE")decision("EXECUTE","External side effects remain disabled; only local research state is changed.");
     if(p==="TEST"){
-      const v=tools.validate();
+      for(const c of [...state.run.candidates,...(state.run.watch||[])]){if(!c.contacts?.channels?.length)errors.push("Missing contact channels for "+c.name)}\n      const v=tools.validate();
       if(!v.ok){state.run.errors.push(v.error);decision("TEST","Validation failed; rollback is required.");state.run.retries++;tools.restore();if(state.run.retries<2){state.run.query=(query+" commercial company").trim();return run()}setPhase("ROLLBACK");return}
       decision("TEST","Qualification gate passed: no noise candidate is allowed into the buyer queue.");
     }
@@ -201,7 +227,7 @@ function render(){
  $("evidenceCount").textContent=(m.signals||0)+" evidence · "+(m.qualified||0)+" qualified";
  $("stateGrid").innerHTML=STATES.map(x=>'<div class="state-card '+(x===r.status?"active":"")+'"><b>'+x+'</b><small>'+((r.plan.find(y=>y.name===x)||{}).status||"pending")+'</small></div>').join("");
  $("plan").innerHTML=r.plan.map(x=>'<div class="plan-card '+x.status+'"><div class="step">'+x.name+'</div><h3>'+x.status.toUpperCase()+'</h3><p>'+x.detail+'</p></div>').join("");
- $("metrics").innerHTML=[[m.qualified||0,"QUALIFIED BUYERS"],[m.watch||0,"WATCH CANDIDATES"],[m.fresh||0,"FRESH BUYER TRIGGERS ≤30D"],[m.rejected||0,"REJECTED / NOISE"]].map(x=>'<div class="agent-metric"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>').join("");
+ $("metrics").innerHTML=[[m.qualified||0,"QUALIFIED BUYERS"],[m.watch||0,"WATCH CANDIDATES"],[m.fresh||0,"FRESH BUYER TRIGGERS ≤30D"],[m.rejected||0,"REJECTED / NOISE"],[m.contacts||0,"CONTACTABLE OPPORTUNITIES"]].map(x=>'<div class="agent-metric"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>').join("");
  $("opportunities").innerHTML=(r.candidates.length?r.candidates.slice(0,8):r.watch?.length?r.watch.slice(0,6):[]).map((x,i)=>{const s=x.trigger.signal;return '<article class="agent-opportunity"><div class="agent-opp-top"><span>OPPORTUNITY '+String(i+1).padStart(2,"0")+'</span><b>'+x.priority+'/100</b></div><h3>'+esc(x.name)+'</h3><div class="agent-opp-grid"><div><span>WHY QUALIFIED</span><strong>'+esc(x.reason)+'</strong></div><div><span>TRIGGER</span><strong>'+esc(x.trigger.label)+' · '+esc(x.trigger.strength)+'</strong></div><div><span>TARGET ROLES</span><strong>'+esc(x.roles.join(" · "))+'</strong></div><div><span>EVIDENCE</span><strong>'+x.evidence+' items · '+x.recent+' recent</strong></div></div>'+(s?'<p><b>Evidence:</b> '+esc(s.title)+' <a href="'+esc(s.url)+'" target="_blank" rel="noopener">OPEN ↗</a></p>':"")+'</article>'}).join(""):'<div class="empty-agent">No company passed the buyer qualification gate.</div>';
  $("evidence").innerHTML=r.evidence.slice(0,40).map(x=>{
   const d=String(x.description||"");
