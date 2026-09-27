@@ -1,3 +1,4 @@
+window.__RI_AGENT_LOADED=true;
 const $=id=>document.getElementById(id);
 const KEY="robotintelligence.agent.v3";
 const CACHE_TTL=6*60*60*1000;
