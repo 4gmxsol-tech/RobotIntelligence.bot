@@ -42,7 +42,9 @@ const KNOWN_ALIASES={
   "physical intelligence":"Physical Intelligence","skild ai":"Skild AI",
   "sanctuary":"Sanctuary AI","sanctuary ai":"Sanctuary AI",
   "nvidia":"NVIDIA","google deepmind":"Google DeepMind",
-  "toyota":"Toyota"
+  "toyota":"Toyota",
+  "robust.ai":"Robust.AI","robust ai":"Robust.AI",
+  "covariant":"Covariant","covariant ai":"Covariant"
 };
 const KNOWN_COMPANIES=new Set(Object.values(KNOWN_ALIASES).map(x=>x.toLowerCase()));
 const VERB_NOISE=/^(physical|remove|find|making|learning|agentic|will|open|build|develop|creates?|makes?|founded|official|software|technical|research|engineer)$/i;
@@ -79,8 +81,16 @@ function extractEntities(signal){
     const ownerKey=signal.ownerLogin.toLowerCase();
     if(KNOWN_ALIASES[ownerKey]) push(signal.ownerLogin);
   }
+  // Hacker News: resolve company names explicitly stated in story headlines.
+  if(signal.sourceType==="hackernews"){
+    const hnPatterns=[
+      /(?:company|startup|firm)\s+([A-Z][A-Za-z0-9&.\-]+(?:\s+[A-Z][A-Za-z0-9&.\-]+){0,3})/i,
+      /\b([A-Z][A-Za-z0-9&.\-]{2,30})\s+(?:launches?|launch|announces?|announced|builds?|develops?|raises?|partners?|hires?|opens?)\b/i
+    ];
+    for(const re of hnPatterns){ const hm=re.exec(title); if(hm) push(hm[1]); }
+  }
   const full=title+" "+desc;
-  const known=/\b(Generalist AI|THEKER Robotics|Rhoda AI|Eka Robotics|Cobalt Robotics|Physical Intelligence|Figure AI|Skild AI|NVIDIA|Google DeepMind|Salem Robotics|LimX Dynamics|Beyond Imagination|Sanctuary AI|Mireye|Azalea Robotics|Genesis Embodied AI|PhysiCar|Toyota)\b/gi;
+  const known=/\b(Generalist AI|THEKER Robotics|Rhoda AI|Eka Robotics|Cobalt Robotics|Physical Intelligence|Figure AI|Skild AI|NVIDIA|Google DeepMind|Salem Robotics|LimX Dynamics|Beyond Imagination|Sanctuary AI|Mireye|Azalea Robotics|Genesis Embodied AI|PhysiCar|Toyota|Robust\.AI|Robust AI|Covariant)\b/gi;
   while((m=known.exec(full))) push(m[1]);
   return found;
 }
