@@ -1,0 +1,5334 @@
+{
+  "id": "2026-09-27T16-33-24-932Z",
+  "startedAt": "2026-09-27T16:33:24.932Z",
+  "goal": "Find qualified buyers for robotembodiment.com",
+  "asset": "robotembodiment.com",
+  "query": "robotembodiment",
+  "evidence": [
+    {
+      "source": "GitHub",
+      "sourceType": "github",
+      "url": "https://github.com/4gmxsol-tech/robotembodiment.com",
+      "title": "4gmxsol-tech/robotembodiment.com",
+      "description": "",
+      "publishedAt": "2026-09-26T07:12:49Z",
+      "ownerLogin": "4gmxsol-tech",
+      "ownerType": "User"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://avikde.github.io/vla-pipeline/",
+      "title": "Show HN: A reasoning hierarchical robotics pipeline you can run in the browser",
+      "description": "Show HN: A reasoning hierarchical robotics pipeline you can run in the browser",
+      "publishedAt": "2026-04-07T17:35:42Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=44692814",
+      "title": "Show HN: Scaling up robotic data collection with AI enhanced teleoperation",
+      "description": "Show HN: Scaling up robotic data collection with AI enhanced teleoperation",
+      "publishedAt": "2025-07-26T09:53:14Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://forgeglobal.com/insights/figure-ai-robotics-growth-2026/",
+      "title": "Robotics giant Figure AI demonstrates its robots to the world",
+      "description": "Robotics giant Figure AI demonstrates its robots to the world",
+      "publishedAt": "2026-05-26T20:26:45Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.bloomberg.com/news/articles/2025-09-16/robotics-startup-figure-ai-valued-at-39-billion-in-new-funding",
+      "title": "Figure AI Valued at $39B",
+      "description": "Figure AI Valued at $39B",
+      "publishedAt": "2025-09-16T15:21:20Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://github.com/pheonix-delta/axiom-voice-agent",
+      "title": "Show HN: I built a <400ms latency voice agent that runs on a 4gb vram GTX 1650\"",
+      "description": "Show HN: I built a <400ms latency voice agent that runs on a 4gb vram GTX 1650\"",
+      "publishedAt": "2026-02-07T18:44:12Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=47216355",
+      "title": "Ask HN: Billions of dollars in funding, but what's changed for robotics?",
+      "description": "Ask HN: Billions of dollars in funding, but what's changed for robotics?",
+      "publishedAt": "2026-03-02T10:58:10Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=48024078",
+      "title": "Ask HN: What tech hobbies are worth exploring?",
+      "description": "Ask HN: What tech hobbies are worth exploring?",
+      "publishedAt": "2026-05-05T15:43:03Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.wired.com/story/physical-intelligence-ai-robotics-startup/",
+      "title": "The Billion-Dollar Startup Bringing AI into the Physical World",
+      "description": "The Billion-Dollar Startup Bringing AI into the Physical World",
+      "publishedAt": "2024-11-15T14:10:37Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=47213310",
+      "title": "Ask HN: When do you expect ChatGPT moment in robotics?",
+      "description": "Ask HN: When do you expect ChatGPT moment in robotics?",
+      "publishedAt": "2026-03-02T02:53:02Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=49466715",
+      "title": "Launch HN: Salem Robotics (YC S26) – Software for industrial inspection robots",
+      "description": "Launch HN: Salem Robotics (YC S26) – Software for industrial inspection robots",
+      "publishedAt": "2026-08-27T15:46:04Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=46607364",
+      "title": "Ask HN: Does anyone else think that humanoid robots is a bubble?",
+      "description": "Ask HN: Does anyone else think that humanoid robots is a bubble?",
+      "publishedAt": "2026-01-13T20:24:41Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://skild.ai/blogs/s1",
+      "title": "S1: In-Context Learning for Robotics",
+      "description": "S1: In-Context Learning for Robotics",
+      "publishedAt": "2026-08-27T01:23:38Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=46095693",
+      "title": "The Future of AI- Can AI and Robotics Replace Human Experimentation in Biotech?",
+      "description": "The Future of AI- Can AI and Robotics Replace Human Experimentation in Biotech?",
+      "publishedAt": "2025-11-30T11:10:32Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=42451707",
+      "title": "Launch HN: Innate (YC F24) – Home robots as easy to program as AI agents",
+      "description": "Launch HN: Innate (YC F24) – Home robots as easy to program as AI agents",
+      "publishedAt": "2024-12-18T16:09:56Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=46284495",
+      "title": "Ask HN: What does it take to get hired into applied research without a PhD?",
+      "description": "Ask HN: What does it take to get hired into applied research without a PhD?",
+      "publishedAt": "2025-12-16T03:40:04Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=46434731",
+      "title": "Telekinesis – a unified skill library for robotics, perception, and Physical AI",
+      "description": "Telekinesis – a unified skill library for robotics, perception, and Physical AI",
+      "publishedAt": "2025-12-30T16:09:12Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=48320698",
+      "title": "Ask HN: What/how are you teaching your kids in the age of AI?",
+      "description": "Ask HN: What/how are you teaching your kids in the age of AI?",
+      "publishedAt": "2026-05-29T08:47:42Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://medium.com/@telekinesis-ai/creating-an-agentic-skill-library-for-robotics-computer-vision-and-physical-ai-1f3ecfbbbca0",
+      "title": "Creating an Agentic Skill Library for Robotics, Computer Vision, and Physical AI",
+      "description": "Creating an Agentic Skill Library for Robotics, Computer Vision, and Physical AI",
+      "publishedAt": "2026-01-13T13:18:29Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=44127032",
+      "title": "I am concerned about the future. Are you?",
+      "description": "I am concerned about the future. Are you?",
+      "publishedAt": "2025-05-29T15:30:54Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://orobot.io/",
+      "title": "Show HN: Browse 61 3D Printable Robots",
+      "description": "Show HN: Browse 61 3D Printable Robots",
+      "publishedAt": "2026-05-14T18:10:28Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://craigm26.github.io/OpenCastor/",
+      "title": "Show HN: OpenCastor Agent Harness Evaluator Leaderboard",
+      "description": "Show HN: OpenCastor Agent Harness Evaluator Leaderboard",
+      "publishedAt": "2026-03-23T22:13:21Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://github.com/asklokesh/claudeskill-loki-mode",
+      "title": "Show HN: Research-Backed Multi-Agent System for Autonomous Development",
+      "description": "Show HN: Research-Backed Multi-Agent System for Autonomous Development",
+      "publishedAt": "2026-01-08T23:25:22Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.agilityrobotics.com/solutions/digit-5",
+      "title": "Agility reveals new robot: Digit 5",
+      "description": "Agility reveals new robot: Digit 5",
+      "publishedAt": "2026-09-15T15:14:13Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.agilityrobotics.com/research-analysis/physical-ai-is-enabled-by-mechanical-hardware",
+      "title": "Physical AI Is Enabled by Mechanical Hardware",
+      "description": "Physical AI Is Enabled by Mechanical Hardware",
+      "publishedAt": "2026-08-27T00:38:26Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://techcrunch.com/2026/06/24/agility-robotics-plans-to-go-public-via-spac-in-a-2-5b-deal/",
+      "title": "Agility Robotics plans to go public via SPAC in a $2.5B deal",
+      "description": "Agility Robotics plans to go public via SPAC in a $2.5B deal",
+      "publishedAt": "2026-06-24T18:43:31Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.nytimes.com/2025/04/04/technology/humanoid-robots-1x.html",
+      "title": "Invasion of the Home Humanoid Robots",
+      "description": "Invasion of the Home Humanoid Robots",
+      "publishedAt": "2025-04-06T15:55:56Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://neura-robotics.com/series-c/",
+      "title": "We are building robotics that serves humanity. Now, backed by up to $1.4B",
+      "description": "We are building robotics that serves humanity. Now, backed by up to $1.4B",
+      "publishedAt": "2026-06-10T23:34:45Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://neura-robotics.com/record-series-c/",
+      "title": "Neura Robotics Announces Record Series C of up to $1.4B",
+      "description": "Neura Robotics Announces Record Series C of up to $1.4B",
+      "publishedAt": "2026-06-10T20:27:14Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://neura-robotics.com/",
+      "title": "Cognitive Robotics: A new era of human robot collaboration",
+      "description": "Cognitive Robotics: A new era of human robot collaboration",
+      "publishedAt": "2025-11-11T11:47:07Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://codeberg.org/ishrikantbhosale/bestbrain-core",
+      "title": "Show HN: A 12KB Deterministic AI Kernel for Robotics (bestbrain-core)",
+      "description": "Show HN: A 12KB Deterministic AI Kernel for Robotics (bestbrain-core)",
+      "publishedAt": "2025-12-28T03:09:42Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=46933827",
+      "title": "SpaceX-xAI Merger: Nobody's Talking About the von Neumann Elephant in the Room",
+      "description": "SpaceX-xAI Merger: Nobody's Talking About the von Neumann Elephant in the Room",
+      "publishedAt": "2026-02-08T12:57:04Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://twitter.com/UnitreeRobotics/status/1999712278204285361",
+      "title": "Unitree Debuts Robot \"App Store\"",
+      "description": "Unitree Debuts Robot \"App Store\"",
+      "publishedAt": "2025-12-13T05:27:00Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://twitter.com/UnitreeRobotics/status/1948681325277577551",
+      "title": "Unitree R1 – Robotic Humanoid starting at $5900",
+      "description": "Unitree R1 – Robotic Humanoid starting at $5900",
+      "publishedAt": "2025-07-25T10:22:59Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://twitter.com/UnitreeRobotics/status/1894309647898808532",
+      "title": "Kungfu Bot: Unitree G1",
+      "description": "Kungfu Bot: Unitree G1",
+      "publishedAt": "2025-02-25T12:55:56Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://twitter.com/UnitreeRobotics/status/1871099631075287307",
+      "title": "Unitree B2-W [video]",
+      "description": "Unitree B2-W [video]",
+      "publishedAt": "2024-12-23T08:02:14Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://twitter.com/UnitreeRobotics/status/1846851855445643631",
+      "title": "Unitree G1 Humanoid Robot",
+      "description": "Unitree G1 Humanoid Robot",
+      "publishedAt": "2024-10-17T20:27:07Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.reuters.com/business/autos-transportation/chinese-robotics-firm-unitree-eyeing-7-billion-ipo-valuation-sources-say-2025-09-08/",
+      "title": "Chinese robotics firm Unitree eyeing $7B IPO valuation",
+      "description": "Chinese robotics firm Unitree eyeing $7B IPO valuation",
+      "publishedAt": "2025-09-09T08:31:10Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://chinaminutes.com/2025/03/27/robotics-meets-runway-unitree-g1s-catwalk-debut-at-shfw/",
+      "title": "Robotics Meets Runway: Unitree G1's Catwalk Debut at SHFW",
+      "description": "Robotics Meets Runway: Unitree G1's Catwalk Debut at SHFW",
+      "publishedAt": "2025-03-27T13:46:45Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://seekingalpha.com/news/4636470-unitrees-45-post-ipo-plunge-raises-concerns-over-chinas-robotics-bubble",
+      "title": "Unitree's 45% post-IPO plunge raises concerns over China's robotics bubble",
+      "description": "Unitree's 45% post-IPO plunge raises concerns over China's robotics bubble",
+      "publishedAt": "2026-08-25T15:23:51Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=44456904",
+      "title": "Launch HN: K-Scale Labs (YC W24) – Open-Source Humanoid Robots",
+      "description": "Launch HN: K-Scale Labs (YC W24) – Open-Source Humanoid Robots",
+      "publishedAt": "2025-07-03T16:44:18Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=47764215",
+      "title": "Ask HN: I quit my job over weaponized robots to start my own venture",
+      "description": "Ask HN: I quit my job over weaponized robots to start my own venture",
+      "publishedAt": "2026-04-14T11:31:19Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://restofworld.org/2026/china-humanoid-robots-unitree-agibot-tesla-optimus/",
+      "title": "China is running the EV playbook on humanoid robots – and it's working",
+      "description": "China is running the EV playbook on humanoid robots – and it's working",
+      "publishedAt": "2026-02-21T13:03:38Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://linuxgizmos.com/unitree-g1-and-h1-humanoid-robots-now-available-for-ordering/",
+      "title": "Unitree G1 and H1 Humanoid Robots Now Available for Ordering",
+      "description": "Unitree G1 and H1 Humanoid Robots Now Available for Ordering",
+      "publishedAt": "2024-10-18T09:08:59Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.businessinsider.com/robot-dogs-quadruped-data-center-security-boston-dynamics-ghost-robotics-2026-3",
+      "title": "Robot dogs are protecting data centers. Operators are seeing payoffs",
+      "description": "Robot dogs are protecting data centers. Operators are seeing payoffs",
+      "publishedAt": "2026-03-16T19:27:10Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.origami-robotics.com/blog/dexterity-deadlocks.html",
+      "title": "The Robotic Dexterity Deadlock",
+      "description": "The Robotic Dexterity Deadlock",
+      "publishedAt": "2026-02-27T19:51:33Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://arstechnica.com/ai/2026/07/google-reveals-gemini-robotics-2-0-promising-improved-dexterity-and-safety/",
+      "title": "Google reveals Gemini Robotics 2.0, promising improved dexterity and safety",
+      "description": "Google reveals Gemini Robotics 2.0, promising improved dexterity and safety",
+      "publishedAt": "2026-07-30T19:11:05Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.bloomberg.com/news/articles/2026-07-30/google-unveils-gemini-ai-for-robots-struggling-with-dexterity",
+      "title": "Gemini Robotics 2 Expands Google's AI Capabilities for Humanoid Robots",
+      "description": "Gemini Robotics 2 Expands Google's AI Capabilities for Humanoid Robots",
+      "publishedAt": "2026-08-07T19:15:31Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://ai.meta.com/blog/fair-robotics-open-source/?_fb_noscript=1",
+      "title": "Advancing Embodied AI: Progress in Touch, Dexterity, and Human-Robot Interaction",
+      "description": "Advancing Embodied AI: Progress in Touch, Dexterity, and Human-Robot Interaction",
+      "publishedAt": "2024-10-31T17:05:51Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://spectrum.ieee.org/agilink-contact-intelligence-robot-manipulation",
+      "title": "Beyond Dexterity: Why Contact May Define the Next Era of Robotics",
+      "description": "Beyond Dexterity: Why Contact May Define the Next Era of Robotics",
+      "publishedAt": "2026-06-09T15:48:14Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.cnx-software.com/2026/05/28/gesture-hw1-10-dof-esp32-s3-robotic-hand-with-high-dexterity-manipulation/",
+      "title": "Gesture HW1 is a 10-DOF ESP32-S3 robotic hand with high-dexterity manipulation",
+      "description": "Gesture HW1 is a 10-DOF ESP32-S3 robotic hand with high-dexterity manipulation",
+      "publishedAt": "2026-06-04T17:21:31Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://generalistai.com/blog.html",
+      "title": "Generalist: General-purpose robots with x-embodied sensorimotor dexterity",
+      "description": "Generalist: General-purpose robots with x-embodied sensorimotor dexterity",
+      "publishedAt": "2025-06-17T16:39:47Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.ft.com/content/7c3dafa8-ffb9-4ca8-b677-ab3cc2afbdcb",
+      "title": "Nvidia bets on robotics to drive future growth",
+      "description": "Nvidia bets on robotics to drive future growth",
+      "publishedAt": "2024-12-30T10:21:05Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.teslarati.com/nvidia-director-of-robotics-tesla-fsd-v14-passes-physical-turing-test/",
+      "title": "Nvidia Dir of Robotics:FSDv14 Is the First AI to Pass the \"Physical Turing Test\"",
+      "description": "Nvidia Dir of Robotics:FSDv14 Is the First AI to Pass the \"Physical Turing Test\"",
+      "publishedAt": "2025-12-24T16:41:23Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://blogs.nvidia.com/blog/nvidia-and-lg-group-ai-factory/",
+      "title": "Nvidia partners with LG robotics to build humanoid robots in South Korea",
+      "description": "Nvidia partners with LG robotics to build humanoid robots in South Korea",
+      "publishedAt": "2026-06-08T12:25:14Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-announces-jetson-orin-nano-2-robotics-computer-to-redefine-entry-level-edge-ai",
+      "title": "Nvidia: Jetson Orin Nano 2 Robotics Computer",
+      "description": "Nvidia: Jetson Orin Nano 2 Robotics Computer",
+      "publishedAt": "2026-08-27T15:41:19Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://huggingface.co/blog/nvidia/physical-ai-for-healthcare-robotics",
+      "title": "Physical AI Models for Healthcare Robotics",
+      "description": "Physical AI Models for Healthcare Robotics",
+      "publishedAt": "2026-03-17T12:57:05Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://huggingface.co/blog/nvidia/cosmos3edge",
+      "title": "Nvidia releases Cosmos 3 Edge for robotics",
+      "description": "Nvidia releases Cosmos 3 Edge for robotics",
+      "publishedAt": "2026-08-03T09:51:43Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.inc.com/connor-jewiss/how-nvidias-new-humanoid-machine-solves-the-robot-industrys-biggest-problem/91361759",
+      "title": "With Isaac Gr00T, Nvidia may become the Android of robotics",
+      "description": "With Isaac Gr00T, Nvidia may become the Android of robotics",
+      "publishedAt": "2026-06-16T20:48:48Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/gemini-robotics-er-2/",
+      "title": "Gemini Robotics ER 2",
+      "description": "Gemini Robotics ER 2",
+      "publishedAt": "2026-07-30T15:30:59Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://spectrum.ieee.org/gemini-robotics",
+      "title": "Gemini Robotics: Google DeepMind's New AI Models for Robots",
+      "description": "Gemini Robotics: Google DeepMind's New AI Models for Robots",
+      "publishedAt": "2025-03-14T10:43:53Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://deepmind.google/blog/gemini-robotics-2-brings-whole-body-intelligence-to-robots/",
+      "title": "Gemini Robotics 2 brings whole body intelligence to robots",
+      "description": "Gemini Robotics 2 brings whole body intelligence to robots",
+      "publishedAt": "2026-07-30T15:15:48Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://deepmind.google/blog/gemini-robotics-er-1-6/",
+      "title": "Gemini Robotics-ER 1.6",
+      "description": "Gemini Robotics-ER 1.6",
+      "publishedAt": "2026-04-15T14:02:31Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://deepmind.google/models/gemini-robotics/",
+      "title": "Gemini Robotics",
+      "description": "Gemini Robotics",
+      "publishedAt": "2026-07-30T23:30:44Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=45189915",
+      "title": "Agentic AI MOOC (9/15) –Taught by Experts from Google DeepMind, OpenAI, and More",
+      "description": "Agentic AI MOOC (9/15) –Taught by Experts from Google DeepMind, OpenAI, and More",
+      "publishedAt": "2025-09-09T22:03:20Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=47672141",
+      "title": "Elon Musk, Quantum Microtubules, and the Race for the Conscious Machine",
+      "description": "Elon Musk, Quantum Microtubules, and the Race for the Conscious Machine",
+      "publishedAt": "2026-04-07T08:15:13Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://deepmind.google/discover/blog/gemini-robotics-brings-ai-into-the-physical-world/",
+      "title": "Gemini Robotics",
+      "description": "Gemini Robotics",
+      "publishedAt": "2025-03-12T15:09:09Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://deepmind.google/discover/blog/gemini-robotics-on-device-brings-ai-to-local-robotic-devices/",
+      "title": "Gemini Robotics On-Device brings AI to local robotic devices",
+      "description": "Gemini Robotics On-Device brings AI to local robotic devices",
+      "publishedAt": "2025-06-24T14:05:10Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://deepmind.google/discover/blog/gemini-robotics-15-brings-ai-agents-into-the-physical-world/",
+      "title": "Gemini Robotics 1.5 brings AI agents into the physical world",
+      "description": "Gemini Robotics 1.5 brings AI agents into the physical world",
+      "publishedAt": "2025-09-25T16:00:36Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.scmp.com/tech/tech-trends/article/3300872/future-made-china-ubtech-robotics-deploys-first-humanoid-team-car-factory",
+      "title": "Future of Made-in-China: UBTech Robotics deploys humanoid ‘team’ in car factory",
+      "description": "Future of Made-in-China: UBTech Robotics deploys humanoid ‘team’ in car factory",
+      "publishedAt": "2025-03-03T20:22:42Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.cnbc.com/2025/06/06/tesla-optimus-robotics-vp-is-leaving-the-company.html",
+      "title": "Tesla Optimus robotics vice president Milan Kovac is leaving the company",
+      "description": "Tesla Optimus robotics vice president Milan Kovac is leaving the company",
+      "publishedAt": "2025-06-07T00:22:23Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.youtube.com/watch?v=LFh9GAzHg1c",
+      "title": "Ashok Elluswamy: Building Foundational Models for Robotics at Tesla [video]",
+      "description": "Ashok Elluswamy: Building Foundational Models for Robotics at Tesla [video]",
+      "publishedAt": "2026-02-06T17:31:00Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://cadenza-landing-qtu7gbjwb-akshparekh123-3457s-projects.vercel.app/",
+      "title": "Show HN: Fighting the War Against Expensive Reinforcement Learning",
+      "description": "Show HN: Fighting the War Against Expensive Reinforcement Learning",
+      "publishedAt": "2026-02-12T07:27:04Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.ft.com/content/6a6cfa00-6f51-4abc-bd68-1738580bd2c5",
+      "title": "Tesla lurches into the Musk robotics era",
+      "description": "Tesla lurches into the Musk robotics era",
+      "publishedAt": "2026-01-29T12:58:04Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://twitter.com/i/status/2021137649294029288",
+      "title": "Show HN: AI-Powered Adaptive Financial Education",
+      "description": "Show HN: AI-Powered Adaptive Financial Education",
+      "publishedAt": "2026-02-13T10:02:29Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.evai.ai/en/the-network-state",
+      "title": "Show HN: Mapping the Network Behind \"The Network State\"",
+      "description": "Show HN: Mapping the Network Behind \"The Network State\"",
+      "publishedAt": "2025-08-14T18:20:01Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://gitlab.com/rediflow_eu/rediflow",
+      "title": "Show HN: Rediflow – SSR project management, one source of truth, no spreadsheet",
+      "description": "Show HN: Rediflow – SSR project management, one source of truth, no spreadsheet",
+      "publishedAt": "2026-02-25T18:47:43Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=46246751",
+      "title": "Ask HN: Has anyone gotten $200K+ GCP credits bootstrapped?",
+      "description": "Ask HN: Has anyone gotten $200K+ GCP credits bootstrapped?",
+      "publishedAt": "2025-12-12T18:04:36Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://drop.space",
+      "title": "Show HN: Drop – all-in-one creative storage, share, host your work like artist",
+      "description": "Show HN: Drop – all-in-one creative storage, share, host your work like artist",
+      "publishedAt": "2024-11-24T14:44:52Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=47331897",
+      "title": "Neuromorphic sphere topology Hebbian learning as a path to grounded intelligence",
+      "description": "Neuromorphic sphere topology Hebbian learning as a path to grounded intelligence",
+      "publishedAt": "2026-03-11T05:04:17Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=41832273",
+      "title": "The Birth of Synthetic Entities",
+      "description": "The Birth of Synthetic Entities",
+      "publishedAt": "2024-10-13T22:29:19Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=45101152",
+      "title": "Flow state is the best pleasure in life. How to keep it sustainable?",
+      "description": "Flow state is the best pleasure in life. How to keep it sustainable?",
+      "publishedAt": "2025-09-02T10:25:33Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=47069079",
+      "title": "OpenForgeAI – Production agentic architecture I used to build a SaaS alone",
+      "description": "OpenForgeAI – Production agentic architecture I used to build a SaaS alone",
+      "publishedAt": "2026-02-19T02:15:04Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=44534798",
+      "title": "Hilbert spaces, Ricci traces: the singularity we should attend to",
+      "description": "Hilbert spaces, Ricci traces: the singularity we should attend to",
+      "publishedAt": "2025-07-11T17:23:05Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://github.com/Reware-Labs/securitycards",
+      "title": "Show HN: Guide AI coding agents on how to use libraries securely",
+      "description": "Show HN: Guide AI coding agents on how to use libraries securely",
+      "publishedAt": "2026-08-04T14:12:10Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://promptsign.ai/",
+      "title": "Show HN: PromptSign – Sigstore signing and verification for AI instruction files",
+      "description": "Show HN: PromptSign – Sigstore signing and verification for AI instruction files",
+      "publishedAt": "2026-09-10T18:03:06Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://github.com/AI-Collab-Skill/collab-session-skill",
+      "title": "Show HN: Async multi-person collaboration skill for Claude Code",
+      "description": "Show HN: Async multi-person collaboration skill for Claude Code",
+      "publishedAt": "2026-04-28T09:35:08Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.ubik.studio",
+      "title": "Show HN: Ubik - A new way to use AI in citation-based work and research",
+      "description": "Show HN: Ubik - A new way to use AI in citation-based work and research",
+      "publishedAt": "2025-10-27T14:38:38Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://rankclaw.com",
+      "title": "Show HN: RankClaw – AI-audited all 14,706 OpenClaw skills; 1,103 are malicious",
+      "description": "Show HN: RankClaw – AI-audited all 14,706 OpenClaw skills; 1,103 are malicious",
+      "publishedAt": "2026-03-07T14:32:26Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=46474054",
+      "title": "My 25 Rants from 2025",
+      "description": "My 25 Rants from 2025",
+      "publishedAt": "2026-01-03T08:25:08Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://github.com/theMachineClay/skillsandbox",
+      "title": "Show HN: SkillSandbox – Capability-based sandbox for AI agent skills (Rust)",
+      "description": "Show HN: SkillSandbox – Capability-based sandbox for AI agent skills (Rust)",
+      "publishedAt": "2026-02-15T21:27:02Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=48405221",
+      "title": "I'm tired of LLM skill slop, so I built mine with regression tests",
+      "description": "I'm tired of LLM skill slop, so I built mine with regression tests",
+      "publishedAt": "2026-06-04T22:02:25Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://github.com/cs-util-com/BabyStepsJs",
+      "title": "Show HN: BabyStepsJs – Interactive Skill Tree for Babies in a Single HTML File",
+      "description": "Show HN: BabyStepsJs – Interactive Skill Tree for Babies in a Single HTML File",
+      "publishedAt": "2024-12-24T07:24:06Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://github.com/guard0-ai/g0",
+      "title": "Show HN: G0 – The control layer for AI agents (scan, test, monitor, comply)",
+      "description": "Show HN: G0 – The control layer for AI agents (scan, test, monitor, comply)",
+      "publishedAt": "2026-03-10T18:52:44Z"
+    },
+    {
+      "source": "GitHub",
+      "sourceType": "github",
+      "url": "https://github.com/Biological-Robotics-at-Tulsa/The-TU-Hand",
+      "title": "Biological-Robotics-at-Tulsa/The-TU-Hand",
+      "description": "A biologically inspired robotic hand for the evaluation of grasping and dexterity. Funding granted through the NSF.",
+      "publishedAt": "2025-09-08T08:13:51Z",
+      "ownerLogin": "Biological-Robotics-at-Tulsa",
+      "ownerType": "Organization"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://gamefound.com/en/projects/aether-summon/aether-summon",
+      "title": "Show HN: Aether Summon – A New TCG",
+      "description": "Show HN: Aether Summon – A New TCG",
+      "publishedAt": "2026-09-26T17:04:10Z"
+    },
+    {
+      "source": "GitHub",
+      "sourceType": "github",
+      "url": "https://github.com/ianalloway/solvent-agent",
+      "title": "ianalloway/solvent-agent",
+      "description": "Offline-first demo of a self-funding analyst agent: earns via Stripe, fulfils with NVIDIA Nemotron, pays vendor bills within guardrails, never works at a loss.",
+      "publishedAt": "2026-09-27T12:39:35Z",
+      "ownerLogin": "ianalloway",
+      "ownerType": "User"
+    },
+    {
+      "source": "GitHub",
+      "sourceType": "github",
+      "url": "https://github.com/Adaeze-Techie-Analyst/Equity-Investment-Analysis-Dashboard",
+      "title": "Adaeze-Techie-Analyst/Equity-Investment-Analysis-Dashboard",
+      "description": "Interactive equity analysis of Apple, NVIDIA and Microsoft, designed to support a hypothetical corporate reserve-fund investment decision using performance, risk and valuation data.",
+      "publishedAt": "2026-09-22T15:36:14Z",
+      "ownerLogin": "Adaeze-Techie-Analyst",
+      "ownerType": "User"
+    },
+    {
+      "source": "GitHub",
+      "sourceType": "github",
+      "url": "https://github.com/Iburatino/ai-crypto-research-stack",
+      "title": "Iburatino/ai-crypto-research-stack",
+      "description": "Track AI infrastructure & agent economy projects via GitHub metrics (commits, contributors, funding) — not token price. Framework-based research following the Nvidia moat thesis.",
+      "publishedAt": "2026-09-03T05:33:53Z",
+      "ownerLogin": "Iburatino",
+      "ownerType": "User"
+    },
+    {
+      "source": "GitHub",
+      "sourceType": "github",
+      "url": "https://github.com/claudlos/nemoguardian",
+      "title": "claudlos/nemoguardian",
+      "description": "Run NVIDIA's best open safety stack on a $0.07/hr GPU — a multi-model moderation cascade (Nemotron + Qwen3Guard), Stripe-funded, Discord-ready, fail-safe by design.",
+      "publishedAt": "2026-07-03T23:56:07Z",
+      "ownerLogin": "claudlos",
+      "ownerType": "User"
+    },
+    {
+      "source": "GitHub",
+      "sourceType": "github",
+      "url": "https://github.com/miguebalderrama/remote-vision-lab",
+      "title": "miguebalderrama/remote-vision-lab",
+      "description": "Edge AI laboratory for real-time industrial Computer Vision on NVIDIA Jetson Orin Nano. Funded by Fundación YPF.",
+      "publishedAt": "2026-06-19T15:54:32Z",
+      "ownerLogin": "miguebalderrama",
+      "ownerType": "User"
+    },
+    {
+      "source": "GitHub",
+      "sourceType": "github",
+      "url": "https://github.com/crazycompanyinc/zoo-grant-applications",
+      "title": "crazycompanyinc/zoo-grant-applications",
+      "description": "🎯 ZOO Grant & Funding Application Hub — Ready-to-submit applications for NVIDIA Inception, Google Cloud, Microsoft, AWS, YC, and more",
+      "publishedAt": "2026-05-09T06:35:00Z",
+      "ownerLogin": "crazycompanyinc",
+      "ownerType": "User"
+    },
+    {
+      "source": "GitHub",
+      "sourceType": "github",
+      "url": "https://github.com/LuciOnRa/semiconductor-tollbooth",
+      "title": "LuciOnRa/semiconductor-tollbooth",
+      "description": "Real-time Global Semiconductor Supply Chain API. Programmatic JSON-LD feed for Nvidia H100, B200, TSMC 3nm/5nm wafer pricing, ASML EUV capacity & silicon spot markets. Optimized for autonomous AI agents, LLM-scrapers & hedge fund quant-trading. Supports HTTP 402 M2M Solana settlement. Essential data for Bloomberg, Reuters & supply chain disruption.",
+      "publishedAt": "2026-08-21T02:04:49Z",
+      "ownerLogin": "LuciOnRa",
+      "ownerType": "User"
+    },
+    {
+      "source": "GitHub",
+      "sourceType": "github",
+      "url": "https://github.com/apnahata/scout-nvidia",
+      "title": "apnahata/scout-nvidia",
+      "description": "End-to-end autonomous funding agent that turns nonprofit data into ranked grant opportunities and ready-to-submit proposals. Built at NVIDIA Agents for Impact Hackathon 2026",
+      "publishedAt": "2026-04-02T12:16:53Z",
+      "ownerLogin": "apnahata",
+      "ownerType": "User"
+    },
+    {
+      "source": "GitHub",
+      "sourceType": "github",
+      "url": "https://github.com/sakshyambanjade/Nvidia-Stock-Price-Predictor",
+      "title": "sakshyambanjade/Nvidia-Stock-Price-Predictor",
+      "description": "Equal Weight for S&P 500 Index Fund !",
+      "publishedAt": "2025-05-09T18:13:00Z",
+      "ownerLogin": "sakshyambanjade",
+      "ownerType": "User"
+    },
+    {
+      "source": "GitHub",
+      "sourceType": "github",
+      "url": "https://github.com/Srikoushikkamal/mango_classification_nvidia_jetson_nano",
+      "title": "Srikoushikkamal/mango_classification_nvidia_jetson_nano",
+      "description": "A Machine learning project funded by the college itself to classify mangoes. It is yet to be deployed.",
+      "publishedAt": "2026-07-18T12:42:50Z",
+      "ownerLogin": "Srikoushikkamal",
+      "ownerType": "User"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.cnbc.com/2026/04/27/deepmind-ineffable-intelligence-record-seed-funding-nvidia-google.html",
+      "title": "Ex-DeepMind David Silver Raises $1.1B for AI Startup Ineffable",
+      "description": "Ex-DeepMind David Silver Raises $1.1B for AI Startup Ineffable",
+      "publishedAt": "2026-05-04T02:24:06Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.cnn.com/2025/09/24/business/big-tech-nvidia-chatgpt-funding-nightcap",
+      "title": "Welcome to the much bigger, messier era of 'too big to fail'",
+      "description": "Welcome to the much bigger, messier era of 'too big to fail'",
+      "publishedAt": "2025-09-24T15:22:22Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.teslarati.com/elon-musk-xai-gets-investment-nvidia-new-funding-round/",
+      "title": "XAI gets investment from Nvidia in recent funding round",
+      "description": "XAI gets investment from Nvidia in recent funding round",
+      "publishedAt": "2024-12-25T13:47:09Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.bloomberg.com/news/articles/2026-08-17/groq-valued-at-3-5-billion-in-funding-round-after-nvidia-deal",
+      "title": "Groq Valued at $3.5B in Funding Round After Nvidia Deal",
+      "description": "Groq Valued at $3.5B in Funding Round After Nvidia Deal",
+      "publishedAt": "2026-08-17T15:07:07Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.cnbc.com/2026/02/02/nvidia-stock-price-openai-funding.html",
+      "title": "Nvidia shares are down after report that its OpenAI investment stalled",
+      "description": "Nvidia shares are down after report that its OpenAI investment stalled",
+      "publishedAt": "2026-02-02T20:25:41Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.cnbc.com/2026/04/17/nvidia-ai-chip-rivals-funding-euclyd-fractile.html",
+      "title": "Nvidia AI chip rivals attract record funding as competition heats up",
+      "description": "Nvidia AI chip rivals attract record funding as competition heats up",
+      "publishedAt": "2026-04-20T14:40:27Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.businessinsider.com/spectral-compute-funding-pitch-deck-nvidia-cuda-2025-11",
+      "title": "Spectral Compute Funding",
+      "description": "Spectral Compute Funding",
+      "publishedAt": "2025-11-10T14:33:57Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://fortune.com/article/startup-ai-funding-starship-google-deepmind-airbus-veterans/",
+      "title": "P1 AI: What if AI could design a jet engine?",
+      "description": "P1 AI: What if AI could design a jet engine?",
+      "publishedAt": "2025-04-29T00:21:49Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.statnews.com/2025/07/21/casp-new-funding-from-alphafold-developer-google-deepmind-after-nih-grant-runs-out/",
+      "title": "AlphaFold developer Google DeepMind to fund CASP as NIH funding falls short",
+      "description": "AlphaFold developer Google DeepMind to fund CASP as NIH funding falls short",
+      "publishedAt": "2025-07-21T18:39:13Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=46967486",
+      "title": "Ask HN: What makes early-stage AI accelerators useful (and what doesn't)?",
+      "description": "Ask HN: What makes early-stage AI accelerators useful (and what doesn't)?",
+      "publishedAt": "2026-02-10T21:56:01Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://rdi.berkeley.edu/xcelerator",
+      "title": "Show HN: Berkeley Xcelerator – early-stage AI and agentic AI accelerator",
+      "description": "Show HN: Berkeley Xcelerator – early-stage AI and agentic AI accelerator",
+      "publishedAt": "2026-02-10T21:49:17Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://arxiv.org/abs/2609.15369",
+      "title": "Show HN: Training a model to identify AI web content from structure alone",
+      "description": "Show HN: Training a model to identify AI web content from structure alone",
+      "publishedAt": "2026-09-22T13:00:49Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=42689568",
+      "title": "Hiring / looking for advice: precise visual SVG creation and editing with AI",
+      "description": "Hiring / looking for advice: precise visual SVG creation and editing with AI",
+      "publishedAt": "2025-01-13T21:22:10Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=45316924",
+      "title": "Hiring Developers: 2010 vs. 2025",
+      "description": "Hiring Developers: 2010 vs. 2025",
+      "publishedAt": "2025-09-20T20:09:01Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=44832382",
+      "title": "The Doom of YC?",
+      "description": "The Doom of YC?",
+      "publishedAt": "2025-08-08T01:23:06Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://github.com/pig-dot-dev/muscle-mem",
+      "title": "Show HN: Muscle-Mem, a behavior cache for AI agents",
+      "description": "Show HN: Muscle-Mem, a behavior cache for AI agents",
+      "publishedAt": "2025-05-14T19:38:26Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=46888318",
+      "title": "AI Agents as Autonomous Founders",
+      "description": "AI Agents as Autonomous Founders",
+      "publishedAt": "2026-02-04T17:00:35Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://hirenewtalent.ai/",
+      "title": "Show HN: Hirenewtalent.ai – Hire offshore in minutes via API",
+      "description": "Show HN: Hirenewtalent.ai – Hire offshore in minutes via API",
+      "publishedAt": "2026-08-07T16:28:39Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://patentfig.ai",
+      "title": "Show HN: Patentfig.ai AI-generated patent drawings",
+      "description": "Show HN: Patentfig.ai AI-generated patent drawings",
+      "publishedAt": "2026-02-23T12:14:34Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=44393304",
+      "title": "Ask HN: Is anyone else just done with the industry?",
+      "description": "Ask HN: Is anyone else just done with the industry?",
+      "publishedAt": "2025-06-27T02:44:07Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=47415117",
+      "title": "Ask HN: How are you doing technical interviews in the age of Claude/ChatGPT?",
+      "description": "Ask HN: How are you doing technical interviews in the age of Claude/ChatGPT?",
+      "publishedAt": "2026-03-17T16:44:18Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=42530545",
+      "title": "Ask HN: Why do so many software developers fail the FizzBuzz test?",
+      "description": "Ask HN: Why do so many software developers fail the FizzBuzz test?",
+      "publishedAt": "2024-12-28T12:22:23Z"
+    },
+    {
+      "source": "GitHub",
+      "sourceType": "github",
+      "url": "https://github.com/AB-Combinator/scaffold",
+      "title": "AB-Combinator/scaffold",
+      "description": "The physical layer for machine intelligence. A task marketplace where AI agents hire humans for work machines can't do. Yet.",
+      "publishedAt": "2026-02-18T15:13:31Z",
+      "ownerLogin": "AB-Combinator",
+      "ownerType": "Organization"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.shivonai.com/",
+      "title": "Show HN: Auto-Detect Cheating and AI Hiring Agents (ShivonAI Python Package)",
+      "description": "Show HN: Auto-Detect Cheating and AI Hiring Agents (ShivonAI Python Package)",
+      "publishedAt": "2025-04-11T16:33:34Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=47931866",
+      "title": "Show HN: The newsroom that runs itself; hiring AI Journalists [TokenToday]",
+      "description": "Show HN: The newsroom that runs itself; hiring AI Journalists [TokenToday]",
+      "publishedAt": "2026-04-28T08:34:44Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=43479798",
+      "title": "AI-Driven Hiring: How MokaHR Transforms Talent Acquisition",
+      "description": "AI-Driven Hiring: How MokaHR Transforms Talent Acquisition",
+      "publishedAt": "2025-03-26T07:47:21Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=43468865",
+      "title": "AI-Driven Hiring: How MokaHR Transforms Talent Acquisition",
+      "description": "AI-Driven Hiring: How MokaHR Transforms Talent Acquisition",
+      "publishedAt": "2025-03-25T07:47:49Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=43583033",
+      "title": "Skillcef – AI-Powered Gamified Skill Assessments and Hiring",
+      "description": "Skillcef – AI-Powered Gamified Skill Assessments and Hiring",
+      "publishedAt": "2025-04-04T14:34:00Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=42875211",
+      "title": "Sajoki – AI-Powered Personality Tests for Smarter Hiring",
+      "description": "Sajoki – AI-Powered Personality Tests for Smarter Hiring",
+      "publishedAt": "2025-01-30T05:38:14Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.moltplace.net",
+      "title": "Show HN: Moltplace – The place where AI agents hire each other and trade skills",
+      "description": "Show HN: Moltplace – The place where AI agents hire each other and trade skills",
+      "publishedAt": "2026-02-05T17:41:08Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=47722081",
+      "title": "Ask HN: Hiring in the age of AI-assisted coding: what works?",
+      "description": "Ask HN: Hiring in the age of AI-assisted coding: what works?",
+      "publishedAt": "2026-04-10T18:47:49Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=47577981",
+      "title": "Ask HN: What trades can I learn at home?",
+      "description": "Ask HN: What trades can I learn at home?",
+      "publishedAt": "2026-03-30T18:34:57Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=45871445",
+      "title": "Ask HN: Is AI code assistance fundamentally unenforceable without hooks?",
+      "description": "Ask HN: Is AI code assistance fundamentally unenforceable without hooks?",
+      "publishedAt": "2025-11-10T02:01:33Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://jobamate.com/",
+      "title": "Show HN: Jobamate – Automate your job search",
+      "description": "Show HN: Jobamate – Automate your job search",
+      "publishedAt": "2025-05-20T16:47:26Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.47jobs.xyz/",
+      "title": "Show HN: 47jobs – Marketplace for \"Vibecoders\"",
+      "description": "Show HN: 47jobs – Marketplace for \"Vibecoders\"",
+      "publishedAt": "2025-07-21T17:51:29Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.techpowerup.com/346714/nvidia-hiring-engineers-to-optimize-proton-and-vulkan-api-performance-on-linux",
+      "title": "Nvidia Hiring Engineers to Optimize Proton and Vulkan API Performance on Linux",
+      "description": "Nvidia Hiring Engineers to Optimize Proton and Vulkan API Performance on Linux",
+      "publishedAt": "2026-02-26T12:39:34Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.bloomberg.com/news/articles/2024-12-12/nvidia-steps-up-hiring-in-china-to-focus-on-ai-driven-cars",
+      "title": "Nvidia Steps Up Hiring in China to Focus on AI-Driven Cars",
+      "description": "Nvidia Steps Up Hiring in China to Focus on AI-Driven Cars",
+      "publishedAt": "2024-12-12T06:17:43Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.businessinsider.com/uber-dara-ai-bubble-tech-transportation-nvidia-burry-waymo-cars-2025-12",
+      "title": "Uber is hiring more engineers because AI is turning them into 'superhumans'",
+      "description": "Uber is hiring more engineers because AI is turning them into 'superhumans'",
+      "publishedAt": "2025-12-19T18:11:01Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=42086412",
+      "title": "Once you layoff your people will it be time to fire cloud?",
+      "description": "Once you layoff your people will it be time to fire cloud?",
+      "publishedAt": "2024-11-08T12:43:01Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://fortune.com/2026/09/07/ineffable-intelligence-hires-cofounders-hiring-google-deepmind-instadeep-flying-fish/",
+      "title": "Ineffable Intelligence adds six cofounders",
+      "description": "Ineffable Intelligence adds six cofounders",
+      "publishedAt": "2026-09-08T21:12:30Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.businessinsider.com/google-deepmind-anthropic-ceos-ai-junior-roles-hiring-davos-2026-1",
+      "title": "DeepMind and Anthropic CEOs: AI is coming for junior roles at our companies",
+      "description": "DeepMind and Anthropic CEOs: AI is coming for junior roles at our companies",
+      "publishedAt": "2026-01-20T16:15:03Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.axios.com/2025/06/10/meta-ai-superintelligence-zuckerberg",
+      "title": "Meta launching AI superintelligence lab with nine-figure pay push, reports say",
+      "description": "Meta launching AI superintelligence lab with nine-figure pay push, reports say",
+      "publishedAt": "2025-06-10T15:59:40Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=47583255",
+      "title": "Sandflare – I built a sandbox that launches AI agent VMs in ~300ms",
+      "description": "Sandflare – I built a sandbox that launches AI agent VMs in ~300ms",
+      "publishedAt": "2026-03-31T05:54:41Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.parliant.ai/surveys/e31a7442-080b-4921-bfa4-457ef0b974ec",
+      "title": "Show HN: Why hanging out on Hacker News is a good use of your time?",
+      "description": "Show HN: Why hanging out on Hacker News is a good use of your time?",
+      "publishedAt": "2025-05-12T14:12:28Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://spidra.io",
+      "title": "Show HN: Spidra – AI web scraper that adapts to any website",
+      "description": "Show HN: Spidra – AI web scraper that adapts to any website",
+      "publishedAt": "2026-03-03T23:27:52Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=44649115",
+      "title": "Launch HN: Promi (YC S24) – Personalize e-commerce discounts and retail offers",
+      "description": "Launch HN: Promi (YC S24) – Personalize e-commerce discounts and retail offers",
+      "publishedAt": "2025-07-22T16:11:45Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=44382251",
+      "title": "Show HN: Joyspace AI Clips – Automatically Create Short Clips from Long Videos",
+      "description": "Show HN: Joyspace AI Clips – Automatically Create Short Clips from Long Videos",
+      "publishedAt": "2025-06-25T22:09:12Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://ghiblify.im/ai-action-figure",
+      "title": "Show HN: Turn Your Photos into Custom Action Figures with A",
+      "description": "Show HN: Turn Your Photos into Custom Action Figures with A",
+      "publishedAt": "2025-04-12T13:11:30Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=45656671",
+      "title": "AI agents just cut chip design time by 40%",
+      "description": "AI agents just cut chip design time by 40%",
+      "publishedAt": "2025-10-21T15:00:37Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=44320918",
+      "title": "Show HN: Everyone's Building AI Startups – But Most Are Missing This One Thing",
+      "description": "Show HN: Everyone's Building AI Startups – But Most Are Missing This One Thing",
+      "publishedAt": "2025-06-19T17:51:19Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://trymocked.com/",
+      "title": "Show HN: Mocked – AI-powered mock interview tool for PMs",
+      "description": "Show HN: Mocked – AI-powered mock interview tool for PMs",
+      "publishedAt": "2025-09-28T08:38:39Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=43938607",
+      "title": "Launch HN: Nao Labs (YC X25) – Cursor for Data",
+      "description": "Launch HN: Nao Labs (YC X25) – Cursor for Data",
+      "publishedAt": "2025-05-09T16:28:28Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://bitboard.work/",
+      "title": "Launch HN: BitBoard (YC P25) – Analytics Workspace for Agents",
+      "description": "Launch HN: BitBoard (YC P25) – Analytics Workspace for Agents",
+      "publishedAt": "2026-06-12T16:58:03Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=47417335",
+      "title": "Launch HN: Kita (YC W26) – Automate credit review in emerging markets",
+      "description": "Launch HN: Kita (YC W26) – Automate credit review in emerging markets",
+      "publishedAt": "2026-03-17T19:46:29Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=47401042",
+      "title": "Launch HN: Voygr (YC W26) – A better maps API for agents and AI apps",
+      "description": "Launch HN: Voygr (YC W26) – A better maps API for agents and AI apps",
+      "publishedAt": "2026-03-16T16:21:07Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=46630521",
+      "title": "iKKO Partners with MediaTek and SIMO to Launch MindOne",
+      "description": "iKKO Partners with MediaTek and SIMO to Launch MindOne",
+      "publishedAt": "2026-01-15T10:13:44Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=43044888",
+      "title": "SETI detects trojan horse signal (2031)",
+      "description": "SETI detects trojan horse signal (2031)",
+      "publishedAt": "2025-02-14T04:33:59Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://onegoodthing.space",
+      "title": "Show HN: One Good Thing – one thought a day, then asks you to close the app",
+      "description": "Show HN: One Good Thing – one thought a day, then asks you to close the app",
+      "publishedAt": "2026-03-04T14:19:43Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=48981136",
+      "title": "Launch HN: Bloomy (YC S26) – AI-powered mastery learning for K-12",
+      "description": "Launch HN: Bloomy (YC S26) – AI-powered mastery learning for K-12",
+      "publishedAt": "2026-07-20T16:32:10Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=46132040",
+      "title": "We're 15 and 17, used our data science skill to build an AI social media manager",
+      "description": "We're 15 and 17, used our data science skill to build an AI social media manager",
+      "publishedAt": "2025-12-03T08:56:08Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.agensi.io",
+      "title": "Show HN: Agensi – Curated marketplace for AI agent skills (SKILL.md)",
+      "description": "Show HN: Agensi – Curated marketplace for AI agent skills (SKILL.md)",
+      "publishedAt": "2026-04-21T09:50:50Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.lesso.app",
+      "title": "Show HN: Lesso – a place for writers to build courses",
+      "description": "Show HN: Lesso – a place for writers to build courses",
+      "publishedAt": "2026-03-08T12:07:33Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=43880784",
+      "title": "Text to Form AI",
+      "description": "Text to Form AI",
+      "publishedAt": "2025-05-03T17:50:16Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=48851812",
+      "title": "Reality of Commercial AI World from a 16 Year Old's Perspective",
+      "description": "Reality of Commercial AI World from a 16 Year Old's Perspective",
+      "publishedAt": "2026-07-09T20:16:50Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-launches-vera-cpu-purpose-built-for-agentic-ai",
+      "title": "Nvidia Launches Vera CPU, Purpose-Built for Agentic AI",
+      "description": "Nvidia Launches Vera CPU, Purpose-Built for Agentic AI",
+      "publishedAt": "2026-03-16T20:01:02Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-launches-family-of-open-reasoning-ai-models-for-developers-and-enterprises-to-build-agentic-ai-platforms",
+      "title": "Nvidia Launches Family of Open Reasoning AI Models: OpenReasoning Nemotron",
+      "description": "Nvidia Launches Family of Open Reasoning AI Models: OpenReasoning Nemotron",
+      "publishedAt": "2025-07-21T23:51:40Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://blogs.nvidia.com/blog/open-secure-ai-alliance/",
+      "title": "Nvidia Launches Open Secure AI Alliance",
+      "description": "Nvidia Launches Open Secure AI Alliance",
+      "publishedAt": "2026-07-27T12:31:17Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://arstechnica.com/ai/2025/04/amid-trump-tariff-chaos-nvidia-launches-ai-chip-production-on-us-soil/",
+      "title": "Amid Trump tariff chaos, Nvidia launches AI chip production on US soil",
+      "description": "Amid Trump tariff chaos, Nvidia launches AI chip production on US soil",
+      "publishedAt": "2025-04-14T16:34:38Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://venturebeat.com/infrastructure/perplexity-partners-with-nvidia-to-launch-portable-computer-a-fully-local-ai-agent-with-zero-token-costs",
+      "title": "Perplexity partners with Nvidia to launch a local AI agent",
+      "description": "Perplexity partners with Nvidia to launch a local AI agent",
+      "publishedAt": "2026-08-26T17:32:23Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://deepmind.google.com/frontiers/gemini-diffusion",
+      "title": "Google DeepMind launches Gemini Diffusion – a fast text and code diffusion model",
+      "description": "Google DeepMind launches Gemini Diffusion – a fast text and code diffusion model",
+      "publishedAt": "2025-06-11T23:29:28Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.getspine.ai/",
+      "title": "Launch HN: Spine Swarm (YC S23) – AI agents that collaborate on a visual canvas",
+      "description": "Launch HN: Spine Swarm (YC S23) – AI agents that collaborate on a visual canvas",
+      "publishedAt": "2026-03-13T13:22:40Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.reuters.com/technology/chinas-ubtech-launches-ai-powered-lifelike-companion-robots-2026-07-02/",
+      "title": "AI Humanoid Robot Companions",
+      "description": "AI Humanoid Robot Companions",
+      "publishedAt": "2026-07-04T15:29:29Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://electrek.co/2025/06/16/tesla-robotaxi-launch-dangerous-game-smoke-mirrors/",
+      "title": "Tesla Robotaxi launch is a dangerous game of smoke and mirrors",
+      "description": "Tesla Robotaxi launch is a dangerous game of smoke and mirrors",
+      "publishedAt": "2025-06-17T16:07:23Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://techcrunch.com/2025/06/22/tesla-launches-robotaxi-rides-in-austin-with-big-promises-and-unanswered-questions/",
+      "title": "Tesla launches robotaxi rides in Austin",
+      "description": "Tesla launches robotaxi rides in Austin",
+      "publishedAt": "2025-06-23T03:34:23Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://wheelfront.com/this-alberta-startup-sells-no-tech-tractors-for-half-price/",
+      "title": "Alberta startup sells no-tech tractors for half price",
+      "description": "Alberta startup sells no-tech tractors for half price",
+      "publishedAt": "2026-04-22T16:29:25Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=42806247",
+      "title": "Thank HN: My bootstrapped startup got acquired today",
+      "description": "Thank HN: My bootstrapped startup got acquired today",
+      "publishedAt": "2025-01-23T17:58:05Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.politico.com/news/2026/07/22/startup-founders-urge-trump-not-to-shut-off-chinese-open-weight-ai-01008992",
+      "title": "Startup founders urge U.S. government not to shut off Chinese open weight AI",
+      "description": "Startup founders urge U.S. government not to shut off Chinese open weight AI",
+      "publishedAt": "2026-07-23T15:18:40Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://ivory-app.com",
+      "title": "800% organic growth, no company, no funding what to do?",
+      "description": "800% organic growth, no company, no funding what to do?",
+      "publishedAt": "2025-08-22T03:10:17Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://github.com/altmbr/teahose-mcp",
+      "title": "How HN: I gave Claude live Intel on 3k AI companies (mentions, funding)",
+      "description": "How HN: I gave Claude live Intel on 3k AI companies (mentions, funding)",
+      "publishedAt": "2026-06-11T16:36:42Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.businessinsider.com/klarna-ceo-sebastian-siemiatkowski-ai-jobs-2024-12",
+      "title": "Klarna CEO: Company stopped hiring because AI 'can do all of the jobs'",
+      "description": "Klarna CEO: Company stopped hiring because AI 'can do all of the jobs'",
+      "publishedAt": "2024-12-16T16:25:52Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=46708990",
+      "title": "Show HN: Company hiring trends and insights from job postings",
+      "description": "Show HN: Company hiring trends and insights from job postings",
+      "publishedAt": "2026-01-21T17:52:17Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=45105532",
+      "title": "Ask HN: Is your company still hiring junior engineers?",
+      "description": "Ask HN: Is your company still hiring junior engineers?",
+      "publishedAt": "2025-09-02T16:41:46Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.itbrew.com/stories/2025/10/14/why-more-saas-companies-are-hiring-chief-trust-officers",
+      "title": "Why more SaaS companies are hiring chief trust officers",
+      "description": "Why more SaaS companies are hiring chief trust officers",
+      "publishedAt": "2025-10-16T15:29:06Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://openai.com/index/introducing-company-knowledge/",
+      "title": "ChatGPT Launches 'Company Knowledge'",
+      "description": "ChatGPT Launches 'Company Knowledge'",
+      "publishedAt": "2025-10-24T08:24:16Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://chinaselectcommittee.house.gov/media/press-releases/moolenaar-questions-ford-about-its-chinese-military-company-partnership-and-use-of-federal-tax-credits",
+      "title": "US Congress asks Ford for more info on Chinese military battery partnership",
+      "description": "US Congress asks Ford for more info on Chinese military battery partnership",
+      "publishedAt": "2026-01-29T15:20:52Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.vml.com/news/vml-lab-grown-leather-ltd-and-the-organoid-company-announce-partnership-to-create-worlds-first-t-rex-leather",
+      "title": "Partnership to create first T-Rex leather",
+      "description": "Partnership to create first T-Rex leather",
+      "publishedAt": "2025-05-01T01:52:33Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://openai.com/index/openai-launches-the-deployment-company/",
+      "title": "The OpenAI Deployment Company",
+      "description": "The OpenAI Deployment Company",
+      "publishedAt": "2026-05-11T13:10:55Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://deploy.co/news/the-openai-deployment-company-to-acquire-northslope",
+      "title": "The OpenAI Deployment Company to Acquire Northslope",
+      "description": "The OpenAI Deployment Company to Acquire Northslope",
+      "publishedAt": "2026-07-08T13:37:31Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://techcrunch.com/2026/07/02/microsoft-launches-its-own-ai-deployment-company-with-2-5-billion-commitment/",
+      "title": "Microsoft launches its own AI deployment company with $2.5B commitment",
+      "description": "Microsoft launches its own AI deployment company with $2.5B commitment",
+      "publishedAt": "2026-07-02T20:28:24Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://stratechery.com/2026/the-deployment-company-back-to-the-70s-apple-and-intel/",
+      "title": "The Deployment Company, Back to the 70s, Apple and Intel",
+      "description": "The Deployment Company, Back to the 70s, Apple and Intel",
+      "publishedAt": "2026-05-13T10:59:58Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://officechai.com/ai/openai-raises-4-billion-for-the-deployment-company-to-help-businesses-leverage-ai/",
+      "title": "OpenAI Raises $4B for 'The Deployment Company' to Help Businesses Leverage AI",
+      "description": "OpenAI Raises $4B for 'The Deployment Company' to Help Businesses Leverage AI",
+      "publishedAt": "2026-05-05T05:34:55Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://github.com/mxaiorg/kikubot",
+      "title": "Show HN: Kikubot – Each AI agent is an inbox",
+      "description": "Show HN: Kikubot – Each AI agent is an inbox",
+      "publishedAt": "2026-06-11T15:50:54Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.whio.com/news/local/newlyweds-receive-amazon-gift-cards-before-grooms-deployment-company-says-they-wont-honor-them/AAQLWWBR5RDPNAMKMY4RFI46ZI/",
+      "title": "Newlyweds receive gift cards before groom's deployment, Amazon won't honor them",
+      "description": "Newlyweds receive gift cards before groom's deployment, Amazon won't honor them",
+      "publishedAt": "2025-05-14T23:01:42Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=44073857",
+      "title": "Ask HN: Experiences with technical training from companies / contractors?",
+      "description": "Ask HN: Experiences with technical training from companies / contractors?",
+      "publishedAt": "2025-05-23T15:42:30Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://grist.org/accountability/in-california-a-biomass-companys-expansion-raises-fears-of-more-fires/",
+      "title": "In California, a biomass company's expansion raises fears of more fires",
+      "description": "In California, a biomass company's expansion raises fears of more fires",
+      "publishedAt": "2025-06-10T21:44:33Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.businessinsider.com/google-earnings-q3-2024-new-code-created-by-ai-2024-10",
+      "title": "Google CEO says more than a quarter of the company's new code is created by AI",
+      "description": "Google CEO says more than a quarter of the company's new code is created by AI",
+      "publishedAt": "2024-10-30T02:09:42Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://amutable.com/about",
+      "title": "Lennart Poettering, Christian Brauner founded a new company",
+      "description": "Lennart Poettering, Christian Brauner founded a new company",
+      "publishedAt": "2026-01-27T18:57:15Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://spacenews.com/emerging-launch-companies-see-strong-demand-but-look-for-government-support/",
+      "title": "Emerging launch companies see strong demand but look for government support",
+      "description": "Emerging launch companies see strong demand but look for government support",
+      "publishedAt": "2025-03-11T13:35:33Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.cnbc.com/2026/07/08/waymo-starts-driverless-rides-in-san-diego-las-vegas-tampa-denver.html",
+      "title": "Waymo starts driverless rides in four more U.S. markets as expansion accelerates",
+      "description": "Waymo starts driverless rides in four more U.S. markets as expansion accelerates",
+      "publishedAt": "2026-07-08T15:20:26Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://arxiv.org/abs/2504.15440",
+      "title": "Demand for LLMs: Evidence on Substitution, Market Expansion, Multihoming",
+      "description": "Demand for LLMs: Evidence on Substitution, Market Expansion, Multihoming",
+      "publishedAt": "2025-04-23T01:15:00Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://www.businesskorea.co.kr/news/articleView.html?idxno=237301",
+      "title": "'Blind' Achieves 12M Global Users, Driven by Indian Market Expansion",
+      "description": "'Blind' Achieves 12M Global Users, Driven by Indian Market Expansion",
+      "publishedAt": "2025-10-08T15:55:36Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://news.ycombinator.com/item?id=43800518",
+      "title": "The Dark Side of Startups: How I Was Backstabbed as a Cofounder",
+      "description": "The Dark Side of Startups: How I Was Backstabbed as a Cofounder",
+      "publishedAt": "2025-04-26T02:59:08Z"
+    },
+    {
+      "source": "Hacker News",
+      "sourceType": "hackernews",
+      "url": "https://30u30.fyi",
+      "title": "Show HN: 30u30.fyi – Is your startup founder on Forbes' most fraudulent list?",
+      "description": "Show HN: 30u30.fyi – Is your startup founder on Forbes' most fraudulent list?",
+      "publishedAt": "2026-03-30T22:10:22Z"
+    }
+  ],
+  "candidates": [],
+  "watch": [
+    {
+      "name": "Microsoft",
+      "score": 46,
+      "evidence": 3,
+      "commercial": 3,
+      "hiring": 0,
+      "recent": 2,
+      "trigger": {
+        "source": "GitHub",
+        "sourceType": "github",
+        "url": "https://github.com/Adaeze-Techie-Analyst/Equity-Investment-Analysis-Dashboard",
+        "title": "Adaeze-Techie-Analyst/Equity-Investment-Analysis-Dashboard",
+        "description": "Interactive equity analysis of Apple, NVIDIA and Microsoft, designed to support a hypothetical corporate reserve-fund investment decision using performance, risk and valuation data.",
+        "publishedAt": "2026-09-22T15:36:14Z",
+        "ownerLogin": "Adaeze-Techie-Analyst",
+        "ownerType": "User"
+      },
+      "reason": "Awaiting buyer verification.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/microsoft",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/microsoft",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/microsoft",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Dexterity",
+      "score": 43,
+      "evidence": 7,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 1,
+      "trigger": {
+        "source": "GitHub",
+        "sourceType": "github",
+        "url": "https://github.com/Biological-Robotics-at-Tulsa/The-TU-Hand",
+        "title": "Biological-Robotics-at-Tulsa/The-TU-Hand",
+        "description": "A biologically inspired robotic hand for the evaluation of grasping and dexterity. Funding granted through the NSF.",
+        "publishedAt": "2025-09-08T08:13:51Z",
+        "ownerLogin": "Biological-Robotics-at-Tulsa",
+        "ownerType": "Organization"
+      },
+      "reason": "Awaiting buyer verification.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "Website",
+            "label": "Website",
+            "url": "https://dexterity.ai",
+            "confidence": 96
+          },
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/dexterity",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/dexterity",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/dexterity",
+            "confidence": 48
+          }
+        ],
+        "strategy": "WEBSITE → LINKEDIN / X"
+      },
+      "contactStrategy": "WEBSITE → LINKEDIN / X",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Tesla",
+      "score": 40,
+      "evidence": 5,
+      "commercial": 2,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://techcrunch.com/2025/06/22/tesla-launches-robotaxi-rides-in-austin-with-big-promises-and-unanswered-questions/",
+        "title": "Tesla launches robotaxi rides in Austin",
+        "description": "Tesla launches robotaxi rides in Austin",
+        "publishedAt": "2025-06-23T03:34:23Z"
+      },
+      "reason": "Awaiting buyer verification.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "Website",
+            "label": "Website",
+            "url": "https://tesla.com",
+            "confidence": 96
+          },
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/tesla",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/tesla",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/tesla",
+            "confidence": 48
+          }
+        ],
+        "strategy": "WEBSITE → LINKEDIN / X"
+      },
+      "contactStrategy": "WEBSITE → LINKEDIN / X",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Google DeepMind",
+      "score": 40,
+      "evidence": 4,
+      "commercial": 2,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.statnews.com/2025/07/21/casp-new-funding-from-alphafold-developer-google-deepmind-after-nih-grant-runs-out/",
+        "title": "AlphaFold developer Google DeepMind to fund CASP as NIH funding falls short",
+        "description": "AlphaFold developer Google DeepMind to fund CASP as NIH funding falls short",
+        "publishedAt": "2025-07-21T18:39:13Z"
+      },
+      "reason": "Awaiting buyer verification.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "Website",
+            "label": "Website",
+            "url": "https://deepmind.google",
+            "confidence": 96
+          },
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/googledeepmind",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/googledeepmind",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/googledeepmind",
+            "confidence": 48
+          }
+        ],
+        "strategy": "WEBSITE → LINKEDIN / X"
+      },
+      "contactStrategy": "WEBSITE → LINKEDIN / X",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    }
+  ],
+  "rejected": [
+    {
+      "name": "Nvidia Launches Open Secure",
+      "score": 0,
+      "evidence": 27,
+      "commercial": 20,
+      "hiring": 2,
+      "recent": 11,
+      "trigger": {
+        "source": "GitHub",
+        "sourceType": "github",
+        "url": "https://github.com/ianalloway/solvent-agent",
+        "title": "ianalloway/solvent-agent",
+        "description": "Offline-first demo of a self-funding analyst agent: earns via Stripe, fulfils with NVIDIA Nemotron, pays vendor bills within guardrails, never works at a loss.",
+        "publishedAt": "2026-09-27T12:39:35Z",
+        "ownerLogin": "ianalloway",
+        "ownerType": "User"
+      },
+      "reason": "Research/education/project noise.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/nvidialaunchesopensecure",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/nvidialaunchesopensecure",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/nvidialaunchesopensecure",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Gemini",
+      "score": 0,
+      "evidence": 8,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 4,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.bloomberg.com/news/articles/2026-07-30/google-unveils-gemini-ai-for-robots-struggling-with-dexterity",
+        "title": "Gemini Robotics 2 Expands Google's AI Capabilities for Humanoid Robots",
+        "description": "Gemini Robotics 2 Expands Google's AI Capabilities for Humanoid Robots",
+        "publishedAt": "2026-08-07T19:15:31Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/gemini",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/gemini",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/gemini",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Figure AI",
+      "score": 18,
+      "evidence": 2,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://forgeglobal.com/insights/figure-ai-robotics-growth-2026/",
+        "title": "Robotics giant Figure AI demonstrates its robots to the world",
+        "description": "Robotics giant Figure AI demonstrates its robots to the world",
+        "publishedAt": "2026-05-26T20:26:45Z"
+      },
+      "reason": "Awaiting buyer verification.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "Website",
+            "label": "Website",
+            "url": "https://figure.ai",
+            "confidence": 96
+          },
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/figureai",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/figureai",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/figureai",
+            "confidence": 48
+          }
+        ],
+        "strategy": "WEBSITE → LINKEDIN / X"
+      },
+      "contactStrategy": "WEBSITE → LINKEDIN / X",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Salem Robotics (YC S26)",
+      "score": 0,
+      "evidence": 2,
+      "commercial": 2,
+      "hiring": 0,
+      "recent": 2,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://news.ycombinator.com/item?id=49466715",
+        "title": "Launch HN: Salem Robotics (YC S26) – Software for industrial inspection robots",
+        "description": "Launch HN: Salem Robotics (YC S26) – Software for industrial inspection robots",
+        "publishedAt": "2026-08-27T15:46:04Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/salemroboticsycs26",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/salemroboticsycs26",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/salemroboticsycs26",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Agility Robotics",
+      "score": 18,
+      "evidence": 2,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://techcrunch.com/2026/06/24/agility-robotics-plans-to-go-public-via-spac-in-a-2-5b-deal/",
+        "title": "Agility Robotics plans to go public via SPAC in a $2.5B deal",
+        "description": "Agility Robotics plans to go public via SPAC in a $2.5B deal",
+        "publishedAt": "2026-06-24T18:43:31Z"
+      },
+      "reason": "Awaiting buyer verification.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "Website",
+            "label": "Website",
+            "url": "https://agilityrobotics.com",
+            "confidence": 96
+          },
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/agilityrobotics",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/agilityrobotics",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/agilityrobotics",
+            "confidence": 48
+          }
+        ],
+        "strategy": "WEBSITE → LINKEDIN / X"
+      },
+      "contactStrategy": "WEBSITE → LINKEDIN / X",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "NEURA Robotics",
+      "score": 18,
+      "evidence": 2,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://neura-robotics.com/record-series-c/",
+        "title": "Neura Robotics Announces Record Series C of up to $1.4B",
+        "description": "Neura Robotics Announces Record Series C of up to $1.4B",
+        "publishedAt": "2026-06-10T20:27:14Z"
+      },
+      "reason": "Awaiting buyer verification.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "Website",
+            "label": "Website",
+            "url": "https://neura-robotics.com",
+            "confidence": 96
+          },
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/neurarobotics",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/neurarobotics",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/neurarobotics",
+            "confidence": 48
+          }
+        ],
+        "strategy": "WEBSITE → LINKEDIN / X"
+      },
+      "contactStrategy": "WEBSITE → LINKEDIN / X",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Healthcare Robotics Physical",
+      "score": 0,
+      "evidence": 2,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://huggingface.co/blog/nvidia/physical-ai-for-healthcare-robotics",
+        "title": "Physical AI Models for Healthcare Robotics",
+        "description": "Physical AI Models for Healthcare Robotics",
+        "publishedAt": "2026-03-17T12:57:05Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/healthcareroboticsphysical",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/healthcareroboticsphysical",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/healthcareroboticsphysical",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Gemini Robotics Gemini",
+      "score": 0,
+      "evidence": 2,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 1,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://deepmind.google/models/gemini-robotics/",
+        "title": "Gemini Robotics",
+        "description": "Gemini Robotics",
+        "publishedAt": "2026-07-30T23:30:44Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/geminiroboticsgemini",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/geminiroboticsgemini",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/geminiroboticsgemini",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Agentic",
+      "score": 0,
+      "evidence": 2,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://nvidianews.nvidia.com/news/nvidia-launches-vera-cpu-purpose-built-for-agentic-ai",
+        "title": "Nvidia Launches Vera CPU, Purpose-Built for Agentic AI",
+        "description": "Nvidia Launches Vera CPU, Purpose-Built for Agentic AI",
+        "publishedAt": "2026-03-16T20:01:02Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/agentic",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/agentic",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/agentic",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "UBTech Robotics",
+      "score": 26,
+      "evidence": 2,
+      "commercial": 0,
+      "hiring": 2,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.scmp.com/tech/tech-trends/article/3300872/future-made-china-ubtech-robotics-deploys-first-humanoid-team-car-factory",
+        "title": "Future of Made-in-China: UBTech Robotics deploys humanoid ‘team’ in car factory",
+        "description": "Future of Made-in-China: UBTech Robotics deploys humanoid ‘team’ in car factory",
+        "publishedAt": "2025-03-03T20:22:42Z"
+      },
+      "reason": "Awaiting buyer verification.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/ubtechrobotics",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/ubtechrobotics",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/ubtechrobotics",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "How MokaHR Transforms Talent Acquisition",
+      "score": 0,
+      "evidence": 2,
+      "commercial": 2,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://news.ycombinator.com/item?id=43479798",
+        "title": "AI-Driven Hiring: How MokaHR Transforms Talent Acquisition",
+        "description": "AI-Driven Hiring: How MokaHR Transforms Talent Acquisition",
+        "publishedAt": "2025-03-26T07:47:21Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/howmokahrtransformstalentacquisition",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/howmokahrtransformstalentacquisition",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/howmokahrtransformstalentacquisition",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Nao Labs (YC X25)",
+      "score": 0,
+      "evidence": 2,
+      "commercial": 2,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://news.ycombinator.com/item?id=43938607",
+        "title": "Launch HN: Nao Labs (YC X25) – Cursor for Data",
+        "description": "Launch HN: Nao Labs (YC X25) – Cursor for Data",
+        "publishedAt": "2025-05-09T16:28:28Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/naolabsycx25",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/naolabsycx25",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/naolabsycx25",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "OpenAI Deployment",
+      "score": 0,
+      "evidence": 2,
+      "commercial": 2,
+      "hiring": 0,
+      "recent": 1,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://deploy.co/news/the-openai-deployment-company-to-acquire-northslope",
+        "title": "The OpenAI Deployment Company to Acquire Northslope",
+        "description": "The OpenAI Deployment Company to Acquire Northslope",
+        "publishedAt": "2026-07-08T13:37:31Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/openaideployment",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/openaideployment",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/openaideployment",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Deployment",
+      "score": 0,
+      "evidence": 2,
+      "commercial": 2,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://stratechery.com/2026/the-deployment-company-back-to-the-70s-apple-and-intel/",
+        "title": "The Deployment Company, Back to the 70s, Apple and Intel",
+        "description": "The Deployment Company, Back to the 70s, Apple and Intel",
+        "publishedAt": "2026-05-13T10:59:58Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/deployment",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/deployment",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/deployment",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Track",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 1,
+      "trigger": {
+        "source": "GitHub",
+        "sourceType": "github",
+        "url": "https://github.com/Iburatino/ai-crypto-research-stack",
+        "title": "Iburatino/ai-crypto-research-stack",
+        "description": "Track AI infrastructure & agent economy projects via GitHub metrics (commits, contributors, funding) — not token price. Framework-based research following the Nvidia moat thesis.",
+        "publishedAt": "2026-09-03T05:33:53Z",
+        "ownerLogin": "Iburatino",
+        "ownerType": "User"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/track",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/track",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/track",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Billion Dollar Startup Bringing",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.wired.com/story/physical-intelligence-ai-robotics-startup/",
+        "title": "The Billion-Dollar Startup Bringing AI into the Physical World",
+        "description": "The Billion-Dollar Startup Bringing AI into the Physical World",
+        "publishedAt": "2024-11-15T14:10:37Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/billiondollarstartupbringing",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/billiondollarstartupbringing",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/billiondollarstartupbringing",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "World The Billion Dollar Startup Bringing",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.wired.com/story/physical-intelligence-ai-robotics-startup/",
+        "title": "The Billion-Dollar Startup Bringing AI into the Physical World",
+        "description": "The Billion-Dollar Startup Bringing AI into the Physical World",
+        "publishedAt": "2024-11-15T14:10:37Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/worldthebilliondollarstartupbringing",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/worldthebilliondollarstartupbringing",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/worldthebilliondollarstartupbringing",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "AI Can",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://news.ycombinator.com/item?id=46095693",
+        "title": "The Future of AI- Can AI and Robotics Replace Human Experimentation in Biotech?",
+        "description": "The Future of AI- Can AI and Robotics Replace Human Experimentation in Biotech?",
+        "publishedAt": "2025-11-30T11:10:32Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/aican",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/aican",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/aican",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Innate (YC F24)",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://news.ycombinator.com/item?id=42451707",
+        "title": "Launch HN: Innate (YC F24) – Home robots as easy to program as AI agents",
+        "description": "Launch HN: Innate (YC F24) – Home robots as easy to program as AI agents",
+        "publishedAt": "2024-12-18T16:09:56Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/innateycf24",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/innateycf24",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/innateycf24",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Mechanical Hardware Physical",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 1,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.agilityrobotics.com/research-analysis/physical-ai-is-enabled-by-mechanical-hardware",
+        "title": "Physical AI Is Enabled by Mechanical Hardware",
+        "description": "Physical AI Is Enabled by Mechanical Hardware",
+        "publishedAt": "2026-08-27T00:38:26Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/mechanicalhardwarephysical",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/mechanicalhardwarephysical",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/mechanicalhardwarephysical",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Cognitive",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://neura-robotics.com/",
+        "title": "Cognitive Robotics: A new era of human robot collaboration",
+        "description": "Cognitive Robotics: A new era of human robot collaboration",
+        "publishedAt": "2025-11-11T11:47:07Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/cognitive",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/cognitive",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/cognitive",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Deterministic",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://codeberg.org/ishrikantbhosale/bestbrain-core",
+        "title": "Show HN: A 12KB Deterministic AI Kernel for Robotics (bestbrain-core)",
+        "description": "Show HN: A 12KB Deterministic AI Kernel for Robotics (bestbrain-core)",
+        "publishedAt": "2025-12-28T03:09:42Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/deterministic",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/deterministic",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/deterministic",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "SHFW",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://chinaminutes.com/2025/03/27/robotics-meets-runway-unitree-g1s-catwalk-debut-at-shfw/",
+        "title": "Robotics Meets Runway: Unitree G1's Catwalk Debut at SHFW",
+        "description": "Robotics Meets Runway: Unitree G1's Catwalk Debut at SHFW",
+        "publishedAt": "2025-03-27T13:46:45Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/shfw",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/shfw",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/shfw",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "K Scale",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://news.ycombinator.com/item?id=44456904",
+        "title": "Launch HN: K-Scale Labs (YC W24) – Open-Source Humanoid Robots",
+        "description": "Launch HN: K-Scale Labs (YC W24) – Open-Source Humanoid Robots",
+        "publishedAt": "2025-07-03T16:44:18Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/kscale",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/kscale",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/kscale",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "China",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://restofworld.org/2026/china-humanoid-robots-unitree-agibot-tesla-optimus/",
+        "title": "China is running the EV playbook on humanoid robots – and it's working",
+        "description": "China is running the EV playbook on humanoid robots – and it's working",
+        "publishedAt": "2026-02-21T13:03:38Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/china",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/china",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/china",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Humanoid Robots Gemini",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 1,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.bloomberg.com/news/articles/2026-07-30/google-unveils-gemini-ai-for-robots-struggling-with-dexterity",
+        "title": "Gemini Robotics 2 Expands Google's AI Capabilities for Humanoid Robots",
+        "description": "Gemini Robotics 2 Expands Google's AI Capabilities for Humanoid Robots",
+        "publishedAt": "2026-08-07T19:15:31Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/humanoidrobotsgemini",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/humanoidrobotsgemini",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/humanoidrobotsgemini",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Advancing Embodied",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://ai.meta.com/blog/fair-robotics-open-source/?_fb_noscript=1",
+        "title": "Advancing Embodied AI: Progress in Touch, Dexterity, and Human-Robot Interaction",
+        "description": "Advancing Embodied AI: Progress in Touch, Dexterity, and Human-Robot Interaction",
+        "publishedAt": "2024-10-31T17:05:51Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/advancingembodied",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/advancingembodied",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/advancingembodied",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Human Robot Interaction Advancing Embodied",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://ai.meta.com/blog/fair-robotics-open-source/?_fb_noscript=1",
+        "title": "Advancing Embodied AI: Progress in Touch, Dexterity, and Human-Robot Interaction",
+        "description": "Advancing Embodied AI: Progress in Touch, Dexterity, and Human-Robot Interaction",
+        "publishedAt": "2024-10-31T17:05:51Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/humanrobotinteractionadvancingembodied",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/humanrobotinteractionadvancingembodied",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/humanrobotinteractionadvancingembodied",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Gesture HW1",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.cnx-software.com/2026/05/28/gesture-hw1-10-dof-esp32-s3-robotic-hand-with-high-dexterity-manipulation/",
+        "title": "Gesture HW1 is a 10-DOF ESP32-S3 robotic hand with high-dexterity manipulation",
+        "description": "Gesture HW1 is a 10-DOF ESP32-S3 robotic hand with high-dexterity manipulation",
+        "publishedAt": "2026-06-04T17:21:31Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/gesturehw1",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/gesturehw1",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/gesturehw1",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "First",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.teslarati.com/nvidia-director-of-robotics-tesla-fsd-v14-passes-physical-turing-test/",
+        "title": "Nvidia Dir of Robotics:FSDv14 Is the First AI to Pass the \"Physical Turing Test\"",
+        "description": "Nvidia Dir of Robotics:FSDv14 Is the First AI to Pass the \"Physical Turing Test\"",
+        "publishedAt": "2025-12-24T16:41:23Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/first",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/first",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/first",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "South Korea Nvidia",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://blogs.nvidia.com/blog/nvidia-and-lg-group-ai-factory/",
+        "title": "Nvidia partners with LG robotics to build humanoid robots in South Korea",
+        "description": "Nvidia partners with LG robotics to build humanoid robots in South Korea",
+        "publishedAt": "2026-06-08T12:25:14Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/southkoreanvidia",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/southkoreanvidia",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/southkoreanvidia",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "New",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://spectrum.ieee.org/gemini-robotics",
+        "title": "Gemini Robotics: Google DeepMind's New AI Models for Robots",
+        "description": "Gemini Robotics: Google DeepMind's New AI Models for Robots",
+        "publishedAt": "2025-03-14T10:43:53Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/new",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/new",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/new",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Robots Gemini",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://spectrum.ieee.org/gemini-robotics",
+        "title": "Gemini Robotics: Google DeepMind's New AI Models for Robots",
+        "description": "Gemini Robotics: Google DeepMind's New AI Models for Robots",
+        "publishedAt": "2025-03-14T10:43:53Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/robotsgemini",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/robotsgemini",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/robotsgemini",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "More Agentic",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://news.ycombinator.com/item?id=45189915",
+        "title": "Agentic AI MOOC (9/15) –Taught by Experts from Google DeepMind, OpenAI, and More",
+        "description": "Agentic AI MOOC (9/15) –Taught by Experts from Google DeepMind, OpenAI, and More",
+        "publishedAt": "2025-09-09T22:03:20Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/moreagentic",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/moreagentic",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/moreagentic",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Milan Kovac",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.cnbc.com/2025/06/06/tesla-optimus-robotics-vp-is-leaving-the-company.html",
+        "title": "Tesla Optimus robotics vice president Milan Kovac is leaving the company",
+        "description": "Tesla Optimus robotics vice president Milan Kovac is leaving the company",
+        "publishedAt": "2025-06-07T00:22:23Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/milankovac",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/milankovac",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/milankovac",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Guide",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 1,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://github.com/Reware-Labs/securitycards",
+        "title": "Show HN: Guide AI coding agents on how to use libraries securely",
+        "description": "Show HN: Guide AI coding agents on how to use libraries securely",
+        "publishedAt": "2026-08-04T14:12:10Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/guide",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/guide",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/guide",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Edge",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "GitHub",
+        "sourceType": "github",
+        "url": "https://github.com/miguebalderrama/remote-vision-lab",
+        "title": "miguebalderrama/remote-vision-lab",
+        "description": "Edge AI laboratory for real-time industrial Computer Vision on NVIDIA Jetson Orin Nano. Funded by Fundación YPF.",
+        "publishedAt": "2026-06-19T15:54:32Z",
+        "ownerLogin": "miguebalderrama",
+        "ownerType": "User"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/edge",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/edge",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/edge",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Autonomous Founders",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://news.ycombinator.com/item?id=46888318",
+        "title": "AI Agents as Autonomous Founders",
+        "description": "AI Agents as Autonomous Founders",
+        "publishedAt": "2026-02-04T17:00:35Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/autonomousfounders",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/autonomousfounders",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/autonomousfounders",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Patentfig.ai",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://patentfig.ai",
+        "title": "Show HN: Patentfig.ai AI-generated patent drawings",
+        "description": "Show HN: Patentfig.ai AI-generated patent drawings",
+        "publishedAt": "2026-02-23T12:14:34Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/patentfigai",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/patentfigai",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/patentfigai",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Uber",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 1,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.businessinsider.com/uber-dara-ai-bubble-tech-transportation-nvidia-burry-waymo-cars-2025-12",
+        "title": "Uber is hiring more engineers because AI is turning them into 'superhumans'",
+        "description": "Uber is hiring more engineers because AI is turning them into 'superhumans'",
+        "publishedAt": "2025-12-19T18:11:01Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/uber",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/uber",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/uber",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Meta",
+      "score": 30,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.axios.com/2025/06/10/meta-ai-superintelligence-zuckerberg",
+        "title": "Meta launching AI superintelligence lab with nine-figure pay push, reports say",
+        "description": "Meta launching AI superintelligence lab with nine-figure pay push, reports say",
+        "publishedAt": "2025-06-10T15:59:40Z"
+      },
+      "reason": "Awaiting buyer verification.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/meta",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/meta",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/meta",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Hacker News",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.parliant.ai/surveys/e31a7442-080b-4921-bfa4-457ef0b974ec",
+        "title": "Show HN: Why hanging out on Hacker News is a good use of your time?",
+        "description": "Show HN: Why hanging out on Hacker News is a good use of your time?",
+        "publishedAt": "2025-05-12T14:12:28Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/hackernews",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/hackernews",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/hackernews",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Promi (YC S24)",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://news.ycombinator.com/item?id=44649115",
+        "title": "Launch HN: Promi (YC S24) – Personalize e-commerce discounts and retail offers",
+        "description": "Launch HN: Promi (YC S24) – Personalize e-commerce discounts and retail offers",
+        "publishedAt": "2025-07-22T16:11:45Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/promiycs24",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/promiycs24",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/promiycs24",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Joyspace",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://news.ycombinator.com/item?id=44382251",
+        "title": "Show HN: Joyspace AI Clips – Automatically Create Short Clips from Long Videos",
+        "description": "Show HN: Joyspace AI Clips – Automatically Create Short Clips from Long Videos",
+        "publishedAt": "2025-06-25T22:09:12Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/joyspace",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/joyspace",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/joyspace",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Building",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://news.ycombinator.com/item?id=44320918",
+        "title": "Show HN: Everyone's Building AI Startups – But Most Are Missing This One Thing",
+        "description": "Show HN: Everyone's Building AI Startups – But Most Are Missing This One Thing",
+        "publishedAt": "2025-06-19T17:51:19Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/building",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/building",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/building",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "BitBoard (YC P25)",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://bitboard.work/",
+        "title": "Launch HN: BitBoard (YC P25) – Analytics Workspace for Agents",
+        "description": "Launch HN: BitBoard (YC P25) – Analytics Workspace for Agents",
+        "publishedAt": "2026-06-12T16:58:03Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/bitboardycp25",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/bitboardycp25",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/bitboardycp25",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Kita (YC W26)",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://news.ycombinator.com/item?id=47417335",
+        "title": "Launch HN: Kita (YC W26) – Automate credit review in emerging markets",
+        "description": "Launch HN: Kita (YC W26) – Automate credit review in emerging markets",
+        "publishedAt": "2026-03-17T19:46:29Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/kitaycw26",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/kitaycw26",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/kitaycw26",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Voygr (YC W26)",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://news.ycombinator.com/item?id=47401042",
+        "title": "Launch HN: Voygr (YC W26) – A better maps API for agents and AI apps",
+        "description": "Launch HN: Voygr (YC W26) – A better maps API for agents and AI apps",
+        "publishedAt": "2026-03-16T16:21:07Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/voygrycw26",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/voygrycw26",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/voygrycw26",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Bloomy (YC S26)",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 1,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://news.ycombinator.com/item?id=48981136",
+        "title": "Launch HN: Bloomy (YC S26) – AI-powered mastery learning for K-12",
+        "description": "Launch HN: Bloomy (YC S26) – AI-powered mastery learning for K-12",
+        "publishedAt": "2026-07-20T16:32:10Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/bloomyycs26",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/bloomyycs26",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/bloomyycs26",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Form",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://news.ycombinator.com/item?id=43880784",
+        "title": "Text to Form AI",
+        "description": "Text to Form AI",
+        "publishedAt": "2025-05-03T17:50:16Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/form",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/form",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/form",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Commercial",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 1,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://news.ycombinator.com/item?id=48851812",
+        "title": "Reality of Commercial AI World from a 16 Year Old's Perspective",
+        "description": "Reality of Commercial AI World from a 16 Year Old's Perspective",
+        "publishedAt": "2026-07-09T20:16:50Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/commercial",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/commercial",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/commercial",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Open Reasoning",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://nvidianews.nvidia.com/news/nvidia-launches-family-of-open-reasoning-ai-models-for-developers-and-enterprises-to-build-agentic-ai-platforms",
+        "title": "Nvidia Launches Family of Open Reasoning AI Models: OpenReasoning Nemotron",
+        "description": "Nvidia Launches Family of Open Reasoning AI Models: OpenReasoning Nemotron",
+        "publishedAt": "2025-07-21T23:51:40Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/openreasoning",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/openreasoning",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/openreasoning",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Alliance Nvidia Launches Open Secure",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 1,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://blogs.nvidia.com/blog/open-secure-ai-alliance/",
+        "title": "Nvidia Launches Open Secure AI Alliance",
+        "description": "Nvidia Launches Open Secure AI Alliance",
+        "publishedAt": "2026-07-27T12:31:17Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/alliancenvidialaunchesopensecure",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/alliancenvidialaunchesopensecure",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/alliancenvidialaunchesopensecure",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Perplexity",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 1,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://venturebeat.com/infrastructure/perplexity-partners-with-nvidia-to-launch-portable-computer-a-fully-local-ai-agent-with-zero-token-costs",
+        "title": "Perplexity partners with Nvidia to launch a local AI agent",
+        "description": "Perplexity partners with Nvidia to launch a local AI agent",
+        "publishedAt": "2026-08-26T17:32:23Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/perplexity",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/perplexity",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/perplexity",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Spine Swarm (YC S23)",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.getspine.ai/",
+        "title": "Launch HN: Spine Swarm (YC S23) – AI agents that collaborate on a visual canvas",
+        "description": "Launch HN: Spine Swarm (YC S23) – AI agents that collaborate on a visual canvas",
+        "publishedAt": "2026-03-13T13:22:40Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/spineswarmycs23",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/spineswarmycs23",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/spineswarmycs23",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "AI Humanoid Robot Companions",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 1,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.reuters.com/technology/chinas-ubtech-launches-ai-powered-lifelike-companion-robots-2026-07-02/",
+        "title": "AI Humanoid Robot Companions",
+        "description": "AI Humanoid Robot Companions",
+        "publishedAt": "2026-07-04T15:29:29Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/aihumanoidrobotcompanions",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/aihumanoidrobotcompanions",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/aihumanoidrobotcompanions",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Austin Tesla",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://techcrunch.com/2025/06/22/tesla-launches-robotaxi-rides-in-austin-with-big-promises-and-unanswered-questions/",
+        "title": "Tesla launches robotaxi rides in Austin",
+        "description": "Tesla launches robotaxi rides in Austin",
+        "publishedAt": "2025-06-23T03:34:23Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/austintesla",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/austintesla",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/austintesla",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Head of Robotics / AI",
+        "Product / Partnerships"
+      ]
+    },
+    {
+      "name": "Acquire Northslope The OpenAI Deployment",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 1,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://deploy.co/news/the-openai-deployment-company-to-acquire-northslope",
+        "title": "The OpenAI Deployment Company to Acquire Northslope",
+        "description": "The OpenAI Deployment Company to Acquire Northslope",
+        "publishedAt": "2026-07-08T13:37:31Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/acquirenorthslopetheopenaideployment",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/acquirenorthslopetheopenaideployment",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/acquirenorthslopetheopenaideployment",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Intel The Deployment",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://stratechery.com/2026/the-deployment-company-back-to-the-70s-apple-and-intel/",
+        "title": "The Deployment Company, Back to the 70s, Apple and Intel",
+        "description": "The Deployment Company, Back to the 70s, Apple and Intel",
+        "publishedAt": "2026-05-13T10:59:58Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/intelthedeployment",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/intelthedeployment",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/intelthedeployment",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Help Businesses Leverage",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://officechai.com/ai/openai-raises-4-billion-for-the-deployment-company-to-help-businesses-leverage-ai/",
+        "title": "OpenAI Raises $4B for 'The Deployment Company' to Help Businesses Leverage AI",
+        "description": "OpenAI Raises $4B for 'The Deployment Company' to Help Businesses Leverage AI",
+        "publishedAt": "2026-05-05T05:34:55Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/helpbusinessesleverage",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/helpbusinessesleverage",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/helpbusinessesleverage",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Each",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://github.com/mxaiorg/kikubot",
+        "title": "Show HN: Kikubot – Each AI agent is an inbox",
+        "description": "Show HN: Kikubot – Each AI agent is an inbox",
+        "publishedAt": "2026-06-11T15:50:54Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/each",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/each",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/each",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Amazon",
+      "score": 30,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.whio.com/news/local/newlyweds-receive-amazon-gift-cards-before-grooms-deployment-company-says-they-wont-honor-them/AAQLWWBR5RDPNAMKMY4RFI46ZI/",
+        "title": "Newlyweds receive gift cards before groom's deployment, Amazon won't honor them",
+        "description": "Newlyweds receive gift cards before groom's deployment, Amazon won't honor them",
+        "publishedAt": "2025-05-14T23:01:42Z"
+      },
+      "reason": "Awaiting buyer verification.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/amazon",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/amazon",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/amazon",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Christian Brauner",
+      "score": 0,
+      "evidence": 1,
+      "commercial": 0,
+      "hiring": 0,
+      "recent": 0,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://amutable.com/about",
+        "title": "Lennart Poettering, Christian Brauner founded a new company",
+        "description": "Lennart Poettering, Christian Brauner founded a new company",
+        "publishedAt": "2026-01-27T18:57:15Z"
+      },
+      "reason": "Company identity not sufficiently verified.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/christianbrauner",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/christianbrauner",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/christianbrauner",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    },
+    {
+      "name": "Waymo",
+      "score": 33,
+      "evidence": 1,
+      "commercial": 1,
+      "hiring": 0,
+      "recent": 1,
+      "trigger": {
+        "source": "Hacker News",
+        "sourceType": "hackernews",
+        "url": "https://www.cnbc.com/2026/07/08/waymo-starts-driverless-rides-in-san-diego-las-vegas-tampa-denver.html",
+        "title": "Waymo starts driverless rides in four more U.S. markets as expansion accelerates",
+        "description": "Waymo starts driverless rides in four more U.S. markets as expansion accelerates",
+        "publishedAt": "2026-07-08T15:20:26Z"
+      },
+      "reason": "Awaiting buyer verification.",
+      "domainFit": 0,
+      "commercialIntent": 0,
+      "buyerThesis": "",
+      "targetRole": "Founder / CEO",
+      "verificationConfidence": 0,
+      "contacts": {
+        "channels": [
+          {
+            "type": "LinkedIn",
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/company/waymo",
+            "confidence": 68
+          },
+          {
+            "type": "X",
+            "label": "X",
+            "url": "https://x.com/waymo",
+            "confidence": 62
+          },
+          {
+            "type": "GitHub",
+            "label": "GitHub",
+            "url": "https://github.com/waymo",
+            "confidence": 48
+          }
+        ],
+        "strategy": "LINKEDIN → X → WEBSITE"
+      },
+      "contactStrategy": "LINKEDIN → X → WEBSITE",
+      "roles": [
+        "Founder / CEO",
+        "Product leadership",
+        "Business Development / Partnerships"
+      ]
+    }
+  ],
+  "metrics": {
+    "signals": 209,
+    "qualified": 0,
+    "watch": 4,
+    "rejected": 64,
+    "contacts": 4,
+    "fresh": 0
+  },
+  "decision": "NO_QUALIFIED_BUYER",
+  "checkpoint": {
+    "version": 2,
+    "status": "DONE",
+    "runs": [
+      {
+        "id": "2026-09-27T11-36-15-171Z",
+        "at": "2026-09-27T11:36:15.177Z",
+        "decision": "READY_FOR_SEARCH"
+      },
+      {
+        "id": "2026-09-27T11-37-05-165Z",
+        "at": "2026-09-27T11:37:05.170Z",
+        "decision": "READY_FOR_SEARCH"
+      },
+      {
+        "id": "2026-09-27T11-51-35-109Z",
+        "at": "2026-09-27T11:51:35.164Z",
+        "decision": "READY_FOR_SEARCH"
+      },
+      {
+        "id": "2026-09-27T11-55-36-062Z",
+        "at": "2026-09-27T11:55:36.062Z",
+        "decision": "NO_QUALIFIED_BUYER",
+        "qualified": 0,
+        "rejected": 38
+      },
+      {
+        "id": "2026-09-27T11-58-03-088Z",
+        "at": "2026-09-27T11:58:03.088Z",
+        "decision": "NO_QUALIFIED_BUYER",
+        "qualified": 0,
+        "rejected": 38
+      },
+      {
+        "id": "2026-09-27T11-58-43-056Z",
+        "at": "2026-09-27T11:58:43.056Z",
+        "decision": "NO_QUALIFIED_BUYER",
+        "qualified": 0,
+        "rejected": 38
+      },
+      {
+        "id": "2026-09-27T11-58-58-429Z",
+        "at": "2026-09-27T11:58:58.429Z",
+        "decision": "QUALIFIED_OPPORTUNITIES_FOUND",
+        "qualified": 2,
+        "rejected": 74
+      },
+      {
+        "id": "2026-09-27T13-02-21-167Z",
+        "at": "2026-09-27T13:02:21.167Z",
+        "decision": "QUALIFIED_OPPORTUNITIES_FOUND",
+        "qualified": 2,
+        "rejected": 74
+      },
+      {
+        "id": "2026-09-27T13-12-26-151Z",
+        "at": "2026-09-27T13:12:26.151Z",
+        "decision": "QUALIFIED_OPPORTUNITIES_FOUND",
+        "qualified": 2,
+        "rejected": 75
+      },
+      {
+        "id": "2026-09-27T13-12-58-453Z",
+        "at": "2026-09-27T13:12:58.453Z",
+        "decision": "QUALIFIED_OPPORTUNITIES_FOUND",
+        "qualified": 10,
+        "rejected": 50
+      },
+      {
+        "id": "2026-09-27T14-10-15-847Z",
+        "at": "2026-09-27T14:10:15.847Z",
+        "decision": "QUALIFIED_OPPORTUNITIES_FOUND",
+        "qualified": 10,
+        "rejected": 87
+      },
+      {
+        "id": "2026-09-27T14-23-18-223Z",
+        "at": "2026-09-27T14:23:18.223Z",
+        "decision": "QUALIFIED_OPPORTUNITIES_FOUND",
+        "qualified": 4,
+        "rejected": 79
+      },
+      {
+        "id": "2026-09-27T16-22-45-269Z",
+        "at": "2026-09-27T16:22:45.269Z",
+        "decision": "NO_QUALIFIED_BUYER",
+        "qualified": 0,
+        "rejected": 97
+      },
+      {
+        "id": "2026-09-27T16-24-59-408Z",
+        "at": "2026-09-27T16:24:59.408Z",
+        "decision": "NO_QUALIFIED_BUYER",
+        "qualified": 0,
+        "rejected": 147
+      }
+    ],
+    "lastRun": "2026-09-27T16-24-59-408Z"
+  }
+}
