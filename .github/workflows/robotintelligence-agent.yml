@@ -39,3 +39,4 @@ jobs:
             git commit -m "agent: persist verified run state"
             git push
           fi
+# fresh verification trigger
