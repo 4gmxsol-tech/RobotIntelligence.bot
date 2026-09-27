@@ -28,20 +28,34 @@ function renderSignals(){
     '<div class="empty">No live signals for this source filter.</div>';
 }
 
+
+function intelligenceLevel(x){
+  if(x.confidence>=.9 && x.liveEvidence>=3) return "HIGH";
+  if(x.confidence>=.8 && x.liveEvidence>=2) return "MEDIUM";
+  return "EARLY";
+}
+function signalType(s){
+  const t=(s.title+" "+s.description).toLowerCase();
+  if(/fund|raised|funding|investment|acqui|partner|launch|contract|customer/.test(t)) return "COMMERCIAL";
+  if(/robot|robotics|humanoid|embodied|manipulation|reinforcement|simulation|foundation model/.test(t)) return "TECHNICAL";
+  return "MARKET";
+}
 function renderCompanyIntelligence(asset,query){
   const box=$("companyCards"); if(!box) return;
   box.innerHTML=candidates.map((x,i)=>{
-    const ev=liveSignals.filter(s=>(x.name && (s.entity||"").toLowerCase()===x.name.toLowerCase()) || extractEntities(s).some(e=>e.toLowerCase()===x.name.toLowerCase())).slice(0,4);
-    const evidence=ev.map(s=>'<li><b>'+esc(s.sourceTypeLabel)+'</b> · '+esc(s.title)+' <a href="'+esc(s.source)+'" target="_blank" rel="noopener">↗</a></li>').join("") || "<li>No direct source-linked evidence retained.</li>";
+    const ev=liveSignals.filter(s=>extractEntities(s).some(e=>e.toLowerCase()===x.name.toLowerCase()) || (s.entity||"").toLowerCase()===x.name.toLowerCase()).slice(0,6);
+    const commercial=ev.filter(s=>signalType(s)==="COMMERCIAL").length;
+    const technical=ev.filter(s=>signalType(s)==="TECHNICAL").length;
+    const market=ev.filter(s=>signalType(s)==="MARKET").length;
     const recent=ev.filter(s=>{const a=(Date.now()-new Date(s.publishedAt||0).getTime())/86400000;return isFinite(a)&&a<=180;}).length;
-    const targetHints = /robot|robotics|humanoid|physical ai|embodied/i.test((x.name+" "+x.reason)) ?
-      "Relevant roles to research: CEO / Founder, Head of Robotics, Head of AI, VP Engineering, Business Development." :
-      "Relevant roles to research: Founder / CEO, technical leadership, partnerships or business development.";
-    return '<article class="candidate intelligence-card"><div class="candidate-top"><span class="rank">COMPANY INTELLIGENCE '+String(i+1).padStart(2,"0")+'</span><span class="score">'+x.score+'/100</span></div>'+
-      '<h3>'+esc(x.name)+'</h3><p>'+esc(x.reason)+'</p>'+
-      '<div class="intel-grid"><div><span>FIT</span><strong>'+x.profile.assetFit+'/30</strong></div><div><span>RECENCY</span><strong>'+recent+' recent</strong></div><div><span>EVIDENCE</span><strong>'+x.liveEvidence+' signals</strong></div><div><span>CONFIDENCE</span><strong>'+Math.round(x.confidence*100)+'%</strong></div></div>'+
-      '<p><b>Why it matters:</b> '+esc(x.signal)+' · research fit against <b>'+esc(asset)+'</b> / '+esc(query||"default radar query")+'</p>'+
-      '<div class="intel-columns"><div><span class="intel-label">SOURCE EVIDENCE</span><ul>'+evidence+'</ul></div><div><span class="intel-label">DECISION-MAKER RESEARCH</span><p>'+esc(targetHints)+'</p><small>No private contact data or purchase intent is inferred.</small></div></div></article>';
+    const level=intelligenceLevel(x);
+    const evidence=ev.map(s=>'<li><span class="evidence-tag '+signalType(s).toLowerCase()+'">'+signalType(s)+'</span> '+esc(s.title)+' <a href="'+esc(s.source)+'" target="_blank" rel="noopener">↗</a></li>').join("") || "<li>No direct source-linked evidence retained.</li>";
+    const rationale=technical>0 ? "Technical activity aligns with the asset theme." : "The entity surfaced from relevant public market evidence.";
+    return '<article class="candidate intelligence-card"><div class="candidate-top"><span class="rank">INTELLIGENCE PROFILE '+String(i+1).padStart(2,"0")+'</span><span class="score">'+x.score+'/100</span></div>'+
+      '<div class="intel-title"><h3>'+esc(x.name)+'</h3><span class="intel-level '+level.toLowerCase()+'">'+level+' CONFIDENCE</span></div><p>'+esc(x.reason)+'</p>'+
+      '<div class="intel-grid"><div><span>ASSET FIT</span><strong>'+x.profile.assetFit+'/30</strong></div><div><span>RECENT</span><strong>'+recent+' signals</strong></div><div><span>COMMERCIAL</span><strong>'+commercial+'</strong></div><div><span>TECHNICAL</span><strong>'+technical+'</strong></div></div>'+
+      '<p><b>Research rationale:</b> '+esc(rationale)+' '+esc(x.signal)+'</p>'+
+      '<div class="intel-columns"><div><span class="intel-label">EVIDENCE LEDGER</span><ul>'+evidence+'</ul></div><div><span class="intel-label">OUTREACH RESEARCH</span><p>Research CEO / Founder, Robotics or AI leadership, and Partnerships / Business Development.</p><p><b>Next verification:</b> confirm current company activity, relevant product/team, and the appropriate public decision-maker channel.</p><small>Confidence reflects evidence quality, not willingness or intent to buy.</small></div></div></article>';
   }).join("") || '<div class="empty">No verified company intelligence available yet. Run the Radar first.</div>';
 }
 function generateBrief(asset){
