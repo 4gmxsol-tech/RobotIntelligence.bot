@@ -123,8 +123,8 @@ function buildCandidates(asset,query){
     else if(!/noise|project|education/i.test(q.reason) && q.score>=35 && (q.technicalSignals||q.commercialSignals||q.hiringSignals))watch.push(item);
     else rejected.push(item);
   }
-  qualified.sort((a,b)=>b.priority-a.priority);rejected.sort((a,b)=>b.priority-a.priority);
-  return{qualified,rejected};
+  qualified.sort((a,b)=>b.priority-a.priority);watch.sort((a,b)=>b.priority-a.priority);rejected.sort((a,b)=>b.priority-a.priority);
+  return{qualified,watch,rejected};
 }
 const tools={
  ok:(data,meta={})=>({ok:true,data,error:null,meta}),
