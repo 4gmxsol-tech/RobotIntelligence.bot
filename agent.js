@@ -189,7 +189,7 @@ async function run(){
     if(p==="COMMIT"){state.memory.runs.unshift({at:Date.now(),goal:state.run.goal,asset:state.run.asset,evidence:state.run.metrics.signals,qualified:state.run.metrics.qualified,rejected:state.run.metrics.rejected});state.memory.runs=state.memory.runs.slice(0,20);decision("COMMIT","Verified run persisted to local agent memory.")}
     const row=state.run.plan.find(x=>x.name===p);if(row)row.status="done";save();await new Promise(r=>setTimeout(r,80));
   }
-  setPhase("DONE");
+  setPhase("DONE");const done=state.run.plan.find(x=>x.name==="DONE");if(done)done.status="done";save();
 }
 function render(){
  const r=state.run,m=r.metrics||{};
