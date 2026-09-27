@@ -34,79 +34,93 @@ function generateBrief(asset){
     "No sufficiently verified commercial entity was discovered from the current live evidence.";
 }
 
-const genericNoise=/^(embodied ai|physical ai|robotics|humanoid|robot|ai|artificial intelligence|machine learning|robot intelligence|open source|github|workshop|simulator|tutorial|demo|project|making|agentic|learning)$/i;
-const knownNames=/\b(Generalist AI|THEKER Robotics|Rhoda AI|Eka Robotics|Cobalt Robotics|Physical Intelligence|Figure AI|Skild AI|NVIDIA|Google DeepMind|Salem Robotics|LimX Dynamics|Beyond Imagination|Sanctuary AI|Mireye|Azalea Robotics|Genesis Embodied AI|PhysiCar)\b/gi;
+const GENERIC_ENTITY_NOISE=/^(physical|physical ai|embodied|embodied ai|robotics|robot|ai|artificial intelligence|machine learning|robot intelligence|open source|github|workshop|simulator|tutorial|demo|project|making|agentic|learning|remove|find|will open r&d|software engineer|ai researcher|intern|portfolio)$/i;
+const KNOWN_ALIASES={
+  "figure":"Figure AI","figure ai":"Figure AI",
+  "genesis embodied ai":"Genesis Embodied AI",
+  "limx dynamics":"LimX Dynamics","limxdynamics":"LimX Dynamics",
+  "physical intelligence":"Physical Intelligence","skild ai":"Skild AI",
+  "sanctuary":"Sanctuary AI","sanctuary ai":"Sanctuary AI",
+  "nvidia":"NVIDIA","google deepmind":"Google DeepMind",
+  "toyota":"Toyota"
+};
+const KNOWN_COMPANIES=new Set(Object.values(KNOWN_ALIASES).map(x=>x.toLowerCase()));
+const VERB_NOISE=/^(physical|remove|find|making|learning|agentic|will|open|build|develop|creates?|makes?|founded|official|software|technical|research|engineer)$/i;
 
+function canonicalEntity(name){
+  let n=normalizeName(name).replace(/^the\s+/i,"").trim();
+  const key=n.toLowerCase();
+  if(KNOWN_ALIASES[key]) return KNOWN_ALIASES[key];
+  if(GENERIC_ENTITY_NOISE.test(n)) return "";
+  if(VERB_NOISE.test(n)) return "";
+  if(/^(?:[a-z]+\s+){0,2}(?:r&d|research|project|portfolio|workshop|simulator)$/i.test(n)) return "";
+  return n;
+}
 function extractEntities(signal){
   if(typeof signal==="string") signal={title:signal,description:""};
-  const title=String(signal?.title||"");
-  const desc=String(signal?.description||"");
+  const title=String(signal?.title||""), desc=String(signal?.description||"");
   const found=[], push=n=>{
-    n=normalizeName(n);
-    if(n&&n.length>=3&&n.length<=60&&!genericNoise.test(n)&&!/^\d/.test(n)&&!found.some(x=>x.toLowerCase()===n.toLowerCase())) found.push(n);
+    n=canonicalEntity(n);
+    if(n&&n.length>=3&&n.length<=60&&!found.some(x=>x.toLowerCase()===n.toLowerCase())) found.push(n);
   };
   let m;
   const launch=/Launch HN:\s*([^–-]+?)(?:\s*\(|\s*[–-]|$)/i.exec(title);
   if(launch) push(launch[1]);
-  const patterns=[
+  const explicitPatterns=[
     /\b([A-Z][A-Za-z0-9&.]+(?:\s+[A-Z][A-Za-z0-9&.]+){0,4}),?\s+(?:Inc\.?|Corp\.?|Corporation|Company|Robotics|AI|Labs?|Dynamics)\b/g,
     /\b([A-Z][A-Za-z0-9&.]+(?:\s+[A-Z][A-Za-z0-9&.]+){0,4})\s+(?:is|was|builds|develops|makes|creates|founded)\b/g
   ];
-  for(const re of patterns) while((m=re.exec(desc))) push(m[1]);
-  // A GitHub organization is only a candidate signal when its repository description is commercially explicit.
+  for(const re of explicitPatterns) while((m=re.exec(desc))) push(m[1]);
   if(signal.ownerType==="Organization" && signal.ownerLogin && /\b(company|startup|founded|funding|product|platform|enterprise|official|robotics|ai company|inc\.?|corp\.?)\b/i.test(desc)) push(signal.ownerLogin);
-  knownNames.lastIndex=0;
-  while((m=knownNames.exec(title+" "+desc))) push(m[1]);
-  knownNames.lastIndex=0;
+  const full=title+" "+desc;
+  const known=/\b(Generalist AI|THEKER Robotics|Rhoda AI|Eka Robotics|Cobalt Robotics|Physical Intelligence|Figure AI|Skild AI|NVIDIA|Google DeepMind|Salem Robotics|LimX Dynamics|Beyond Imagination|Sanctuary AI|Mireye|Azalea Robotics|Genesis Embodied AI|PhysiCar|Toyota)\b/gi;
+  while((m=known.exec(full))) push(m[1]);
   return found;
 }
-
-function entityVerification(name,sig){
+function verifyEntity(name,sig){
   const text=(name+" "+(sig.title||"")+" "+(sig.description||"")).toLowerCase();
-  const explicit=/(company|inc\.?|corp\.?|corporation|startup|founded|funded|funding|enterprise|product|platform|official home|builds robots|robotics company|ai company|commercial)/i.test(text);
+  const known=KNOWN_COMPANIES.has(name.toLowerCase());
   const org=sig.ownerType==="Organization";
-  const known=/^(Genesis Embodied AI|Physical Intelligence|Figure AI|Skild AI|NVIDIA|Google DeepMind|Generalist AI|THEKER Robotics|Rhoda AI|Eka Robotics|Cobalt Robotics|Salem Robotics|LimX Dynamics|Beyond Imagination|Sanctuary AI|Mireye|Azalea Robotics|PhysiCar)$/i.test(name);
-  const noise=genericNoise.test(name) || /^(making|agentic|learning|software engineer|ai researcher|intern|portfolio)$/i.test(name);
-  return {verified:!noise&&(known||explicit||org), explicit, org, known, noise};
+  const explicitCommercial=/\b(company|inc\.?|corp\.?|corporation|startup|founded|funded|funding|enterprise|product|platform|official home|commercial|robotics company|ai company)\b/i.test(text);
+  const project=/\b(portfolio|student|internship|course|tutorial|workshop|assignment|simulator|demo|final project|personal)\b/i.test(text);
+  const noise=GENERIC_ENTITY_NOISE.test(name)||VERB_NOISE.test(name);
+  return {verified:!noise&&!project&&(known||org||explicitCommercial),known,org,explicitCommercial,project};
 }
-
-function assetRelevance(asset,query,name,evidence){
+function relevanceScore(asset,query,name,evidence){
   const text=(asset+" "+query+" "+name+" "+evidence).toLowerCase();
-  const terms=["robot","robotics","humanoid","embodied","physical ai","robot learning","manipulation","autonomy","simulation","reinforcement learning","foundation model","intelligence"];
+  const terms=["robot","robotics","humanoid","embodied","physical ai","robot learning","manipulation","autonomy","simulation","reinforcement learning","foundation model","intelligence","behavior"];
   return terms.filter(t=>text.includes(t)).length;
 }
-
 function buildCandidates(asset,query){
   const groups={};
   for(const sig of liveSignals){
-    for(const entity of extractEntities(sig)){
-      const v=entityVerification(entity,sig);
+    for(const raw of extractEntities(sig)){
+      const name=canonicalEntity(raw), v=verifyEntity(name,sig);
       if(!v.verified) continue;
-      const relevance=assetRelevance(asset,query,entity,(sig.title||"")+" "+(sig.description||""));
+      const evidence=(sig.title||"")+" "+(sig.description||"");
+      const relevance=relevanceScore(asset,query,name,evidence);
       if(relevance<2) continue;
-      const key=entity.toLowerCase();
-      if(!groups[key]) groups[key]={name:entity,signals:[],verification:v,relevance:0};
+      const key=name.toLowerCase();
+      if(!groups[key]) groups[key]={name,signals:[],verification:v,relevance:0};
       groups[key].signals.push(sig);
       groups[key].relevance=Math.max(groups[key].relevance,relevance);
     }
   }
   return Object.values(groups).map(g=>{
-    const evidence=g.signals.map(s=>(s.title||"")+" "+(s.description||"")).join(" ");
-    const recent=g.signals.reduce((n,s)=>{
-      const age=(Date.now()-new Date(s.publishedAt||Date.now()).getTime())/86400000;
-      return n+(isFinite(age)&&age<=180?1:0);
-    },0);
-    const signalCount=g.signals.length;
+    const recent=g.signals.filter(s=>{
+      const age=(Date.now()-new Date(s.publishedAt||0).getTime())/86400000;
+      return isFinite(age)&&age>=0&&age<=180;
+    }).length;
     const profile={
       buyerRelevance:Math.min(25,8+g.relevance*2),
-      assetFit:Math.min(30,7+g.relevance*2),
+      assetFit:Math.min(30,8+g.relevance*2),
       recentActivity:Math.min(20,7+recent*4),
-      evidenceStrength:Math.min(15,5+signalCount*3),
-      commercialProximity:Math.min(10,g.verification.known?10:(g.verification.org?8:7))
+      evidenceStrength:Math.min(15,5+g.signals.length*3),
+      commercialProximity:g.verification.known?10:(g.verification.org?8:7)
     };
     return {name:g.name,score:Object.values(profile).reduce((a,v)=>a+v,0),profile,
-      reason:g.verification.known?"Known commercial entity with direct topical evidence.":"Verified organization with commercially relevant public evidence.",
-      signal:g.signals[0].title,liveEvidence:signalCount,confidence:g.verification.known?0.95:(g.verification.org?0.82:0.72)};
+      reason:g.verification.known?"Verified commercial entity with direct topical evidence.":"Verified organization with commercially relevant evidence.",
+      signal:g.signals[0].title,liveEvidence:g.signals.length,confidence:g.verification.known?.95:(g.verification.org?.82:.72)};
   }).sort((a,b)=>b.score-a.score);
 }
 async function getJSON(url){
