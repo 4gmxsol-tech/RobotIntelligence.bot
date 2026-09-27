@@ -48,7 +48,15 @@ async function openaiReview(items){
     {role:"developer",content:"You are the verification layer for a buyer-intelligence system. Review only the supplied public evidence. Do not invent companies, facts, or buyers. A repository owner, project name, book, lab, university, demo, or generic noun is not automatically a commercial company. Prefer explicit company identity and robotics/embodied-AI relevance. Return ONLY a JSON object with a results array."},
     {role:"user",content:"For each item return {i,canonicalName,companyIdentity,roboticsRelevance,commercialIntent,confidence,reason}. canonicalName must be the actual company name only when supported; otherwise empty string. companyIdentity, roboticsRelevance and commercialIntent are booleans. confidence is 0-100. Evidence:\n"+JSON.stringify(payload)}
   ],text:{format:{type:"json_object"}},max_output_tokens:5000};
-  try{const r=await fetch("https://api.openai.com/v1/responses",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+key},body:JSON.stringify(body)});if(!r.ok)throw new Error("OpenAI "+r.status+" "+r.statusText);const d=await r.json();const parsed=JSON.parse(d.output_text||"{}");return Array.isArray(parsed.results)?parsed.results:[]}catch(e){console.warn("OpenAI review skipped:",e.message);return []}
+  try{
+    const ctl=new AbortController(),timer=setTimeout(()=>ctl.abort(),20000);
+    try{
+      const r=await fetch("https://api.openai.com/v1/responses",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+key},body:JSON.stringify(body),signal:ctl.signal});
+      if(!r.ok)throw new Error("OpenAI "+r.status+" "+r.statusText);
+      const d=await r.json(),parsed=JSON.parse(d.output_text||"{}");
+      return Array.isArray(parsed.results)?parsed.results:[];
+    }finally{clearTimeout(timer)}
+  }catch(e){console.warn("OpenAI review skipped:",e.name==="AbortError"?"timeout":e.message);return []}
 }
 async function search(q){
   const [g,h,d]=await Promise.allSettled([
