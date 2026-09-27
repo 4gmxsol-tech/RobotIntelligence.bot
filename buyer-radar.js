@@ -93,7 +93,7 @@ function buildCandidates(asset,query){
   return Object.values(groups).map(g=>{
     const evidence=g.signals.map(s=>(s.title||"")+" "+(s.description||"")).join(" ");
     const recent=g.signals.reduce((n,s)=>{
-      const age=(Date.now()-new Date(s.dateLabel||Date.now()).getTime())/86400000;
+      const age=(Date.now()-new Date(s.publishedAt||Date.now()).getTime())/86400000;
       return n+(isFinite(age)&&age<=180?1:0);
     },0);
     const signalCount=g.signals.length;
@@ -122,11 +122,11 @@ async function runLive(){
   const searchQuery=(query||asset)+" robotics AI";
   const gh=getJSON("https://api.github.com/search/repositories?q="+encodeURIComponent(searchQuery)+"&sort=updated&order=desc&per_page=10")
     .then(d=>(d.items||[]).map(repo=>({sourceType:"github",sourceTypeLabel:"GITHUB SIGNAL",source:repo.html_url,sourceLabel:"GitHub",
-      dateLabel:repo.updated_at?new Date(repo.updated_at).toLocaleDateString():"recent",title:repo.full_name,description:repo.description||"Public repository activity matching the research query.",
+      dateLabel:repo.updated_at?new Date(repo.updated_at).toLocaleDateString():"recent",publishedAt:repo.updated_at||null,title:repo.full_name,description:repo.description||"Public repository activity matching the research query.",
       ownerLogin:repo.owner?.login||"",ownerType:repo.owner?.type||"",entity:""})));
   const hn=getJSON("https://hn.algolia.com/api/v1/search?query="+encodeURIComponent(searchQuery)+"&tags=story&hitsPerPage=10")
     .then(d=>(d.hits||[]).map(hit=>({sourceType:"hackernews",sourceTypeLabel:"HACKER NEWS",source:hit.url||("https://news.ycombinator.com/item?id="+hit.objectID),
-      sourceLabel:"Hacker News",dateLabel:hit.created_at?new Date(hit.created_at).toLocaleDateString():"recent",title:hit.title||"Hacker News signal",
+      sourceLabel:"Hacker News",dateLabel:hit.created_at?new Date(hit.created_at).toLocaleDateString():"recent",publishedAt:hit.created_at||null,title:hit.title||"Hacker News signal",
       description:hit.title||"Recent public discussion/news signal.",entity:""})));
   const results=await Promise.allSettled([gh,hn]);
   let providers=0;
