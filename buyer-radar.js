@@ -71,7 +71,14 @@ function extractEntities(signal){
     /\b([A-Z][A-Za-z0-9&.]+(?:\s+[A-Z][A-Za-z0-9&.]+){0,4})\s+(?:is|was|builds|develops|makes|creates|founded)\b/g
   ];
   for(const re of explicitPatterns) while((m=re.exec(desc))) push(m[1]);
-  if(signal.ownerType==="Organization" && signal.ownerLogin && /\b(company|startup|founded|funding|product|platform|enterprise|official|robotics|ai company|inc\.?|corp\.?)\b/i.test(desc)) push(signal.ownerLogin);
+  const sentenceCompany=/^\s*([A-Z][A-Za-z0-9&.\-]{2,50})\s+(?:is|was|builds|develops|makes|creates)\b/m.exec(desc);
+  if(sentenceCompany) push(sentenceCompany[1]);
+  // A GitHub owner is an account/container, not automatically the commercial entity.
+  // Only curated/verified aliases may enter from ownerLogin.
+  if(signal.ownerType==="Organization" && signal.ownerLogin){
+    const ownerKey=signal.ownerLogin.toLowerCase();
+    if(KNOWN_ALIASES[ownerKey]) push(signal.ownerLogin);
+  }
   const full=title+" "+desc;
   const known=/\b(Generalist AI|THEKER Robotics|Rhoda AI|Eka Robotics|Cobalt Robotics|Physical Intelligence|Figure AI|Skild AI|NVIDIA|Google DeepMind|Salem Robotics|LimX Dynamics|Beyond Imagination|Sanctuary AI|Mireye|Azalea Robotics|Genesis Embodied AI|PhysiCar|Toyota)\b/gi;
   while((m=known.exec(full))) push(m[1]);
@@ -87,10 +94,13 @@ function verifyEntity(name,sig){
   return {verified:!noise&&!project&&(known||org||explicitCommercial),known,org,explicitCommercial,project};
 }
 function relevanceScore(asset,query,name,evidence){
-  const text=(asset+" "+query+" "+name+" "+evidence).toLowerCase();
+  // Measure topical evidence from the signal itself. Asset/query terms must not
+  // manufacture relevance for an otherwise generic repository description.
+  const text=(name+" "+evidence).toLowerCase();
   const terms=["robot","robotics","humanoid","embodied","physical ai","robot learning","manipulation","autonomy","simulation","reinforcement learning","foundation model","intelligence","behavior"];
   return terms.filter(t=>text.includes(t)).length;
 }
+function gatedKnownEntity(name){ return KNOWN_COMPANIES.has(String(name||"").toLowerCase()); }
 function buildCandidates(asset,query){
   const groups={};
   for(const sig of liveSignals){
@@ -99,7 +109,7 @@ function buildCandidates(asset,query){
       if(!v.verified) continue;
       const evidence=(sig.title||"")+" "+(sig.description||"");
       const relevance=relevanceScore(asset,query,name,evidence);
-      if(relevance<2) continue;
+      if(relevance<2 && !gatedKnownEntity(name)) continue;
       const key=name.toLowerCase();
       if(!groups[key]) groups[key]={name,signals:[],verification:v,relevance:0};
       groups[key].signals.push(sig);
