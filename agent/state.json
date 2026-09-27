@@ -86,7 +86,14 @@
       "decision": "NO_QUALIFIED_BUYER",
       "qualified": 0,
       "rejected": 97
+    },
+    {
+      "id": "2026-09-27T16-24-59-408Z",
+      "at": "2026-09-27T16:24:59.408Z",
+      "decision": "NO_QUALIFIED_BUYER",
+      "qualified": 0,
+      "rejected": 147
     }
   ],
-  "lastRun": "2026-09-27T16-22-45-269Z"
+  "lastRun": "2026-09-27T16-24-59-408Z"
 }
