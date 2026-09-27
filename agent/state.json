@@ -58,7 +58,14 @@
       "decision": "QUALIFIED_OPPORTUNITIES_FOUND",
       "qualified": 2,
       "rejected": 75
+    },
+    {
+      "id": "2026-09-27T13-12-58-453Z",
+      "at": "2026-09-27T13:12:58.453Z",
+      "decision": "QUALIFIED_OPPORTUNITIES_FOUND",
+      "qualified": 10,
+      "rejected": 50
     }
   ],
-  "lastRun": "2026-09-27T13-12-26-151Z"
+  "lastRun": "2026-09-27T13-12-58-453Z"
 }
