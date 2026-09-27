@@ -19,7 +19,7 @@ const ALIASES={
  "tesla":"Tesla","amazon":"Amazon","meta":"Meta","microsoft":"Microsoft","waymo":"Waymo"
 };
 const KNOWN=new Set(Object.values(ALIASES).map(x=>x.toLowerCase()));
-const COMPANY_SEEDS=["Figure AI","Physical Intelligence","Skild AI","Sanctuary AI","Agility Robotics","Apptronik","1X Technologies","NEURA Robotics","Unitree Robotics","Boston Dynamics","Dexterity","Covariant","Robust.AI","NVIDIA","Google DeepMind","Pudu Robotics","ANYbotics","UBTECH Robotics","LimX Dynamics","Tesla"];
+const COMPANY_SEEDS=[];
 const NOISE=/^(physical|physical ai|embodied|embodied ai|robotics|robot|ai|artificial intelligence|machine learning|open source|github|workshop|simulator|tutorial|demo|project|making|agentic|learning|research|engineering|software engineer|ai researcher|intern|portfolio|course|book|textbook|lab|school|university)$/i;
 const PROJECT=/\b(portfolio|student|internship|course|tutorial|workshop|assignment|simulator|demo|personal project|textbook|book|notes|learning resource|university|school|classroom)\b/i;
 const AMBIGUOUS_ENTITY=new Set(["dexterity","gemini","agility","cognitive","deterministic","ai can","billion dollar startup bringing"]);
@@ -55,8 +55,8 @@ function contactChannels(name,signals){
   contactPut(name,result);return result;
 }
 function outreach(name,asset,trigger){
-  const t=trigger?.signal?.title||trigger?.reason||"your recent robotics work";
-  return "Hi "+name+" team — I own "+asset+" and noticed "+t+". The name aligns closely with your work in humanoid / embodied robotics. If this is relevant to your roadmap, I can share the domain and terms.";
+  const t=trigger?.signal?.title||trigger?.reason||"your recent company activity";
+  return "Hi "+name+" team — I own "+asset+" and noticed "+t+". The domain may align with your brand, product or market direction. If relevant, I can share the domain and terms.";
 }
 function ageDays(v){const t=new Date(v||0).getTime();return isFinite(t)?Math.max(0,(Date.now()-t)/86400000):9999}
 function write(kind,msg){state.log.unshift({t:Date.now(),kind,msg});state.log=state.log.slice(0,200);save()}
@@ -118,44 +118,38 @@ function resolveEntities(sig){
 }
 function qualify(name,signals,asset,query){
   const text=(name+" "+signals.map(s=>s.title+" "+s.description).join(" ")).toLowerCase();
-  const known=KNOWN.has(name.toLowerCase()) && !AMBIGUOUS_ENTITY.has(name.toLowerCase());
+  const known=KNOWN.has(name.toLowerCase())&&!AMBIGUOUS_ENTITY.has(name.toLowerCase());
   const identity=signals.some(s=>{
     const t=String(s.title+" "+s.description);
     if(QUESTION_NOISE.test(t))return false;
     const low=t.toLowerCase(),n=name.toLowerCase();
     if(!low.includes(n))return false;
-    return ["company","inc.","corp.","corporation","startup","robotics","robotics company","ai company","technologies","labs","dynamics"].some(w=>low.includes(w));
+    return ["company","inc.","corp.","corporation","startup","business","product","platform","technologies","labs","dynamics","software"].some(w=>low.includes(w));
   });
   const company=identity;
-  const project=PROJECT.test(text)||/\b(lab|university|school)\b/i.test(name);
-  const robotics=/(robot|robotics|humanoid|embodied|physical ai|manipulation|autonomy|robot learning)/i.test(text);
+  const project=PROJECT.test(text)||/\b(lab|university|school|course)\b/i.test(name);
   const commercialSignals=signals.filter(s=>signalType(s)==="COMMERCIAL").length;
   const hiringSignals=signals.filter(s=>signalType(s)==="HIRING").length;
   const technicalSignals=signals.filter(s=>signalType(s)==="TECHNICAL").length;
   const fresh=signals.filter(s=>ageDays(s.publishedAt)<=90).length;
-  const assetTerms=(asset+" "+query).toLowerCase().split(/[^a-z0-9]+/).filter(x=>x.length>3);
-  const assetHits=[...new Set(assetTerms)].filter(t=>text.includes(t)).length;
-  let score=0;
-  if(known)score+=30;
-  if(company||identity)score+=25;
-  if(robotics)score+=15;
-  if(commercialSignals)score+=20;
-  if(hiringSignals)score+=12;
-  if(technicalSignals)score+=8;
-  if(fresh)score+=Math.min(12,fresh*4);
-  score+=Math.min(12,assetHits*3);
-  if(project)score-=45;
+  const stem=asset.replace(/\.[a-z0-9]+$/i,"").replace(/[._-]/g," ").toLowerCase();
+  const explicitQuery=(query||"").trim().toLowerCase();
+  const domainHits=[...new Set(stem.split(/\s+/).filter(x=>x.length>2))].filter(t=>text.includes(t)).length;
+  let score=(known?20:0)+(company?25:0)+(commercialSignals?22:0)+(hiringSignals?12:0)+Math.min(12,fresh*4)+Math.min(12,domainHits*4);
+  if(project)score-=55;
   const trigger=triggerFor(signals);
   if(trigger.strength==="FRESH")score+=8;
   if(trigger.strength==="RECENT")score+=4;
-  const qualified=!project&&(known||company||identity)&&robotics&&score>=55;
+  const directDomainEvidence=domainHits>0;
+  const qualified=!project&&(known||company)&&commercialSignals>0&&(directDomainEvidence||known)&&score>=60;
   let reason="";
   if(project)reason="Research/education/project noise.";
-  else if(!robotics)reason="Insufficient robotics / embodied-AI relevance.";
-  else if(!(known||company||identity))reason="No reliable company identity.";
-  else if(score<55)reason="Commercial qualification threshold not met.";
-  else reason="Company identity and robotics relevance supported by public evidence.";
-  return{qualified,score:Math.max(0,Math.min(100,Math.round(score))),reason,trigger,commercialSignals,hiringSignals,technicalSignals,fresh};
+  else if(!(known||company))reason="No reliable company identity.";
+  else if(!commercialSignals)reason="No verified commercial buying signal.";
+  else if(!directDomainEvidence&&!known)reason="No direct domain-to-company evidence.";
+  else if(score<60)reason="Commercial buyer threshold not met.";
+  else reason="Commercial company with source-backed activity and domain relevance.";
+  return{qualified,score:Math.max(0,Math.min(100,Math.round(score))),reason,trigger,commercialSignals,hiringSignals,technicalSignals,fresh,domainHits};
 }
 function buildCandidates(asset,query){
   const groups={};
@@ -196,15 +190,14 @@ function setPhase(p){state.run.status=p;const row=state.run.plan.find(x=>x.name=
 function normalizeEvidence(items){const seen=new Set();return items.filter(x=>{const k=(x.sourceType+"|"+x.url+"|"+x.title).toLowerCase();if(seen.has(k))return false;seen.add(k);return ageDays(x.publishedAt)<=730})}
 async function search(){
   tools.checkpoint();
-  const q=state.run.query||state.run.asset;
-  const stem=state.run.asset.replace(/\.[a-z0-9]+$/i,"").replace(/[._-]/g," ");
-  const terms=[q,stem,q+" company",q+" startup",q+" funding",q+" hiring",q+" launch",q+" humanoid",q+" embodied AI",q+" robotics company",
-    ...COMPANY_SEEDS.map(x=>x+" robotics"),
-    ...COMPANY_SEEDS.map(x=>x+" funding"),
-    ...COMPANY_SEEDS.map(x=>x+" hiring"),
-    ...COMPANY_SEEDS.map(x=>x+" launch")
-  ];
-  const jobs=[];for(const term of [...new Set(terms.map(x=>x.trim()).filter(Boolean))]){jobs.push(tools.github(term));jobs.push(tools.hn(term))}
+  const asset=state.run.asset.trim();
+  const stem=asset.replace(/\.[a-z0-9]+$/i,"").replace(/[._-]/g," ");
+  const supplied=(state.run.query||"").trim();
+  const legacy=/humanoid robotics embodied ai robot learning/i.test(supplied);
+  const q=legacy?"":supplied;
+  const terms=[stem,stem+" company",stem+" startup",stem+" funding",stem+" hiring",stem+" launch",stem+" partnership",stem+" product",stem+" business",q,q&&q+" company",q&&q+" startup",q&&q+" funding"].filter(Boolean);
+  const jobs=[];
+  for(const term of [...new Set(terms.map(x=>x.trim()).filter(Boolean))]){jobs.push(tools.github(term));jobs.push(tools.hn(term));}
   const results=await Promise.allSettled(jobs);
   for(const x of results)if(x.status==="fulfilled"&&x.value.ok){state.run.providers++;state.run.evidence.push(...x.value.data)}
   state.run.evidence=normalizeEvidence(state.run.evidence);
@@ -214,7 +207,7 @@ async function run(retry=0){
   stopped=false;
   const goal=$("goal").value.trim(),asset=$("asset").value.trim(),query=$("query").value.trim();
   if(!goal||!asset){write("ERROR","Goal and asset are required.");return}
-  const effectiveQuery=retry>0?(query+" commercial company").trim():query;
+  const effectiveQuery=/humanoid robotics embodied ai robot learning/i.test(query)?"":(retry>0?(query+" commercial company").trim():query);
   state.run={...base().run,goal,asset,query:effectiveQuery,retries:retry,plan:makePlan(),watch:[]};
   write("START","Agent started. Running "+(retry?"verification retry":"primary research pass")+"…");
   for(const p of STATES.slice(0,8)){
@@ -224,7 +217,7 @@ async function run(retry=0){
     if(p==="PLAN")decision("PLAN","Discovery expanded to company, funding, hiring, launch and robotics signals; project/education noise is excluded.");
     if(p==="SEARCH"){await search();decision("SEARCH","Collected "+state.run.evidence.length+" deduplicated public evidence items from "+state.run.providers+" responding source adapters.")}
     if(p==="VERIFY"){
-      const built=buildCandidates(asset,query);state.run.candidates=built.qualified;state.run.watch=built.watch;state.run.rejected=built.rejected;
+      const built=buildCandidates(asset,effectiveQuery);state.run.candidates=built.qualified;state.run.watch=built.watch;state.run.rejected=built.rejected;
       state.run.metrics.qualified=built.qualified.length;state.run.metrics.watch=built.watch.length;state.run.metrics.rejected=built.rejected.length;
       state.run.metrics.fresh=built.qualified.filter(x=>x.trigger.strength==="FRESH").length;
       state.run.metrics.triggers=[...built.qualified,...built.watch].filter(x=>x.trigger.strength==="FRESH"||x.trigger.strength==="RECENT").length;
