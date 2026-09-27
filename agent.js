@@ -16,6 +16,7 @@ const ALIASES={
  "tesla":"Tesla","amazon":"Amazon","meta":"Meta","microsoft":"Microsoft","waymo":"Waymo"
 };
 const KNOWN=new Set(Object.values(ALIASES).map(x=>x.toLowerCase()));
+const COMPANY_SEEDS=["Figure AI","Physical Intelligence","Skild AI","Sanctuary AI","Agility Robotics","Apptronik","1X Technologies","NEURA Robotics","Unitree Robotics","Boston Dynamics","Dexterity","Covariant","Robust.AI","NVIDIA","Google DeepMind","Pudu Robotics","ANYbotics","UBTECH Robotics","LimX Dynamics","Tesla"];
 const NOISE=/^(physical|physical ai|embodied|embodied ai|robotics|robot|ai|artificial intelligence|machine learning|open source|github|workshop|simulator|tutorial|demo|project|making|agentic|learning|research|engineering|software engineer|ai researcher|intern|portfolio|course|book|textbook|lab|school|university)$/i;
 const PROJECT=/\b(portfolio|student|internship|course|tutorial|workshop|assignment|simulator|demo|personal project|textbook|book|notes|learning resource|university|school|classroom)\b/i;
 
@@ -66,7 +67,7 @@ function resolveEntities(sig){
     /\b([A-Z][A-Za-z0-9&.\-]+(?:\s+[A-Z][A-Za-z0-9&.\-]+){0,4})\s+(?:is|was|builds|develops|makes|creates|founded|launches|announces|raises|partners|hires|deploys)\b/g
   ];
   for(const re of patterns)while((m=re.exec(desc)))push(m[1]);
-  if(sig.ownerType==="Organization")push(sig.ownerLogin);
+  if(sig.ownerType==="Organization" && ALIASES[String(sig.ownerLogin||"").toLowerCase()])push(sig.ownerLogin);
   const full=title+" "+desc;
   const known=/\b(Figure AI|Physical Intelligence|Skild AI|Sanctuary AI|NVIDIA|Google DeepMind|Toyota|Dexterity|Covariant|Robust\.AI|LimX Dynamics|Genesis Embodied AI|Unitree Robotics|TypeSafe AI|Fluxdyne|Pudu Robotics|Agility Robotics|Apptronik|1X Technologies|NEURA Robotics|Spirit AI|EmbodyX|ANYbotics|Boston Dynamics|AGIBOT|UBTECH Robotics|Tesla|Amazon|Meta|Microsoft|Waymo)\b/gi;
   while((m=known.exec(full)))push(m[1]);
@@ -114,11 +115,13 @@ function buildCandidates(asset,query){
     const key=name.toLowerCase();groups[key]??={name,signals:[]};
     if(!groups[key].signals.includes(sig))groups[key].signals.push(sig);
   }
-  const qualified=[],rejected=[];
+  const qualified=[],watch=[],rejected=[];
   for(const g of Object.values(groups)){
     const q=qualify(g.name,g.signals,asset,query);
     const item={name:g.name,signals:g.signals,evidence:g.signals.length,relevance:q.score,recent:q.fresh,commercial:q.commercialSignals,hiring:q.hiringSignals,technical:q.technicalSignals,trigger:q.trigger,roles:roleMap(g.name,g.signals),priority:q.score,reason:q.reason};
-    (q.qualified?qualified:rejected).push(item);
+    if(q.qualified)qualified.push(item);
+    else if(!/noise|project|education/i.test(q.reason) && q.score>=35 && (q.technicalSignals||q.commercialSignals||q.hiringSignals))watch.push(item);
+    else rejected.push(item);
   }
   qualified.sort((a,b)=>b.priority-a.priority);rejected.sort((a,b)=>b.priority-a.priority);
   return{qualified,rejected};
@@ -146,7 +149,12 @@ async function search(){
   tools.checkpoint();
   const q=state.run.query||state.run.asset;
   const stem=state.run.asset.replace(/\.[a-z0-9]+$/i,"").replace(/[._-]/g," ");
-  const terms=[q,stem,q+" company",q+" startup",q+" funding",q+" hiring",q+" launch",q+" humanoid",q+" embodied AI",q+" robotics company"];
+  const terms=[q,stem,q+" company",q+" startup",q+" funding",q+" hiring",q+" launch",q+" humanoid",q+" embodied AI",q+" robotics company",
+    ...COMPANY_SEEDS.map(x=>x+" robotics"),
+    ...COMPANY_SEEDS.map(x=>x+" funding"),
+    ...COMPANY_SEEDS.map(x=>x+" hiring"),
+    ...COMPANY_SEEDS.map(x=>x+" launch")
+  ];
   const jobs=[];for(const term of [...new Set(terms.map(x=>x.trim()).filter(Boolean))]){jobs.push(tools.github(term));jobs.push(tools.hn(term))}
   const results=await Promise.allSettled(jobs);
   for(const x of results)if(x.status==="fulfilled"&&x.value.ok){state.run.providers++;state.run.evidence.push(...x.value.data)}
@@ -157,7 +165,7 @@ async function run(){
   stopped=false;
   const goal=$("goal").value.trim(),asset=$("asset").value.trim(),query=$("query").value.trim();
   if(!goal||!asset){write("ERROR","Goal and asset are required.");return}
-  state.run={...base().run,goal,asset,query,plan:makePlan()};
+  state.run={...base().run,goal,asset,query,plan:makePlan(),watch:[]};
   for(const p of STATES.slice(0,8)){
     if(stopped){write("STOP","Stopped by operator.");return}
     setPhase(p);
@@ -165,13 +173,13 @@ async function run(){
     if(p==="PLAN")decision("PLAN","Discovery expanded to company, funding, hiring, launch and robotics signals; project/education noise is excluded.");
     if(p==="SEARCH"){await search();decision("SEARCH","Collected "+state.run.evidence.length+" deduplicated public evidence items from "+state.run.providers+" responding source adapters.")}
     if(p==="VERIFY"){
-      const built=buildCandidates(asset,query);state.run.candidates=built.qualified;state.run.rejected=built.rejected;
-      state.run.metrics.qualified=built.qualified.length;state.run.metrics.rejected=built.rejected.length;
+      const built=buildCandidates(asset,query);state.run.candidates=built.qualified;state.run.watch=built.watch;state.run.rejected=built.rejected;
+      state.run.metrics.qualified=built.qualified.length;state.run.metrics.watch=built.watch.length;state.run.metrics.rejected=built.rejected.length;
       state.run.metrics.fresh=built.qualified.filter(x=>x.trigger.strength==="FRESH").length;
-      state.run.metrics.triggers=built.qualified.filter(x=>x.trigger.strength==="FRESH"||x.trigger.strength==="RECENT").length;
+      state.run.metrics.triggers=[...built.qualified,...built.watch].filter(x=>x.trigger.strength==="FRESH"||x.trigger.strength==="RECENT").length;
       decision("VERIFY","Qualified "+built.qualified.length+" commercial opportunities; rejected "+built.rejected.length+" entities.");
     }
-    if(p==="DECIDE")decision("DECIDE",state.run.candidates.length?("Proceed with "+state.run.candidates.length+" evidence-backed buyer opportunities."):("No buyer passed the commercial evidence gate."));
+    if(p==="DECIDE")decision("DECIDE",state.run.candidates.length?("Proceed with "+state.run.candidates.length+" evidence-backed buyer opportunities."):(state.run.watch?.length?("No buyer cleared the commercial gate; "+state.run.watch.length+" companies moved to watch status."):("No buyer passed the commercial evidence gate.")));
     if(p==="EXECUTE")decision("EXECUTE","External side effects remain disabled; only local research state is changed.");
     if(p==="TEST"){
       const v=tools.validate();
@@ -189,8 +197,8 @@ function render(){
  $("evidenceCount").textContent=(m.signals||0)+" evidence · "+(m.qualified||0)+" qualified";
  $("stateGrid").innerHTML=STATES.map(x=>'<div class="state-card '+(x===r.status?"active":"")+'"><b>'+x+'</b><small>'+((r.plan.find(y=>y.name===x)||{}).status||"pending")+'</small></div>').join("");
  $("plan").innerHTML=r.plan.map(x=>'<div class="plan-card '+x.status+'"><div class="step">'+x.name+'</div><h3>'+x.status.toUpperCase()+'</h3><p>'+x.detail+'</p></div>').join("");
- $("metrics").innerHTML=[[m.qualified||0,"QUALIFIED BUYERS"],[m.fresh||0,"FRESH TRIGGERS ≤30D"],[m.triggers||0,"RECENT / FRESH TRIGGERS"],[m.rejected||0,"REJECTED / NOISE"]].map(x=>'<div class="agent-metric"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>').join("");
- $("opportunities").innerHTML=r.candidates.length?r.candidates.slice(0,8).map((x,i)=>{const s=x.trigger.signal;return '<article class="agent-opportunity"><div class="agent-opp-top"><span>OPPORTUNITY '+String(i+1).padStart(2,"0")+'</span><b>'+x.priority+'/100</b></div><h3>'+esc(x.name)+'</h3><div class="agent-opp-grid"><div><span>WHY QUALIFIED</span><strong>'+esc(x.reason)+'</strong></div><div><span>TRIGGER</span><strong>'+esc(x.trigger.label)+' · '+esc(x.trigger.strength)+'</strong></div><div><span>TARGET ROLES</span><strong>'+esc(x.roles.join(" · "))+'</strong></div><div><span>EVIDENCE</span><strong>'+x.evidence+' items · '+x.recent+' recent</strong></div></div>'+(s?'<p><b>Evidence:</b> '+esc(s.title)+' <a href="'+esc(s.url)+'" target="_blank" rel="noopener">OPEN ↗</a></p>':"")+'</article>'}).join(""):'<div class="empty-agent">No company passed the buyer qualification gate.</div>';
+ $("metrics").innerHTML=[[m.qualified||0,"QUALIFIED BUYERS"],[m.watch||0,"WATCH CANDIDATES"],[m.fresh||0,"FRESH BUYER TRIGGERS ≤30D"],[m.rejected||0,"REJECTED / NOISE"]].map(x=>'<div class="agent-metric"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>').join("");
+ $("opportunities").innerHTML=(r.candidates.length?r.candidates.slice(0,8):r.watch?.length?r.watch.slice(0,6):[]).map((x,i)=>{const s=x.trigger.signal;return '<article class="agent-opportunity"><div class="agent-opp-top"><span>OPPORTUNITY '+String(i+1).padStart(2,"0")+'</span><b>'+x.priority+'/100</b></div><h3>'+esc(x.name)+'</h3><div class="agent-opp-grid"><div><span>WHY QUALIFIED</span><strong>'+esc(x.reason)+'</strong></div><div><span>TRIGGER</span><strong>'+esc(x.trigger.label)+' · '+esc(x.trigger.strength)+'</strong></div><div><span>TARGET ROLES</span><strong>'+esc(x.roles.join(" · "))+'</strong></div><div><span>EVIDENCE</span><strong>'+x.evidence+' items · '+x.recent+' recent</strong></div></div>'+(s?'<p><b>Evidence:</b> '+esc(s.title)+' <a href="'+esc(s.url)+'" target="_blank" rel="noopener">OPEN ↗</a></p>':"")+'</article>'}).join(""):'<div class="empty-agent">No company passed the buyer qualification gate.</div>';
  $("evidence").innerHTML=r.evidence.slice(0,40).map(x=>'<article class="evidence-card"><div class="evidence-meta">'+esc(x.sourceLabel)+'</div><h3>'+esc(x.title)+'</h3><p>'+esc(x.description)+'</p><p><b>Entity:</b> '+esc(resolveEntities(x)[0]||"unresolved")+'</p><a href="'+esc(x.url)+'" target="_blank" rel="noopener">OPEN SOURCE ↗</a></article>').join("")||'<div class="log-item">No evidence yet.</div>';
  $("decisions").innerHTML=r.decisions.map(x=>'<div class="decision"><span>'+new Date(x.t).toLocaleTimeString()+" · "+esc(x.type)+'</span><strong>'+esc(x.msg)+'</strong></div>').join("")||'<div class="log-item">No decisions yet.</div>';
  $("log").innerHTML=state.log.map(x=>'<div class="log-item"><time>'+new Date(x.t).toLocaleTimeString()+'</time><b>'+esc(x.kind)+'</b> '+esc(x.msg)+'</div>').join("")||'<div class="log-item">No log entries.</div>';
