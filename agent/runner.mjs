@@ -71,8 +71,18 @@ async function search(q){
   return out
 }
 function load(){try{return JSON.parse(fs.readFileSync(stateFile,"utf8"))}catch{return{version:2,status:"IDLE",runs:[]}}}
-async function main(){const startedAt=new Date().toISOString(),state=load(),terms=[QUERY,ASSET.replace(/\.[a-z0-9]+$/i,"").replace(/[._-]/g," "),QUERY+" company",QUERY+" funding",QUERY+" hiring",QUERY+" launch",QUERY+" humanoid",QUERY+" embodied AI",QUERY+" robotics company",...COMPANY_SEEDS.map(x=>x+" robotics"),...COMPANY_SEEDS.map(x=>x+" funding"),...COMPANY_SEEDS.map(x=>x+" hiring"),...COMPANY_SEEDS.map(x=>x+" launch")],raw=[];for(const q of [...new Set(terms)]){try{raw.push(...await search(q))}catch{}}const seen=new Set(),evidence=raw.filter(x=>age(x.publishedAt)<=730).filter(x=>{const k=x.source+"|"+x.url;if(seen.has(k))return false;seen.add(k);return true});const groups={};for(const s of evidence)for(const n of entities(s)){const k=n.toLowerCase();groups[k]??={name:n,signals:[]};groups[k].signals.push(s)}const candidates=[],watch=[],rejected=[];const groupList=Object.values(groups);
-console.log("SEARCH_COMPLETE","signals",evidence.length,"entities",groupList.length);\nconst ai=await openaiReview(groupList);\nconsole.log("OPENAI_COMPLETE","reviews",ai.length);
+async function main(){const startedAt=new Date().toISOString(),state=load(),terms=[QUERY,ASSET.replace(/\.[a-z0-9]+$/i,"").replace(/[._-]/g," "),QUERY+" company",QUERY+" funding",QUERY+" hiring",QUERY+" launch",QUERY+" humanoid",QUERY+" embodied AI",QUERY+" robotics company",...COMPANY_SEEDS.map(x=>x+" robotics"),...COMPANY_SEEDS.map(x=>x+" funding"),...COMPANY_SEEDS.map(x=>x+" hiring"),...COMPANY_SEEDS.map(x=>x+" launch")],raw=[];
+const uniqueTerms=[...new Set(terms)];
+for(let i=0;i<uniqueTerms.length;i+=16){
+  const batch=uniqueTerms.slice(i,i+16);
+  console.log("SEARCH_BATCH",Math.floor(i/16)+1,"terms",batch.length);
+  const results=await Promise.allSettled(batch.map(q=>search(q)));
+  for(const r of results)if(r.status==="fulfilled")raw.push(...r.value);
+}
+const seen=new Set(),evidence=raw.filter(x=>age(x.publishedAt)<=730).filter(x=>{const k=x.source+"|"+x.url;if(seen.has(k))return false;seen.add(k);return true});const groups={};for(const s of evidence)for(const n of entities(s)){const k=n.toLowerCase();groups[k]??={name:n,signals:[]};groups[k].signals.push(s)}const candidates=[],watch=[],rejected=[];const groupList=Object.values(groups);
+console.log("SEARCH_COMPLETE","signals",evidence.length,"entities",groupList.length);
+const ai=await openaiReview(groupList);
+console.log("OPENAI_COMPLETE","reviews",ai.length);
 const aiMap=new Map(ai.map(x=>[Number(x.i),x]));
 for(const [gi,g] of groupList.entries()){
   const review=aiMap.get(gi);
