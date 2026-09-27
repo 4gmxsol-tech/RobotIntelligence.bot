@@ -1,271 +1,228 @@
 const $=id=>document.getElementById(id);
 let candidates=[],liveSignals=[],signalFilter="all";
 
-function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");}
-function normalizeName(name){
-  return String(name||"").replace(/[-_]+/g," ").replace(/\s+/g," ").trim();
-}
-
-function inferAssetProfile(asset,query){
-  const a=(asset+" "+query).toLowerCase();
-  const themes=[];
-  if(/humanoid|embodied|robot/.test(a)) themes.push("Humanoid / Embodied AI");
-  if(/behavior|planning|intelligence/.test(a)) themes.push("Robot intelligence layer");
-  if(/manipulation|control/.test(a)) themes.push("Manipulation / control");
-  if(/ui|interface/.test(a)) themes.push("Robot interface");
-  if(/stack|platform/.test(a)) themes.push("Robotics platform");
-  if(!themes.length) themes.push("Physical AI / robotics");
-  const words=(asset||"").split(".")[0].replace(/[-_]+/g," ").trim();
-  return {name:asset||"Asset",core:words, themes:[...new Set(themes)],
-    uses:["Brand / product positioning","Research or technical hub","Campaign / launch property","Redirect / category ownership"]};
-}
-function renderAssetIntelligence(asset,query){
-  const box=$("assetProfile"); if(!box) return;
-  const p=inferAssetProfile(asset,query);
-  box.innerHTML='<div class="asset-profile-grid"><div><span>ASSET</span><strong>'+esc(p.name)+'</strong></div><div><span>CORE CONCEPT</span><strong>'+esc(p.core||"—")+'</strong></div><div><span>RESEARCH THEMES</span><strong>'+esc(p.themes.join(" · "))+'</strong></div></div>'+
-    '<div class="asset-themes">'+p.themes.map(x=>'<span>'+esc(x)+'</span>').join("")+'</div>'+
-    '<div class="asset-uses"><span class="intel-label">POTENTIAL COMMERCIAL USE CASES</span><div>'+p.uses.map(x=>'<span>'+esc(x)+'</span>').join("")+'</div></div>'+
-    '<small>Asset interpretation is heuristic and should be validated against the current market context.</small>';
-}
-function renderBuyerMap(asset,query){
-  const box=$("buyerMap"); if(!box) return;
-  box.innerHTML=candidates.slice(0,6).map((x,i)=>{
-    const ev=liveSignals.filter(s=>extractEntities(s).some(e=>e.toLowerCase()===x.name.toLowerCase()) || (s.entity||"").toLowerCase()===x.name.toLowerCase());
-    const recent=ev.filter(s=>{const age=(Date.now()-new Date(s.publishedAt||0).getTime())/86400000;return isFinite(age)&&age<=180;});
-    const commercial=ev.filter(s=>signalType(s)==="COMMERCIAL");
-    const timing=recent.length>=2?"ACTIVE SIGNAL WINDOW":recent.length===1?"RECENT SIGNAL":"NO RECENT SIGNAL";
-    const angle=commercial.length?"Lead with the recent commercial/market event, then connect the asset to the company’s current narrative.":"Lead with the specific thematic fit and use the public technical evidence as the opening context.";
-    const roles=/humanoid|robot|robotics|embodied/i.test(x.name+" "+x.signal)?"CEO / Founder · Robotics / AI leadership · Partnerships":"CEO / Founder · Product · Partnerships / Business Development";
-    return '<article class="buyer-map-card"><div class="buyer-map-head"><span>#'+String(i+1).padStart(2,"0")+' '+esc(x.name)+'</span><b>'+esc(timing)+'</b></div><p><b>WHY THIS ASSET:</b> '+esc(x.reason)+' '+esc(x.signal)+'</p><p><b>WHY NOW:</b> '+esc(recent.length?recent.length+" recent public signal(s) detected.":"No recent signal has been verified; treat as exploratory.")+'</p><p><b>OUTREACH ANGLE:</b> '+esc(angle)+'</p><p><b>TARGET ROLES:</b> '+esc(roles)+'</p><a class="signal-link" href="'+esc(ev[0]?.source||"#")+'" target="_blank" rel="noopener">OPEN PRIMARY EVIDENCE ↗</a></article>';
-  }).join("") || '<div class="empty">Run the Radar to build the buyer map.</div>';
-}
-function renderOutreachIntelligence(asset){
-  const box=$("outreachIntel"); if(!box) return;
-  const x=candidates[0];
-  if(!x){box.textContent="No verified candidate yet.";return;}
-  const ev=liveSignals.filter(s=>extractEntities(s).some(e=>e.toLowerCase()===x.name.toLowerCase()));
-  const hook=ev[0]?.title||"the recent activity detected by the radar";
-  box.innerHTML='<div class="outreach-grid"><div><span>LEAD</span><strong>'+esc(x.name)+'</strong></div><div><span>HOOK</span><strong>'+esc(hook)+'</strong></div><div><span>ANGLE</span><strong>'+esc(asset)+' × '+esc(x.name)+'</strong></div></div>'+
-    '<div class="outreach-draft"><span class="intel-label">RESEARCH-READY OUTREACH ANGLE</span><p>“I’m reaching out because '+esc(x.name)+' is active around '+esc(hook)+'. I own '+esc(asset)+' and believe there may be a strong naming / product / category fit with your current direction. I thought it was worth putting the asset on your radar.”</p><small>Draft is intentionally a research starting point; verify the current signal and recipient before sending.</small></div>';
-}
-function renderMetrics(){
-  const avg=candidates.length?Math.round(candidates.reduce((s,x)=>s+x.score,0)/candidates.length):0;
-  const providers=new Set(liveSignals.map(x=>x.sourceType)).size;
-  $("metrics").innerHTML=[
-    ["BUYER CANDIDATES",candidates.length],["LIVE SIGNALS",liveSignals.length],
-    ["AVG BUYER FIT",avg+"/100"],["LIVE SOURCES",providers]
-  ].map(x=>'<div class="metric"><b>'+x[1]+'</b><span>'+x[0]+'</span></div>').join("");
-}
-function factor(label,value,max){
-  return '<div class="factor"><div class="factor-head"><span>'+label+'</span><b>'+value+'/'+max+'</b></div><div class="bar"><i style="width:'+Math.round(value/max*100)+'%"></i></div></div>';
-}
-function renderCandidates(){
-  $("candidates").innerHTML=candidates.map((x,i)=>'<article class="candidate"><div class="candidate-top"><span class="rank">DISCOVERED CANDIDATE '+String(i+1).padStart(2,"0")+'</span><span class="score">'+x.score+'/100</span></div><h3>'+esc(x.name)+'</h3><p>'+esc(x.reason)+'</p>'+
-    factor("BUYER RELEVANCE",x.profile.buyerRelevance,25)+factor("ASSET FIT",x.profile.assetFit,30)+factor("RECENT ACTIVITY",x.profile.recentActivity,20)+factor("EVIDENCE STRENGTH",x.profile.evidenceStrength,15)+factor("COMMERCIAL PROXIMITY",x.profile.commercialProximity,10)+
-    '<div class="candidate-foot">'+x.liveEvidence+' live signal(s) support this entity.<br><small>Discovered from public evidence; not purchase-intent evidence.</small></div></article>').join("")||
-    '<div class="empty">No commercial entities discovered yet. Try a narrower research query.</div>';
-}
-function renderSignals(){
-  const visible=signalFilter==="all"?liveSignals:liveSignals.filter(x=>x.sourceType===signalFilter);
-  $("signalsGrid").innerHTML=visible.map(x=>'<article class="signal-card"><div class="signal-meta"><span>'+esc(x.sourceTypeLabel)+'</span><span>'+esc(x.dateLabel)+'</span></div><h3>'+esc(x.title)+'</h3><p>'+esc(x.description)+'</p><p><b>Entity:</b> '+esc(x.entity||"Unattributed public signal")+'</p><a class="signal-link" href="'+esc(x.source)+'" target="_blank" rel="noopener">'+esc(x.sourceLabel)+' ↗</a></article>').join("")||
-    '<div class="empty">No live signals for this source filter.</div>';
-}
-
-
-function intelligenceLevel(x){
-  if(x.confidence>=.9 && x.liveEvidence>=3) return "HIGH";
-  if(x.confidence>=.8 && x.liveEvidence>=2) return "MEDIUM";
-  return "EARLY";
-}
-function signalType(s){
-  const t=(s.title+" "+s.description).toLowerCase();
-  if(/fund|raised|funding|investment|acqui|partner|launch|contract|customer/.test(t)) return "COMMERCIAL";
-  if(/robot|robotics|humanoid|embodied|manipulation|reinforcement|simulation|foundation model/.test(t)) return "TECHNICAL";
-  return "MARKET";
-}
-function renderCompanyIntelligence(asset,query){
-  const box=$("companyCards"); if(!box) return;
-  box.innerHTML=candidates.map((x,i)=>{
-    const ev=liveSignals.filter(s=>extractEntities(s).some(e=>e.toLowerCase()===x.name.toLowerCase()) || (s.entity||"").toLowerCase()===x.name.toLowerCase()).slice(0,6);
-    const commercial=ev.filter(s=>signalType(s)==="COMMERCIAL").length;
-    const technical=ev.filter(s=>signalType(s)==="TECHNICAL").length;
-    const market=ev.filter(s=>signalType(s)==="MARKET").length;
-    const recent=ev.filter(s=>{const a=(Date.now()-new Date(s.publishedAt||0).getTime())/86400000;return isFinite(a)&&a<=180;}).length;
-    const level=intelligenceLevel(x);
-    const evidence=ev.map(s=>'<li><span class="evidence-tag '+signalType(s).toLowerCase()+'">'+signalType(s)+'</span> '+esc(s.title)+' <a href="'+esc(s.source)+'" target="_blank" rel="noopener">↗</a></li>').join("") || "<li>No direct source-linked evidence retained.</li>";
-    const rationale=technical>0 ? "Technical activity aligns with the asset theme." : "The entity surfaced from relevant public market evidence.";
-    return '<article class="candidate intelligence-card"><div class="candidate-top"><span class="rank">INTELLIGENCE PROFILE '+String(i+1).padStart(2,"0")+'</span><span class="score">'+x.score+'/100</span></div>'+
-      '<div class="intel-title"><h3>'+esc(x.name)+'</h3><span class="intel-level '+level.toLowerCase()+'">'+level+' CONFIDENCE</span></div><p>'+esc(x.reason)+'</p>'+
-      '<div class="intel-grid"><div><span>ASSET FIT</span><strong>'+x.profile.assetFit+'/30</strong></div><div><span>RECENT</span><strong>'+recent+' signals</strong></div><div><span>COMMERCIAL</span><strong>'+commercial+'</strong></div><div><span>TECHNICAL</span><strong>'+technical+'</strong></div></div>'+
-      '<p><b>Research rationale:</b> '+esc(rationale)+' '+esc(x.signal)+'</p>'+
-      '<div class="intel-columns"><div><span class="intel-label">EVIDENCE LEDGER</span><ul>'+evidence+'</ul></div><div><span class="intel-label">OUTREACH RESEARCH</span><p>Research CEO / Founder, Robotics or AI leadership, and Partnerships / Business Development.</p><p><b>Next verification:</b> confirm current company activity, relevant product/team, and the appropriate public decision-maker channel.</p><small>Confidence reflects evidence quality, not willingness or intent to buy.</small></div></div></article>';
-  }).join("") || '<div class="empty">No verified company intelligence available yet. Run the Radar first.</div>';
-}
-function generateBrief(asset){
-  const top=candidates[0];
-  $("buyerBrief").innerHTML=top?
-    '<div class="brief-grid"><div><span>ASSET</span><strong>'+esc(asset)+'</strong></div><div><span>TOP DISCOVERED ENTITY</span><strong>'+esc(top.name)+'</strong></div><div><span>BUYER FIT</span><strong>'+top.score+'/100</strong></div><div><span>LIVE EVIDENCE</span><strong>'+top.liveEvidence+' signals</strong></div></div><p><b>Why surfaced:</b> '+esc(top.reason)+'</p><p><b>Evidence:</b> '+esc(top.signal)+'</p><p><b>Next:</b> Verify the entity as a commercial organization, identify the relevant decision-maker and validate current strategic activity.</p><small>Scores are discovery/research heuristics, not purchase probability.</small>':
-    "No sufficiently verified commercial entity was discovered from the current live evidence.";
-}
-
-const GENERIC_ENTITY_NOISE=/^(physical|physical ai|embodied|embodied ai|robotics|robot|ai|artificial intelligence|machine learning|robot intelligence|open source|github|workshop|simulator|tutorial|demo|project|making|agentic|learning|remove|find|will open r&d|software engineer|ai researcher|intern|portfolio)$/i;
-const KNOWN_ALIASES={
-  "figure":"Figure AI","figure ai":"Figure AI",
-  "genesis embodied ai":"Genesis Embodied AI",
-  "limx dynamics":"LimX Dynamics","limxdynamics":"LimX Dynamics","limx":"LimX Dynamics",
-  "physical intelligence":"Physical Intelligence","skild ai":"Skild AI",
-  "sanctuary":"Sanctuary AI","sanctuary ai":"Sanctuary AI",
-  "nvidia":"NVIDIA","google deepmind":"Google DeepMind",
-  "toyota":"Toyota","dexterity":"Dexterity","fluxdyne":"Fluxdyne","unitree":"Unitree Robotics","typesafe":"TypeSafe AI",
-  "robust.ai":"Robust.AI","robust ai":"Robust.AI",
-  "covariant":"Covariant","covariant ai":"Covariant"
+const ALIASES={
+ "figure":"Figure AI","figure ai":"Figure AI","physical intelligence":"Physical Intelligence",
+ "skild ai":"Skild AI","sanctuary ai":"Sanctuary AI","sanctuary":"Sanctuary AI",
+ "nvidia":"NVIDIA","google deepmind":"Google DeepMind","toyota":"Toyota","dexterity":"Dexterity",
+ "covariant":"Covariant","robust.ai":"Robust.AI","robust ai":"Robust.AI","unitree":"Unitree Robotics",
+ "unitree robotics":"Unitree Robotics","limx":"LimX Dynamics","limx dynamics":"LimX Dynamics",
+ "genesis embodied ai":"Genesis Embodied AI","typesafe ai":"TypeSafe AI","fluxdyne":"Fluxdyne"
 };
-const KNOWN_COMPANIES=new Set(Object.values(KNOWN_ALIASES).map(x=>x.toLowerCase()));
-const VERB_NOISE=/^(physical|remove|find|making|learning|agentic|will|open|build|develop|creates?|makes?|founded|official|software|technical|research|engineer)$/i;
+const KNOWN=new Set(Object.values(ALIASES).map(x=>x.toLowerCase()));
+const NOISE=/^(physical|physical ai|embodied|embodied ai|robotics|robot|ai|artificial intelligence|machine learning|open source|github|workshop|simulator|tutorial|demo|project|making|agentic|learning|software engineer|ai researcher|intern|portfolio|research|engineering)$/i;
 
-function canonicalEntity(name){
-  const raw=String(name||"").replace(/\s+/g," ").trim();
-  const rawKey=raw.toLowerCase();
-  if(KNOWN_ALIASES[rawKey]) return KNOWN_ALIASES[rawKey];
-  let n=normalizeName(raw).replace(/^the\s+/i,"").trim();
-  const key=n.toLowerCase();
-  if(KNOWN_ALIASES[key]) return KNOWN_ALIASES[key];
-  if(GENERIC_ENTITY_NOISE.test(n)) return "";
-  if(VERB_NOISE.test(n)) return "";
+function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");}
+function norm(v){return String(v||"").replace(/[-_]+/g," ").replace(/\s+/g," ").trim();}
+function ageDays(v){const t=new Date(v||0).getTime();return isFinite(t)?Math.max(0,(Date.now()-t)/86400000):9999;}
+function canonical(v){
+  const raw=norm(v), key=raw.toLowerCase();
+  if(ALIASES[key]) return ALIASES[key];
+  const n=raw.replace(/^the\s+/i,"");
+  if(!n || n.length<3 || n.length>70 || NOISE.test(n)) return "";
   if(/^(?:[a-z]+\s+){0,2}(?:r&d|research|project|portfolio|workshop|simulator)$/i.test(n)) return "";
   return n;
 }
-function extractEntities(signal){
-  if(typeof signal==="string") signal={title:signal,description:""};
-  const title=String(signal?.title||""), desc=String(signal?.description||"");
-  const found=[], push=n=>{
-    n=canonicalEntity(n);
-    if(n&&n.length>=3&&n.length<=60&&!found.some(x=>x.toLowerCase()===n.toLowerCase())) found.push(n);
-  };
+
+function inferAssetProfile(asset,query){
+  const text=(asset+" "+query).toLowerCase(), themes=[];
+  if(/humanoid|embodied|robot/.test(text)) themes.push("Humanoid / Embodied AI");
+  if(/behavior|planning|intelligence/.test(text)) themes.push("Robot intelligence layer");
+  if(/manipulation|control/.test(text)) themes.push("Manipulation / control");
+  if(/ui|interface/.test(text)) themes.push("Robot interface");
+  if(/stack|platform/.test(text)) themes.push("Robotics platform");
+  if(!themes.length) themes.push("Physical AI / robotics");
+  const core=(asset||"").split(".")[0].replace(/[-_]+/g," ").trim();
+  const concepts=core.split(/\s+/).filter(Boolean);
+  return {name:asset||"Asset",core,themes:[...new Set(themes)],concepts};
+}
+function assetFitText(asset,query){
+  const p=inferAssetProfile(asset,query);
+  return p.themes.slice(0,3).join(" · ");
+}
+function renderAssetIntelligence(asset,query){
+  const box=$("assetProfile"); if(!box)return;
+  const p=inferAssetProfile(asset,query);
+  box.innerHTML='<div class="asset-profile-grid"><div><span>ASSET</span><strong>'+esc(p.name)+'</strong></div><div><span>CORE CONCEPT</span><strong>'+esc(p.core||"—")+'</strong></div><div><span>MARKET LAYER</span><strong>'+esc(p.themes.join(" · "))+'</strong></div></div>'+
+  '<div class="asset-themes">'+p.themes.map(x=>'<span>'+esc(x)+'</span>').join("")+'</div>'+
+  '<div class="asset-uses"><span class="intel-label">POTENTIAL JOBS FOR THIS ASSET</span><div><span>Product / platform name</span><span>Research property</span><span>Category authority</span><span>Launch / campaign property</span></div></div>'+
+  '<small>The engine treats this as a positioning hypothesis. Buyer evidence must independently support the opportunity.</small>';
+}
+
+function signalType(s){
+  const t=(s.title+" "+s.description).toLowerCase();
+  if(/fund|raised|funding|investment|acqui|acquisition|partner|partnership|launch|launched|contract|customer|order|expands|expansion/.test(t))return"COMMERCIAL";
+  if(/hire|hiring|job|recruit|joins|joined|team/.test(t))return"HIRING";
+  if(/robot|robotics|humanoid|embodied|manipulation|reinforcement|simulation|foundation model|behavior|planning|autonomy/.test(t))return"TECHNICAL";
+  return"MARKET";
+}
+function triggerFor(signals){
+  const ranked=signals.slice().sort((a,b)=>{
+    const weight=s=>({COMMERCIAL:5,HIRING:4,TECHNICAL:3,MARKET:1}[signalType(s)]||1);
+    return weight(b)-weight(a) || new Date(b.publishedAt||0)-new Date(a.publishedAt||0);
+  });
+  const s=ranked[0];
+  if(!s)return{label:"NO VERIFIED TRIGGER",strength:"NONE",signal:null,reason:"No source-backed event was detected."};
+  const type=signalType(s);
+  const label={COMMERCIAL:"COMMERCIAL EVENT",HIRING:"HIRING / TEAM EVENT",TECHNICAL:"TECHNICAL EVENT",MARKET:"MARKET EVENT"}[type];
+  const strength=ageDays(s.publishedAt)<=30?"FRESH":ageDays(s.publishedAt)<=90?"RECENT":"OLDER";
+  return{label,strength,signal:s,reason:s.title||s.description};
+}
+function roleMap(name,signals){
+  const text=(name+" "+signals.map(s=>s.title+" "+s.description).join(" ")).toLowerCase();
+  if(/robot|humanoid|embodied|manipulation/.test(text))return["Founder / CEO","Head of Robotics / AI","Product / Partnerships"];
+  if(/platform|software|api|developer/.test(text))return["Founder / CEO","VP Product","Developer / Partnerships"];
+  return["Founder / CEO","Product leadership","Business Development / Partnerships"];
+}
+function resolveEntities(sig){
+  const out=[],push=x=>{x=canonical(x);if(x&&!out.some(y=>y.toLowerCase()===x.toLowerCase()))out.push(x);};
+  const title=String(sig.title||""),desc=String(sig.description||"");
   let m;
-  const launch=/Launch HN:\s*([^–-]+?)(?:\s*\(|\s*[–-]|$)/i.exec(title);
-  if(launch) push(launch[1]);
-  const explicitPatterns=[
-    /\b([A-Z][A-Za-z0-9&.]+(?:\s+[A-Z][A-Za-z0-9&.]+){0,4}),?\s+(?:Inc\.?|Corp\.?|Corporation|Company|Robotics|AI|Labs?|Dynamics)\b/g,
-    /\b([A-Z][A-Za-z0-9&.]+(?:\s+[A-Z][A-Za-z0-9&.]+){0,4})\s+(?:is|was|builds|develops|makes|creates|founded)\b/g
+  const launch=/Launch HN:\s*([^–-]+?)(?:\s*\(|\s*[–-]|$)/i.exec(title);if(launch)push(launch[1]);
+  const patterns=[
+    /\b([A-Z][A-Za-z0-9&.\-]+(?:\s+[A-Z][A-Za-z0-9&.\-]+){0,4}),?\s+(?:Inc\.?|Corp\.?|Corporation|Company|Robotics|AI|Labs?|Dynamics|Technologies)\b/g,
+    /\b([A-Z][A-Za-z0-9&.\-]+(?:\s+[A-Z][A-Za-z0-9&.\-]+){0,4})\s+(?:is|was|builds|develops|makes|creates|founded|launches|announces|raises|partners)\b/g
   ];
-  for(const re of explicitPatterns) while((m=re.exec(desc))) push(m[1]);
-  const namedCompany=/\b([A-Z][A-Za-z0-9&.\-]{2,50})\s*(?:—|-|,)\s*[^.]{0,120}\b(?:company|startup|firm)\b/i.exec(desc);
-  if(namedCompany) push(namedCompany[1]);
-  const companyBeforeDescription=/\b([A-Z][A-Za-z0-9&.\-]{2,50})\s+(?:company|startup|firm)\b/i.exec(desc);
-  if(companyBeforeDescription) push(companyBeforeDescription[1]);
-  const sentenceCompany=/^\s*([A-Z][A-Za-z0-9&.\-]{2,50})\s+(?:is|was|builds|develops|makes|creates)\b/m.exec(desc);
-  if(sentenceCompany) push(sentenceCompany[1]);
-  // A GitHub owner is an account/container, not automatically the commercial entity.
-  // Only curated/verified aliases may enter from ownerLogin.
-  if(signal.ownerType==="Organization" && signal.ownerLogin){
-    const ownerKey=signal.ownerLogin.toLowerCase();
-    if(KNOWN_ALIASES[ownerKey]) push(signal.ownerLogin);
-  }
-  // Hacker News: resolve company names explicitly stated in story headlines.
-  if(signal.sourceType==="hackernews"){
-    const hnPatterns=[
-      /(?:company|startup|firm)\s+([A-Z][A-Za-z0-9&.\-]+(?:\s+[A-Z][A-Za-z0-9&.\-]+){0,3})/i,
-      /\b([A-Z][A-Za-z0-9&.\-]{2,30})\s+(?:launches?|launch|announces?|announced|builds?|develops?|raises?|partners?|hires?|opens?)\b/i
-    ];
-    for(const re of hnPatterns){ const hm=re.exec(title); if(hm) push(hm[1]); }
+  for(const re of patterns)while((m=re.exec(desc)))push(m[1]);
+  if(sig.ownerType==="Organization"&&sig.ownerLogin&&ALIASES[sig.ownerLogin.toLowerCase()])push(sig.ownerLogin);
+  if(sig.sourceType==="hackernews"){
+    const hn=/\b([A-Z][A-Za-z0-9&.\-]{2,40})\s+(?:launches?|announces?|builds?|develops?|raises?|partners?|hires?|opens?)\b/i.exec(title);
+    if(hn)push(hn[1]);
   }
   const full=title+" "+desc;
-  const known=/\b(Generalist AI|THEKER Robotics|Rhoda AI|Eka Robotics|Cobalt Robotics|Physical Intelligence|Figure AI|Skild AI|NVIDIA|Google DeepMind|Salem Robotics|LimX Dynamics|Beyond Imagination|Sanctuary AI|Mireye|Azalea Robotics|Genesis Embodied AI|PhysiCar|Toyota|Robust\.AI|Robust AI|Covariant|Dexterity|Fluxdyne|Unitree Robotics|Unitree|TypeSafe AI)\b/gi;
-  while((m=known.exec(full))) push(m[1]);
-  return found;
+  const known=/\b(Figure AI|Physical Intelligence|Skild AI|Sanctuary AI|NVIDIA|Google DeepMind|Toyota|Dexterity|Covariant|Robust\.AI|LimX Dynamics|Genesis Embodied AI|Unitree Robotics|TypeSafe AI|Fluxdyne)\b/gi;
+  while((m=known.exec(full)))push(m[1]);
+  return out;
 }
-function verifyEntity(name,sig){
-  const rawName=String(name||"").trim();
-  const text=(rawName+" "+(sig.title||"")+" "+(sig.description||"")).toLowerCase();
-  const known=KNOWN_COMPANIES.has(rawName.toLowerCase());
-  const org=sig.ownerType==="Organization";
-  const explicitCommercial=/\b(company|inc\.?|corp\.?|corporation|startup|founded|funded|funding|enterprise|product|platform|official home|commercial|robotics company|ai company)\b/i.test(text);
-  const explicitIdentity=/\b(?:is|was|builds|develops|makes|creates|founded)\s+(?:a|an)?\s*(?:company|startup|platform|business)\b/i.test(sig.description||"");
-  const companyShape=/\b(?:robotics|robot|ai|labs?|dynamics|technologies|technology|systems|automation|inc\.?|corp\.?|corporation|company|industrial)\b/i.test(rawName);
-  const contaminated=/\bapi evangelist\b|\b(?:california|physical|humans|ai researcher|software engineer)\b/i.test(rawName);
-  if(/\bphysical ai company\b/i.test(sig.description||"") && /\bDexterity\b/i.test(sig.description||"")) return {verified:true,known:false,org:true,explicitCommercial:true,explicitIdentity:true,companyShape:true,project:false};
-  const project=/\b(portfolio|student|internship|course|tutorial|workshop|assignment|simulator|demo|final project|personal)\b/i.test(text);
-  const githubGate=sig.sourceType==="github"
-    ? (known || (!contaminated && ((companyShape && explicitCommercial) || explicitIdentity)))
-    : (known || explicitCommercial || explicitIdentity);
-  const noise=GENERIC_ENTITY_NOISE.test(rawName)||VERB_NOISE.test(rawName);
-  return {verified:!noise&&!project&&githubGate,known,org,explicitCommercial,explicitIdentity,companyShape,project};
+function verify(name,sig){
+  const text=(name+" "+sig.title+" "+sig.description).toLowerCase();
+  const known=KNOWN.has(name.toLowerCase());
+  const commercial=/\b(company|inc\.?|corp\.?|corporation|startup|founded|funded|funding|enterprise|product|platform|commercial|robotics company|ai company)\b/i.test(text);
+  const identity=/\b(?:is|was|builds|develops|makes|creates|founded)\s+(?:a|an)?\s*(?:company|startup|platform|business)\b/i.test(sig.description||"");
+  const shape=/\b(robotics|robot|ai|labs?|dynamics|technologies|systems|automation|industrial)\b/i.test(name);
+  const project=/\b(portfolio|student|internship|course|tutorial|workshop|assignment|simulator|demo|personal)\b/i.test(text);
+  return !project&&!NOISE.test(name)&&(known||commercial||identity||(sig.sourceType==="github"&&sig.ownerType==="Organization"&&shape));
 }
-function relevanceScore(asset,query,name,evidence){
-  // Measure topical evidence from the signal itself. Asset/query terms must not
-  // manufacture relevance for an otherwise generic repository description.
-  const text=(name+" "+evidence).toLowerCase();
-  const terms=["robot","robotics","humanoid","embodied","physical ai","robot learning","manipulation","autonomy","simulation","reinforcement learning","foundation model","intelligence","behavior"];
-  return terms.filter(t=>text.includes(t)).length;
+function relevance(name,signals,asset,query){
+  const text=(name+" "+signals.map(s=>s.title+" "+s.description).join(" ")).toLowerCase();
+  const terms=["robot","robotics","humanoid","embodied","physical ai","robot learning","manipulation","autonomy","simulation","reinforcement","foundation model","intelligence","behavior","planning"];
+  const hits=terms.filter(t=>text.includes(t)).length;
+  const assetTerms=(asset+" "+query).toLowerCase().split(/[^a-z0-9]+/).filter(x=>x.length>3);
+  const assetHits=[...new Set(assetTerms)].filter(t=>text.includes(t)).length;
+  return hits+Math.min(4,assetHits);
 }
-function gatedKnownEntity(name){ return KNOWN_COMPANIES.has(String(name||"").toLowerCase()); }
 function buildCandidates(asset,query){
   const groups={};
-  for(const sig of liveSignals){
-    for(const raw of extractEntities(sig)){
-      const name=canonicalEntity(raw), v=verifyEntity(name,sig);
-      if(!v.verified) continue;
-      const evidence=(sig.title||"")+" "+(sig.description||"");
-      const relevance=relevanceScore(asset,query,name,evidence);
-      if(relevance<2 && !gatedKnownEntity(name)) continue;
-      const key=name.toLowerCase();
-      if(!groups[key]) groups[key]={name,signals:[],verification:v,relevance:0};
-      groups[key].signals.push(sig);
-      groups[key].relevance=Math.max(groups[key].relevance,relevance);
-    }
+  for(const sig of liveSignals)for(const raw of resolveEntities(sig)){
+    const name=canonical(raw);if(!name||!verify(name,sig))continue;
+    const key=name.toLowerCase();if(!groups[key])groups[key]={name,signals:[]};
+    if(!groups[key].signals.includes(sig))groups[key].signals.push(sig);
   }
   return Object.values(groups).map(g=>{
-    const recent=g.signals.filter(s=>{
-      const age=(Date.now()-new Date(s.publishedAt||0).getTime())/86400000;
-      return isFinite(age)&&age>=0&&age<=180;
-    }).length;
-    const profile={
-      buyerRelevance:Math.min(25,8+g.relevance*2),
-      assetFit:Math.min(30,8+g.relevance*2),
-      recentActivity:Math.min(20,7+recent*4),
-      evidenceStrength:Math.min(15,5+g.signals.length*3),
-      commercialProximity:g.verification.known?10:(g.verification.org?8:7)
-    };
-    return {name:g.name,score:Object.values(profile).reduce((a,v)=>a+v,0),profile,
-      reason:g.verification.known?"Verified commercial entity with direct topical evidence.":"Verified organization with commercially relevant evidence.",
-      signal:g.signals[0].title,liveEvidence:g.signals.length,confidence:g.verification.known?.95:(g.verification.org?.82:.72)};
-  }).sort((a,b)=>b.score-a.score);
+    const rel=relevance(g.name,g.signals,asset,query),recent=g.signals.filter(s=>ageDays(s.publishedAt)<=90).length;
+    const commercial=g.signals.filter(s=>signalType(s)==="COMMERCIAL").length;
+    const trigger=triggerFor(g.signals);
+    const evidence=g.signals.length;
+    const fit=Math.min(100,Math.round(30+rel*5+recent*7+commercial*10+Math.min(15,evidence*3)));
+    return {name:g.name,signals:g.signals,relevance:rel,recent,commercial,evidence,trigger,roles:roleMap(g.name,g.signals),priority:fit};
+  }).sort((a,b)=>b.priority-a.priority);
 }
+
+function renderMetrics(){
+  const fresh=liveSignals.filter(s=>ageDays(s.publishedAt)<=30).length;
+  const triggers=candidates.filter(x=>x.trigger.strength!=="NONE"&&x.trigger.strength!=="OLDER").length;
+  const queue=candidates.filter(x=>x.priority>=60).length;
+  $("metrics").innerHTML=[
+    ["ACTIONABLE OPPORTUNITIES",queue],["FRESH SIGNALS ≤30D",fresh],["TRIGGERS DETECTED",triggers],["EVIDENCE ITEMS",liveSignals.length]
+  ].map(x=>'<div class="metric"><b>'+x[1]+'</b><span>'+x[0]+'</span></div>').join("");
+}
+function renderActionQueue(asset){
+  const box=$("actionQueue");
+  if(!candidates.length){box.innerHTML='<div class="empty">No verified commercial opportunities yet. Broaden the market query or use a more specific asset.</div>';return;}
+  box.innerHTML=candidates.slice(0,8).map((x,i)=>{
+    const t=x.trigger,s=t.signal, freshness=t.strength==="FRESH"?"CONTACT WINDOW":t.strength==="RECENT"?"RECENT":"RESEARCH";
+    const why=x.relevance>=5?"Direct thematic overlap is supported by the collected evidence.":"Relevant overlap is present but needs stronger verification.";
+    const next=s?"Verify the event, then identify a public decision-maker channel.":"Find a current company source before outreach.";
+    return '<article class="opportunity-card"><div class="opp-head"><div><span class="rank">OPPORTUNITY '+String(i+1).padStart(2,"0")+'</span><h3>'+esc(x.name)+'</h3></div><span class="opportunity-state '+freshness.toLowerCase().replace(/ /g,"-")+'">'+freshness+'</span></div>'+
+    '<div class="opp-grid"><div><span>WHY THIS ASSET</span><strong>'+esc(assetFitText(asset,$("query").value))+'</strong></div><div><span>WHY NOW</span><strong>'+esc(t.label)+' · '+esc(t.strength)+'</strong></div><div><span>TARGET ROLES</span><strong>'+esc(x.roles.join(" · "))+'</strong></div></div>'+
+    '<p><b>Evidence interpretation:</b> '+esc(why)+'</p><p><b>Next action:</b> '+esc(next)+'</p>'+
+    (s?'<a class="signal-link" href="'+esc(s.source)+'" target="_blank" rel="noopener">OPEN TRIGGER EVIDENCE ↗</a>':'')+'</article>';
+  }).join("");
+}
+function renderTriggers(){
+  const box=$("triggerGrid");
+  const rows=candidates.filter(x=>x.trigger.signal).slice(0,8);
+  box.innerHTML=rows.map(x=>{const s=x.trigger.signal;return '<article class="trigger-card"><div class="trigger-top"><span>'+esc(x.name)+'</span><b>'+esc(x.trigger.label)+'</b></div><h3>'+esc(s.title)+'</h3><p>'+esc(s.description)+'</p><div class="trigger-foot"><span>'+esc(x.trigger.strength)+'</span><a href="'+esc(s.source)+'" target="_blank" rel="noopener">SOURCE ↗</a></div></article>';}).join("")||'<div class="empty">No event-backed triggers detected.</div>';
+}
+function renderSignals(){
+  const visible=signalFilter==="all"?liveSignals:liveSignals.filter(x=>x.sourceType===signalFilter);
+  $("signalsGrid").innerHTML=visible.map(x=>'<article class="signal-card"><div class="signal-meta"><span>'+esc(x.sourceTypeLabel)+'</span><span>'+esc(x.dateLabel)+'</span></div><h3>'+esc(x.title)+'</h3><p>'+esc(x.description)+'</p><p><b>Resolved entity:</b> '+esc(x.entity||"Unattributed")+'</p><div class="signal-type">'+esc(signalType(x))+'</div><a class="signal-link" href="'+esc(x.source)+'" target="_blank" rel="noopener">'+esc(x.sourceLabel)+' ↗</a></article>').join("")||'<div class="empty">No live evidence for this filter.</div>';
+}
+function renderCompanyIntelligence(asset){
+  const box=$("companyCards");
+  box.innerHTML=candidates.slice(0,6).map(x=>{
+    const ev=x.signals.slice().sort((a,b)=>new Date(b.publishedAt||0)-new Date(a.publishedAt||0)).slice(0,5);
+    const ledger=ev.map(s=>'<li><span class="evidence-tag '+signalType(s).toLowerCase()+'">'+signalType(s)+'</span>'+esc(s.title)+' <a href="'+esc(s.source)+'" target="_blank" rel="noopener">↗</a></li>').join("");
+    return '<article class="candidate intelligence-card"><div class="candidate-top"><span class="rank">BUYER RESEARCH</span><span class="score">'+x.priority+'/100</span></div>'+
+    '<div class="intel-title"><h3>'+esc(x.name)+'</h3><span class="intel-level '+(x.trigger.strength==="FRESH"?"high":x.trigger.strength==="RECENT"?"medium":"early")+'">'+esc(x.trigger.strength)+' SIGNAL</span></div>'+
+    '<div class="intel-grid"><div><span>EVIDENCE</span><strong>'+x.evidence+' items</strong></div><div><span>RECENT</span><strong>'+x.recent+' / 90d</strong></div><div><span>COMMERCIAL</span><strong>'+x.commercial+'</strong></div><div><span>RELEVANCE</span><strong>'+x.relevance+' hits</strong></div></div>'+
+    '<div class="intel-columns"><div><span class="intel-label">EVIDENCE LEDGER</span><ul>'+ledger+'</ul></div><div><span class="intel-label">VERIFY BEFORE CONTACT</span><p>Confirm current company activity, the trigger, the product/team affected, and a public decision-maker channel.</p><p><b>Roles:</b> '+esc(x.roles.join(" · "))+'</p><small>The engine identifies research opportunities, not purchase intent.</small></div></div></article>';
+  }).join("")||'<div class="empty">No buyer research cards yet.</div>';
+}
+function renderOutreach(asset){
+  const box=$("outreachIntel"),x=candidates[0];
+  if(!x){box.textContent="No verified opportunity yet.";return;}
+  const s=x.trigger.signal||x.signals[0],hook=s?.title||"the activity detected in the market";
+  box.innerHTML='<div class="outreach-grid"><div><span>COMPANY</span><strong>'+esc(x.name)+'</strong></div><div><span>OPENING HOOK</span><strong>'+esc(hook)+'</strong></div><div><span>DECISION-MAKER</span><strong>'+esc(x.roles[0])+'</strong></div></div>'+
+  '<div class="outreach-draft"><span class="intel-label">RESEARCH-READY OPENING</span><p>“I noticed '+esc(x.name)+' is currently active around '+esc(hook)+'. I own '+esc(asset)+', a domain closely aligned with '+esc(assetFitText(asset,$("query").value))+'. Given the direction of the work, I thought it was worth putting the asset on your radar.”</p><small>Use only after verifying the source, current activity and recipient. This is an opening angle, not an inferred buying signal.</small></div>';
+}
+function renderBrief(asset){
+  const x=candidates[0],box=$("buyerBrief");
+  if(!x){box.textContent="No sufficiently verified opportunity was discovered from the current live evidence.";return;}
+  const s=x.trigger.signal;
+  box.innerHTML='<div class="brief-grid"><div><span>ASSET</span><strong>'+esc(asset)+'</strong></div><div><span>COMPANY</span><strong>'+esc(x.name)+'</strong></div><div><span>TRIGGER</span><strong>'+esc(x.trigger.label)+'</strong></div><div><span>NEXT ROLE</span><strong>'+esc(x.roles[0])+'</strong></div></div>'+
+  '<p><b>Why it surfaced:</b> '+esc(assetFitText(asset,$("query").value))+' overlaps with '+esc(x.name)+' and the collected public evidence.</p>'+
+  '<p><b>Why now:</b> '+esc(x.trigger.reason)+'</p>'+
+  '<p><b>Evidence:</b> '+(s?'<a class="signal-link" href="'+esc(s.source)+'" target="_blank" rel="noopener">'+esc(s.sourceLabel)+' source ↗</a>':"No current trigger.")+'</p>'+
+  '<p><b>Human action:</b> verify the event → identify the relevant role → check current company positioning → personalize outreach.</p>';
+}
+
 async function getJSON(url){
   const r=await fetch(url,{headers:{"Accept":"application/json"}});
-  if(!r.ok) throw new Error(r.status+" "+r.statusText);
+  if(!r.ok)throw new Error(r.status+" "+r.statusText);
   return r.json();
 }
-function dedupeSignals(items){\n  const seen=new Set();\n  return items.filter(x=>{\n    const k=(x.sourceType+"|"+(x.title||"")).toLowerCase();\n    if(seen.has(k)) return false; seen.add(k); return true;\n  });\n}\nasync function runLive(){
+function dedupe(items){
+  const seen=new Set();return items.filter(x=>{const k=(x.sourceType+"|"+x.source+"|"+x.title).toLowerCase();if(seen.has(k))return false;seen.add(k);return true;});
+}
+function githubQuery(q){
+  return getJSON("https://api.github.com/search/repositories?q="+encodeURIComponent(q)+"&sort=updated&order=desc&per_page=10")
+  .then(d=>(d.items||[]).map(r=>({sourceType:"github",sourceTypeLabel:"GITHUB",source:r.html_url,sourceLabel:"GitHub",dateLabel:r.updated_at?new Date(r.updated_at).toLocaleDateString():"recent",publishedAt:r.updated_at,title:r.full_name,description:r.description||"Public repository activity.",ownerLogin:r.owner?.login||"",ownerType:r.owner?.type||""})));
+}
+function hnQuery(q){
+  return getJSON("https://hn.algolia.com/api/v1/search?query="+encodeURIComponent(q)+"&tags=story&hitsPerPage=10")
+  .then(d=>(d.hits||[]).map(h=>({sourceType:"hackernews",sourceTypeLabel:"HACKER NEWS",source:h.url||("https://news.ycombinator.com/item?id="+h.objectID),sourceLabel:"Hacker News",dateLabel:h.created_at?new Date(h.created_at).toLocaleDateString():"recent",publishedAt:h.created_at,title:h.title||"Untitled story",description:h.title||"Public discussion signal."})));
+}
+async function runLive(){
   const asset=$("asset").value.trim(),query=$("query").value.trim();
   if(!asset){$("status").textContent="ENTER AN ASSET FIRST";return;}
-  $("status").textContent="LIVE RADAR · DISCOVERING…";
-  liveSignals=[]; candidates=[]; renderMetrics(); renderCandidates(); renderSignals();
-  const searchQuery=(query||asset)+" robotics AI";
-  const gh=getJSON("https://api.github.com/search/repositories?q="+encodeURIComponent(searchQuery)+"&sort=updated&order=desc&per_page=10")
-    .then(d=>(d.items||[]).map(repo=>({sourceType:"github",sourceTypeLabel:"GITHUB SIGNAL",source:repo.html_url,sourceLabel:"GitHub",
-      dateLabel:repo.updated_at?new Date(repo.updated_at).toLocaleDateString():"recent",publishedAt:repo.updated_at||null,title:repo.full_name,description:repo.description||"Public repository activity matching the research query.",
-      ownerLogin:repo.owner?.login||"",ownerType:repo.owner?.type||"",entity:""})));
-  const hn=getJSON("https://hn.algolia.com/api/v1/search?query="+encodeURIComponent(searchQuery)+"&tags=story&hitsPerPage=10")
-    .then(d=>(d.hits||[]).map(hit=>({sourceType:"hackernews",sourceTypeLabel:"HACKER NEWS",source:hit.url||("https://news.ycombinator.com/item?id="+hit.objectID),
-      sourceLabel:"Hacker News",dateLabel:hit.created_at?new Date(hit.created_at).toLocaleDateString():"recent",publishedAt:hit.created_at||null,title:hit.title||"Hacker News signal",
-      description:hit.title||"Recent public discussion/news signal.",entity:""})));
-  const results=await Promise.allSettled([gh,hn]);
-  let providers=0;
-  for(const r of results) if(r.status==="fulfilled"){providers++;liveSignals.push(...r.value);}\n  liveSignals=dedupeSignals(liveSignals).filter(s=>{ const age=(Date.now()-new Date(s.publishedAt||0).getTime())/86400000; return !isFinite(age)||age<=730; }).slice(0,40);
-  for(const sig of liveSignals) sig.entity=extractEntities(sig)[0]||"Unattributed public signal";
+  $("status").textContent="SCANNING · DISCOVERING…";
+  liveSignals=[];candidates=[];renderMetrics();renderActionQueue(asset);renderTriggers();renderSignals();
+  const base=query||asset, terms=[base,asset.replace(/\.[a-z0-9]+$/i,"").replace(/[._-]/g," "),base+" humanoid",base+" embodied AI",base+" robot behavior",base+" robotics company"];
+  const urls=[...new Set(terms.map(x=>x.trim()).filter(Boolean))];
+  const jobs=[];
+  for(const q of urls){jobs.push(githubQuery(q));jobs.push(hnQuery(q));}
+  const results=await Promise.allSettled(jobs);
+  for(const r of results)if(r.status==="fulfilled")liveSignals.push(...r.value);
+  liveSignals=dedupe(liveSignals).filter(s=>ageDays(s.publishedAt)<=730).sort((a,b)=>new Date(b.publishedAt||0)-new Date(a.publishedAt||0)).slice(0,80);
+  for(const s of liveSignals)s.entity=resolveEntities(s)[0]||"Unattributed public signal";
   candidates=buildCandidates(asset,query);
-  renderAssetIntelligence(asset,query);renderMetrics();renderCandidates();renderSignals();renderCompanyIntelligence(asset,query);renderBuyerMap(asset,query);renderOutreachIntelligence(asset);generateBrief(asset);
-  $("status").textContent="LIVE RADAR · "+providers+"/2 SOURCE TYPES · "+liveSignals.length+" VERIFIED SIGNALS · "+candidates.length+" ENTITIES";
+  renderAssetIntelligence(asset,query);renderMetrics();renderActionQueue(asset);renderTriggers();renderSignals();renderCompanyIntelligence(asset);renderOutreach(asset);renderBrief(asset);
+  $("status").textContent="SCAN COMPLETE · "+liveSignals.length+" EVIDENCE ITEMS · "+candidates.length+" VERIFIED ENTITIES";
 }
 function init(){
-  $("run")?.addEventListener("click",()=>runLive().catch(err=>{$("status").textContent="RADAR ERROR · "+err.message;console.error(err);}));
-  document.querySelectorAll("#signalFilters button").forEach(btn=>btn.addEventListener("click",()=>{
-    document.querySelectorAll("#signalFilters button").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");signalFilter=btn.dataset.signalFilter;renderSignals();
-  }));
-  renderAssetIntelligence($("asset")?.value||"", $("query")?.value||"");renderMetrics();renderCandidates();renderSignals();renderCompanyIntelligence("", "");renderBuyerMap("", "");renderOutreachIntelligence("");
-  $("buyerBrief").textContent="Run the Radar to discover buyer candidates from live evidence.";
+  $("run")?.addEventListener("click",()=>runLive().catch(e=>{$("status").textContent="SCAN ERROR · "+e.message;console.error(e);}));
+  document.querySelectorAll("#signalFilters button").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll("#signalFilters button").forEach(b=>b.classList.remove("active"));btn.classList.add("active");signalFilter=btn.dataset.signalFilter;renderSignals();}));
+  renderAssetIntelligence($("asset")?.value||"",$("query")?.value||"");renderMetrics();renderActionQueue("");renderTriggers();renderSignals();renderCompanyIntelligence("");renderOutreach("");renderBrief("");
 }
-if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init); else init();
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
