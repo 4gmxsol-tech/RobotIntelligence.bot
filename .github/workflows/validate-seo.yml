@@ -35,14 +35,14 @@ jobs:
               assert target.is_file(), f"Sitemap target does not exist: {url}"
               html = target.read_text(encoding="utf-8")
               title = re.search(r"<title>(.*?)</title>", html, re.I | re.S)
-              description = re.search(r'<meta\\s+name=["\\']description["\\']\\s+content=["\\']([^"\\']+)', html, re.I)
-              canonical = re.search(r'<link\\s+rel=["\\']canonical["\\']\\s+href=["\\']([^"\\']+)', html, re.I)
+              description = re.search(r'<meta\s+name=["\\']description["\\']\s+content=["\\']([^"\\']+)', html, re.I)
+              canonical = re.search(r'<link\s+rel=["\\']canonical["\\']\s+href=["\\']([^"\\']+)', html, re.I)
               assert title and title.group(1).strip(), f"Missing title: {url}"
               assert description and len(description.group(1).strip()) >= 70, f"Missing/short description: {url}"
               assert canonical and canonical.group(1).rstrip("/") == url.rstrip("/"), f"Canonical mismatch: {url}"
 
           alias = (root / "agent/index.html").read_text(encoding="utf-8")
-          alias_canonical = re.search(r'<link\\s+rel=["\\']canonical["\\']\\s+href=["\\']([^"\\']+)', alias, re.I)
+          alias_canonical = re.search(r'<link\s+rel=["\\']canonical["\\']\s+href=["\\']([^"\\']+)', alias, re.I)
           assert alias_canonical and alias_canonical.group(1) == "https://robotintelligence.bot/agent.html", "Agent alias must canonicalize to agent.html"
           assert "https://robotintelligence.bot/agent/" not in urls, "Duplicate agent alias must not be in sitemap"
           print(f"Validated {len(urls)} sitemap URLs and canonical metadata.")
