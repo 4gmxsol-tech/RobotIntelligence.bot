@@ -30,6 +30,20 @@ jobs:
           assert urls, "Sitemap is empty"
           assert len(urls) == len(set(urls)), "Duplicate sitemap URLs"
 
+          home_html = (root / "index.html").read_text(encoding="utf-8")
+          radar_url = "https://robotintelligence.bot/buyer-radar.html"
+          assert radar_url in urls, "Buyer Radar must remain in the sitemap"
+          radar_links = re.findall(r'<a\b[^>]*href=["\']buyer-radar\.html["\']', home_html, re.I)
+          assert len(radar_links) >= 2, "Homepage must expose Buyer Radar in navigation and the hero CTA"
+
+          radar_html = (root / "buyer-radar.html").read_text(encoding="utf-8")
+          radar_canonical = re.search(r"""<link\s+rel=["']canonical["']\s+href=["']([^"']+)""", radar_html, re.I)
+          radar_robots = re.search(r"""<meta\s+name=["']robots["']\s+content=["']([^"']+)""", radar_html, re.I)
+          assert radar_canonical and radar_canonical.group(1) == radar_url, "Buyer Radar canonical mismatch"
+          assert radar_robots and "noindex" not in radar_robots.group(1).lower(), "Buyer Radar must remain indexable"
+
+          assert (root / "sitemap").read_bytes() == (root / "sitemap.xml").read_bytes(), "Submitted sitemap endpoint must match sitemap.xml"
+
           for url in urls:
               assert url.startswith("https://robotintelligence.bot/"), f"Unexpected sitemap host: {url}"
               path = url.removeprefix("https://robotintelligence.bot/")
