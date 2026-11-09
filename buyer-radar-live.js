@@ -94,7 +94,7 @@ function resolveEntities(sig){
   while((m=known.exec(full)))push(m[1]);
   return out;
 }
-function verify(name,sig){
+function isPlausibleOrganizationCandidate(name,sig){
   const text=(name+" "+sig.title+" "+sig.description).toLowerCase();
   const known=KNOWN.has(name.toLowerCase());
   const commercial=/\b(company|inc\.?|corp\.?|corporation|startup|founded|funded|funding|enterprise|product|platform|commercial|robotics company|ai company)\b/i.test(text);
@@ -114,7 +114,7 @@ function relevance(name,signals,asset,query){
 function buildCandidates(asset,query){
   const groups={};
   for(const sig of liveSignals)for(const raw of resolveEntities(sig)){
-    const name=canonical(raw);if(!name||!verify(name,sig))continue;
+    const name=canonical(raw);if(!name||!isPlausibleOrganizationCandidate(name,sig))continue;
     const key=name.toLowerCase();if(!groups[key])groups[key]={name,signals:[]};
     if(!groups[key].signals.includes(sig))groups[key].signals.push(sig);
   }
@@ -138,7 +138,7 @@ function renderMetrics(){
 }
 function renderActionQueue(asset){
   const box=$("actionQueue");
-  if(!candidates.length){box.innerHTML='<div class="empty">No verified commercial opportunities yet. Broaden the market query or use a more specific asset.</div>';return;}
+  if(!candidates.length){box.innerHTML='<div class="empty">No plausible organization candidates surfaced from these public signals. Broaden the query or use a more specific asset.</div>';return;}
   box.innerHTML=candidates.slice(0,8).map((x,i)=>{
     const t=x.trigger,s=t.signal, freshness=t.strength==="FRESH"?"CONTACT WINDOW":t.strength==="RECENT"?"RECENT":"RESEARCH";
     const why=x.relevance>=5?"Direct thematic overlap is supported by the collected evidence.":"Relevant overlap is present but needs stronger verification.";
@@ -171,7 +171,7 @@ function renderCompanyIntelligence(asset){
 }
 function renderOutreach(asset){
   const box=$("outreachIntel"),x=candidates[0];
-  if(!x){box.textContent="No verified opportunity yet.";return;}
+  if(!x){box.textContent="No organization candidate has enough evidence yet.";return;}
   const s=x.trigger.signal||x.signals[0],hook=s?.title||"the activity detected in the market";
   box.innerHTML='<div class="outreach-grid"><div><span>COMPANY</span><strong>'+esc(x.name)+'</strong></div><div><span>RESEARCH HOOK</span><strong>'+esc(hook)+'</strong></div><div><span>NEXT ROLE TO VERIFY</span><strong>'+esc(x.roles[0])+'</strong></div></div>'+
   '<div class="outreach-draft"><span class="intel-label">HUMAN-REVIEWED RESEARCH ANGLE — NOT A SEND-READY OFFER</span><p>“I noticed '+esc(x.name)+' is active around '+esc(hook)+'. I am researching whether '+esc(asset)+' could be relevant to teams working on '+esc(assetFitText(asset,$("query").value))+'. Before treating this as an acquisition opportunity, the asset’s ownership, sale authorization, current availability and transfer scope must be verified independently.”</p><small>This is a research angle only—not a claim that the asset is for sale, not evidence of purchase intent, and not permission to contact.</small></div>';
@@ -219,7 +219,7 @@ async function runLive(){
   for(const s of liveSignals)s.entity=resolveEntities(s)[0]||"Unattributed public signal";
   candidates=buildCandidates(asset,query);
   renderAssetIntelligence(asset,query);renderMetrics();renderActionQueue(asset);renderTriggers();renderSignals();renderCompanyIntelligence(asset);renderOutreach(asset);renderBrief(asset);
-  $("status").textContent="SCAN COMPLETE · "+liveSignals.length+" EVIDENCE ITEMS · "+candidates.length+" VERIFIED ENTITIES";
+  $("status").textContent="SCAN COMPLETE · "+liveSignals.length+" PUBLIC SIGNALS · "+candidates.length+" CANDIDATE ORGANIZATIONS";
 }
 function init(){
   $("run")?.addEventListener("click",()=>runLive().catch(e=>{$("status").textContent="SCAN ERROR · "+e.message;console.error(e);}));

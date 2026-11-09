@@ -38,6 +38,28 @@ twitter_description = meta(r'<meta\s+name=["\']twitter:description["\']\s+conten
 assert 70 <= len(description) <= 160
 assert description == og_description == twitter_description
 
+# Public-source scope and heuristic labels must remain accurate.
+assert "source-disclosure" in HTML
+for phrase in ("GitHub public repository search", "Hacker News via Algolia",
+               "not independently verified", "purchase intent"):
+    assert phrase.lower() in HTML.lower(), f"Missing public-source limitation: {phrase}"
+assert "verify commercial entities" not in HTML.lower(), "Do not claim independent company verification"
+assert "Company intelligence" not in HTML, "Use candidate language for heuristic entity resolution"
+assert "CANDIDATE ORGANIZATIONS" in JS
+assert "VERIFIED ENTITIES" not in JS
+assert "function isPlausibleOrganizationCandidate(" in JS
+assert "function verify(" not in JS
+assert "No plausible organization candidates surfaced" in JS
+assert "No organization candidate has enough evidence yet." in JS
+
+docs = (ROOT / "BUYER-RADAR.md").read_text(encoding="utf-8")
+for phrase in ("GitHub public repository search API", "Hacker News search through Algolia",
+               "not independent company verification", "not a probability of purchase",
+               "does not send messages or contact companies"):
+    assert phrase.lower() in docs.lower(), f"Missing implementation limit in BUYER-RADAR.md: {phrase}"
+assert "DEMO MODE" not in docs, "Documentation must describe the current live-source implementation"
+assert "five-provider production agent" in docs
+
 counter = H1Counter()
 counter.feed(HTML)
 assert counter.count == 1, f"Expected one H1, found {counter.count}"
