@@ -44,7 +44,7 @@ assert counter.count == 1, f"Expected one H1, found {counter.count}"
 
 # Breadcrumbs must be visible, accessible on mobile, and consistent with the canonical URL.
 breadcrumb_blocks = []
-for block in re.findall(r'<script\\s+type=["\\']application/ld\\+json["\\']>(.*?)</script>', HTML, re.I | re.S):
+for block in re.findall(r'<script\s+type=["\']application/ld\+json["\']>(.*?)</script>', HTML, re.I | re.S):
     payload = json.loads(block)
     if payload.get("@type") == "BreadcrumbList":
         breadcrumb_blocks.append(payload)
@@ -54,11 +54,11 @@ expected_breadcrumbs = [
     {"@type": "ListItem", "position": 2, "name": "Buyer Radar", "item": PAGE_URL},
 ]
 assert breadcrumb_blocks[0].get("itemListElement") == expected_breadcrumbs, "BreadcrumbList hierarchy or canonical URLs changed"
-visible_breadcrumb = re.search(r'<nav\\s+class=["\\']breadcrumbs["\\']\\s+aria-label=["\\']Breadcrumb["\\']>(.*?)</nav>', HTML, re.I | re.S)
+visible_breadcrumb = re.search(r'<nav\s+class=["\']breadcrumbs["\']\s+aria-label=["\']Breadcrumb["\']>(.*?)</nav>', HTML, re.I | re.S)
 assert visible_breadcrumb, "Missing visible accessible breadcrumb navigation"
-assert re.search(r'<a\\s+href=["\\']index\\.html["\\']>Home</a>', visible_breadcrumb.group(1), re.I)
-assert re.search(r'<span\\s+aria-current=["\\']page["\\']>Buyer Radar</span>', visible_breadcrumb.group(1), re.I)
-assert re.search(r'\\.breadcrumbs\\s*\\{[^}]*display\\s*:\\s*flex', CSS, re.I), "Breadcrumb must remain visible at narrow viewports"
+assert re.search(r'<a\s+href=["\']index\.html["\']>Home</a>', visible_breadcrumb.group(1), re.I)
+assert re.search(r'<span\s+aria-current=["\']page["\']>Buyer Radar</span>', visible_breadcrumb.group(1), re.I)
+assert re.search(r'\.breadcrumbs\s*\{[^}]*display\s*:\s*flex', CSS, re.I), "Breadcrumb must remain visible at narrow viewports"
 
 assert "scoring-methodology" in HTML
 assert "What the priority score means" in HTML
