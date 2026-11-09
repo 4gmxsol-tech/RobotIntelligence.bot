@@ -1,24 +1,24 @@
 <!doctype html>
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Scan public market signals, identify potential buyers for robotics and Physical AI assets, and build evidence-backed, human-reviewed outreach opportunities.">
+<meta name="description" content="Research robotics and Physical AI companies from public signals. Review evidence, recency and heuristic priorities—not purchase intent.">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="https://robotintelligence.bot/buyer-radar.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="RobotIntelligence.bot">
 <meta property="og:title" content="Robotics Buyer Intelligence and Market Signals | RobotIntelligence.bot">
-<meta property="og:description" content="Scan public market signals, identify potential buyers for robotics and Physical AI assets, and build evidence-backed, human-reviewed outreach opportunities.">
+<meta property="og:description" content="Research robotics and Physical AI companies from public signals. Review evidence, recency and heuristic priorities—not purchase intent.">
 <meta property="og:url" content="https://robotintelligence.bot/buyer-radar.html">
 <meta property="og:image" content="https://robotintelligence.bot/robot-intelligence-social.svg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Robotics Buyer Intelligence and Market Signals | RobotIntelligence.bot">
-<meta name="twitter:description" content="Scan public market signals, identify potential buyers for robotics and Physical AI assets, and build evidence-backed, human-reviewed outreach opportunities.">
+<meta name="twitter:description" content="Research robotics and Physical AI companies from public signals. Review evidence, recency and heuristic priorities—not purchase intent.">
 
 <title>Robotics Buyer Intelligence and Market Signals | RobotIntelligence.bot</title><link rel="stylesheet" href="buyer-radar.css"></head>
 <body>
 <div class="scanline" aria-hidden="true"></div><div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
 <header><a href="index.html" class="brand"><span>RI</span> Opportunity Engine</a>
-<nav><a href="index.html">Intelligence Graph</a><a href="#opportunities">Opportunities</a><a href="#triggers">Triggers</a><a href="#evidence">Evidence</a><a href="agent.html">Agent Console ↗</a></nav></header>
+<nav><a href="index.html">Intelligence Graph</a><a href="#opportunities">Opportunities</a><a href="#triggers">Triggers</a><a href="#evidence">Evidence</a><a href="#scoring-methodology">Scoring</a><a href="agent.html">Agent Console ↗</a></nav></header>
 <main>
 <section class="hero hero-v2"><div class="hero-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
 <div class="kicker">ROBOTINTELLIGENCE.BOT / OPPORTUNITY ENGINE</div>
@@ -29,9 +29,9 @@
 <button id="run" class="run-button"><span class="run-dot"></span> SCAN MARKET <b>↗</b></button></div>
 </section>
 
-<section id="asset-intelligence"><div class="section-head"><div><span>01 / ASSET INTELLIGENCE</span><h2>What are we actually selling?</h2></div><div class="section-note">Positioning hypothesis</div></div><div id="assetProfile" class="brief"></div></section>
+<section id="asset-intelligence"><div class="section-head"><div><span>01 / ASSET INTELLIGENCE</span><h2>What is the asset under review?</h2></div><div class="section-note">Positioning hypothesis</div></div><div id="assetProfile" class="brief"></div></section>
 
-<section id="opportunities"><div class="section-head"><div><span>02 / OPPORTUNITY QUEUE</span><h2>Actionable buyer opportunities</h2></div><div id="status" class="status-pulse">READY</div></div>
+<section id="opportunities"><div class="section-head"><div><span>02 / OPPORTUNITY QUEUE</span><h2>Evidence-backed research opportunities</h2></div><div id="status" class="status-pulse">READY</div></div>
 <div id="metrics" class="metrics"></div><div id="actionQueue" class="action-queue"></div></section>
 
 <section id="triggers"><div class="section-head"><div><span>03 / TRIGGER DETECTION</span><h2>Why contact them now?</h2></div><div class="section-note">Event-backed only</div></div><div id="triggerGrid" class="trigger-grid"></div></section>
@@ -48,6 +48,22 @@
 
 <section id="workflow" class="workflow"><div class="section-head"><div><span>08 / ENGINE</span><h2>From asset to action</h2></div></div>
 <div class="steps"><div><b>01</b><h3>Discover</h3><p>Search multiple live public surfaces for market activity.</p></div><div><b>02</b><h3>Resolve</h3><p>Separate companies from repositories, people and generic noise.</p></div><div><b>03</b><h3>Trigger</h3><p>Detect launches, funding, hiring, partnerships and product events.</p></div><div><b>04</b><h3>Map</h3><p>Connect the event to the asset and identify the relevant buyer role.</p></div><div><b>05</b><h3>Act</h3><p>Produce evidence, an opening angle and the next verification step.</p></div></div></section>
+
+
+<section id="scoring-methodology">
+<div class="section-head"><div><span>09 / SCORING METHOD</span><h2>What the priority score means</h2></div><div class="section-note">Heuristic research aid · not purchase intent</div></div>
+<p class="methodology-intro">The 0–100 priority ranking is a heuristic built from four evidence signals. It helps sort research opportunities; it is not a probability of purchase, a company valuation, or proof that a company wants to acquire an asset.</p>
+<div class="steps">
+<div><b>01</b><h3>Topical relevance</h3><p>Measures overlap between the company and public signal text, the asset name, and the market query.</p></div>
+<div><b>02</b><h3>Signal recency</h3><p>Counts evidence from the last 90 days. The strongest event is labelled fresh at 30 days or less, recent at 31–90 days, or older.</p></div>
+<div><b>03</b><h3>Commercial activity</h3><p>Recognizes public signals such as funding, investment, acquisitions, partnerships, launches, contracts, customers, orders, and expansion.</p></div>
+<div><b>04</b><h3>Evidence coverage</h3><p>Counts distinct public evidence items, with a cap so raw volume cannot dominate the ranking.</p></div>
+</div>
+<div class="brief methodology-caveat">
+<p><b>What the score does not establish:</b> It does not measure a company's budget, ability or authority to buy, acquisition intent, or the ownership, sale authorization, availability, and transfer scope of an asset.</p>
+<p><b>Source and outreach limits:</b> The scanner currently searches public GitHub and Hacker News signals. Entity resolution and event classification are heuristic. A human must verify every source, date, company, relevant team, decision-maker channel, sender identity, and applicable outreach rules. The tool does not send messages or contact companies.</p>
+</div>
+</section>
 
 <section class="architecture"><span>ARCHITECTURE</span><pre>Asset → Multi-query discovery → Entity resolution → Trigger detection → Evidence chain → Buyer map → Human-reviewed outreach</pre><p><a class="signal-link" href="agent.html">Open Agent Console →</a></p></section>
 </main>
