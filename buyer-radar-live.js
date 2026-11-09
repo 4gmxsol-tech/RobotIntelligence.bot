@@ -46,7 +46,7 @@ function renderAssetIntelligence(asset,query){
   box.innerHTML='<div class="asset-profile-grid"><div><span>ASSET</span><strong>'+esc(p.name)+'</strong></div><div><span>CORE CONCEPT</span><strong>'+esc(p.core||"—")+'</strong></div><div><span>MARKET LAYER</span><strong>'+esc(p.themes.join(" · "))+'</strong></div></div>'+
   '<div class="asset-themes">'+p.themes.map(x=>'<span>'+esc(x)+'</span>').join("")+'</div>'+
   '<div class="asset-uses"><span class="intel-label">POTENTIAL JOBS FOR THIS ASSET</span><div><span>Product / platform name</span><span>Research property</span><span>Category authority</span><span>Launch / campaign property</span></div></div>'+
-  '<small>The engine treats this as a positioning hypothesis. Buyer evidence must independently support the opportunity.</small>';
+  '<small>Positioning is a hypothesis. This engine does not verify ownership, sale authorization, current availability or transfer scope; buyer evidence must independently support the opportunity.</small>';
 }
 
 function signalType(s){
@@ -133,7 +133,7 @@ function renderMetrics(){
   const triggers=candidates.filter(x=>x.trigger.strength!=="NONE"&&x.trigger.strength!=="OLDER").length;
   const queue=candidates.filter(x=>x.priority>=60).length;
   $("metrics").innerHTML=[
-    ["ACTIONABLE OPPORTUNITIES",queue],["FRESH SIGNALS ≤30D",fresh],["TRIGGERS DETECTED",triggers],["EVIDENCE ITEMS",liveSignals.length]
+    ["RESEARCH OPPORTUNITIES",queue],["FRESH SIGNALS ≤30D",fresh],["TRIGGERS DETECTED",triggers],["EVIDENCE ITEMS",liveSignals.length]
   ].map(x=>'<div class="metric"><b>'+x[1]+'</b><span>'+x[0]+'</span></div>').join("");
 }
 function renderActionQueue(asset){
@@ -163,7 +163,7 @@ function renderCompanyIntelligence(asset){
   box.innerHTML=candidates.slice(0,6).map(x=>{
     const ev=x.signals.slice().sort((a,b)=>new Date(b.publishedAt||0)-new Date(a.publishedAt||0)).slice(0,5);
     const ledger=ev.map(s=>'<li><span class="evidence-tag '+signalType(s).toLowerCase()+'">'+signalType(s)+'</span>'+esc(s.title)+' <a href="'+esc(s.source)+'" target="_blank" rel="noopener">↗</a></li>').join("");
-    return '<article class="candidate intelligence-card"><div class="candidate-top"><span class="rank">BUYER RESEARCH</span><span class="score">'+x.priority+'/100</span></div>'+
+    return '<article class="candidate intelligence-card"><div class="candidate-top"><span class="rank">RESEARCH PRIORITY</span><span class="score" title="Heuristic ranking; not purchase probability">'+x.priority+'/100</span></div>'+
     '<div class="intel-title"><h3>'+esc(x.name)+'</h3><span class="intel-level '+(x.trigger.strength==="FRESH"?"high":x.trigger.strength==="RECENT"?"medium":"early")+'">'+esc(x.trigger.strength)+' SIGNAL</span></div>'+
     '<div class="intel-grid"><div><span>EVIDENCE</span><strong>'+x.evidence+' items</strong></div><div><span>RECENT</span><strong>'+x.recent+' / 90d</strong></div><div><span>COMMERCIAL</span><strong>'+x.commercial+'</strong></div><div><span>RELEVANCE</span><strong>'+x.relevance+' hits</strong></div></div>'+
     '<div class="intel-columns"><div><span class="intel-label">EVIDENCE LEDGER</span><ul>'+ledger+'</ul></div><div><span class="intel-label">VERIFY BEFORE CONTACT</span><p>Confirm current company activity, the trigger, the product/team affected, and a public decision-maker channel.</p><p><b>Roles:</b> '+esc(x.roles.join(" · "))+'</p><small>The engine identifies research opportunities, not purchase intent.</small></div></div></article>';
@@ -173,8 +173,8 @@ function renderOutreach(asset){
   const box=$("outreachIntel"),x=candidates[0];
   if(!x){box.textContent="No verified opportunity yet.";return;}
   const s=x.trigger.signal||x.signals[0],hook=s?.title||"the activity detected in the market";
-  box.innerHTML='<div class="outreach-grid"><div><span>COMPANY</span><strong>'+esc(x.name)+'</strong></div><div><span>OPENING HOOK</span><strong>'+esc(hook)+'</strong></div><div><span>DECISION-MAKER</span><strong>'+esc(x.roles[0])+'</strong></div></div>'+
-  '<div class="outreach-draft"><span class="intel-label">RESEARCH-READY OPENING</span><p>“I noticed '+esc(x.name)+' is currently active around '+esc(hook)+'. I own '+esc(asset)+', a domain closely aligned with '+esc(assetFitText(asset,$("query").value))+'. Given the direction of the work, I thought it was worth putting the asset on your radar.”</p><small>Use only after verifying the source, current activity and recipient. This is an opening angle, not an inferred buying signal.</small></div>';
+  box.innerHTML='<div class="outreach-grid"><div><span>COMPANY</span><strong>'+esc(x.name)+'</strong></div><div><span>RESEARCH HOOK</span><strong>'+esc(hook)+'</strong></div><div><span>NEXT ROLE TO VERIFY</span><strong>'+esc(x.roles[0])+'</strong></div></div>'+
+  '<div class="outreach-draft"><span class="intel-label">HUMAN-REVIEWED RESEARCH ANGLE — NOT A SEND-READY OFFER</span><p>“I noticed '+esc(x.name)+' is active around '+esc(hook)+'. I am researching whether '+esc(asset)+' could be relevant to teams working on '+esc(assetFitText(asset,$("query").value))+'. Before treating this as an acquisition opportunity, the asset’s ownership, sale authorization, current availability and transfer scope must be verified independently.”</p><small>This is a research angle only—not a claim that the asset is for sale, not evidence of purchase intent, and not permission to contact.</small></div>';
 }
 function renderBrief(asset){
   const x=candidates[0],box=$("buyerBrief");
@@ -184,7 +184,8 @@ function renderBrief(asset){
   '<p><b>Why it surfaced:</b> '+esc(assetFitText(asset,$("query").value))+' overlaps with '+esc(x.name)+' and the collected public evidence.</p>'+
   '<p><b>Why now:</b> '+esc(x.trigger.reason)+'</p>'+
   '<p><b>Evidence:</b> '+(s?'<a class="signal-link" href="'+esc(s.source)+'" target="_blank" rel="noopener">'+esc(s.sourceLabel)+' source ↗</a>':"No current trigger.")+'</p>'+
-  '<p><b>Human action:</b> verify the event → identify the relevant role → check current company positioning → personalize outreach.</p>';
+  '<p><b>Priority score:</b> heuristic ranking based on topical relevance, signal recency, commercial activity and evidence volume—not purchase probability.</p>'+
+  '<p><b>Human action:</b> verify asset ownership and control → confirm sale authorization and transfer scope → validate company need and recipient → check sender identity and applicable outreach law before any contact.</p>';
 }
 
 async function getJSON(url){
