@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Guard Buyer Radar's public methodology and prevent unsupported acquisition claims."""
 from html.parser import HTMLParser
+import json
 from pathlib import Path
 import re
 import xml.etree.ElementTree as ET
@@ -8,6 +9,7 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[2]
 HTML = (ROOT / "buyer-radar.html").read_text(encoding="utf-8")
 JS = (ROOT / "buyer-radar-live.js").read_text(encoding="utf-8")
+CSS = (ROOT / "buyer-radar.css").read_text(encoding="utf-8")
 HOME = (ROOT / "index.html").read_text(encoding="utf-8")
 SITEMAP_XML = (ROOT / "sitemap.xml").read_bytes()
 SITEMAP_ALIAS = (ROOT / "sitemap").read_bytes()
@@ -39,6 +41,25 @@ assert description == og_description == twitter_description
 counter = H1Counter()
 counter.feed(HTML)
 assert counter.count == 1, f"Expected one H1, found {counter.count}"
+
+# Breadcrumbs must be visible, accessible on mobile, and consistent with the canonical URL.
+breadcrumb_blocks = []
+for block in re.findall(r'<script\s+type=["\']application/ld\+json["\']>(.*?)</script>', HTML, re.I | re.S):
+    payload = json.loads(block)
+    if payload.get("@type") == "BreadcrumbList":
+        breadcrumb_blocks.append(payload)
+assert len(breadcrumb_blocks) == 1, "Expected exactly one BreadcrumbList"
+expected_breadcrumbs = [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://robotintelligence.bot/"},
+    {"@type": "ListItem", "position": 2, "name": "Buyer Radar", "item": PAGE_URL},
+]
+assert breadcrumb_blocks[0].get("itemListElement") == expected_breadcrumbs, "BreadcrumbList hierarchy or canonical URLs changed"
+visible_breadcrumb = re.search(r'<nav\s+class=["\']breadcrumbs["\']\s+aria-label=["\']Breadcrumb["\']>(.*?)</nav>', HTML, re.I | re.S)
+assert visible_breadcrumb, "Missing visible accessible breadcrumb navigation"
+assert re.search(r'<a\s+href=["\']index\.html["\']>Home</a>', visible_breadcrumb.group(1), re.I)
+assert re.search(r'<span\s+aria-current=["\']page["\']>Buyer Radar</span>', visible_breadcrumb.group(1), re.I)
+assert re.search(r'\.breadcrumbs\s*\{[^}]*display\s*:\s*flex', CSS, re.I), "Breadcrumb must remain visible at narrow viewports"
+
 assert "scoring-methodology" in HTML
 assert "What the priority score means" in HTML
 for phrase in ("Topical relevance", "Signal recency", "Commercial activity", "Evidence coverage"):
