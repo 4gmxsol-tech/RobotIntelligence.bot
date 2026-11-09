@@ -47,3 +47,8 @@ body{background:radial-gradient(circle at 50% -10%,rgba(48,111,125,.16),transpar
 .trigger-foot span{margin:0}
 .signal-type{display:inline-block;border:1px solid var(--line);padding:3px 6px;font-size:8px;letter-spacing:.1em;color:var(--accent2);margin-top:8px}
 @media(max-width:800px){.opp-grid,.trigger-grid{grid-template-columns:1fr}.opp-head{flex-direction:column}.opportunity-state{align-self:flex-start}}
+
+/* Accessible page hierarchy for the public Buyer Radar landing page. */
+.breadcrumbs{max-width:1180px;margin:0 auto;padding:14px 5vw 0;display:flex;flex-wrap:wrap;align-items:center;gap:9px;color:var(--muted);font-size:12px}
+.breadcrumbs a{color:var(--accent2);text-decoration:underline;text-underline-offset:3px}
+.breadcrumbs [aria-current="page"]{color:var(--text)}
