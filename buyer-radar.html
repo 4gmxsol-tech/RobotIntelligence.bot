@@ -14,7 +14,11 @@
 <meta name="twitter:title" content="Robotics Buyer Intelligence and Market Signals | RobotIntelligence.bot">
 <meta name="twitter:description" content="Explore robotics signals from GitHub and Hacker News. Organization matches and priority scores are heuristic—not verified buyers or purchase intent.">
 
-<title>Robotics Buyer Intelligence and Market Signals | RobotIntelligence.bot</title><link rel="stylesheet" href="buyer-radar.css"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://robotintelligence.bot/"},{"@type":"ListItem","position":2,"name":"Buyer Radar","item":"https://robotintelligence.bot/buyer-radar.html"}]}</script></head>
+<title>Robotics Buyer Intelligence and Market Signals | RobotIntelligence.bot</title><link rel="stylesheet" href="buyer-radar.css"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://robotintelligence.bot/"},{"@type":"ListItem","position":2,"name":"Buyer Radar","item":"https://robotintelligence.bot/buyer-radar.html"}]}</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"RobotIntelligence.bot Buyer Radar","url":"https://robotintelligence.bot/buyer-radar.html","applicationCategory":"BusinessApplication","operatingSystem":"Any","description":"A browser-based research interface that searches public GitHub repository metadata and Hacker News stories, then organizes source-linked signals into a human-reviewed robotics opportunity queue. Organization matching and priority scores are heuristic and do not establish purchase intent.","featureList":["Search public GitHub repository metadata","Search Hacker News stories through Algolia","Review source-linked public signals and dates","Group heuristic organization candidates","Inspect trigger categories and research priority","Generate a human-reviewed research brief without sending outreach"]}
+</script>
+</head>
 <body>
 <div class="scanline" aria-hidden="true"></div><div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
 <header><a href="index.html" class="brand"><span>RI</span> Opportunity Engine</a>
@@ -29,6 +33,23 @@
 <div class="controls"><label>DOMAIN / ASSET<input id="asset" value="robotembodiment.com"></label>
 <label>MARKET SIGNALS<input id="query" value="humanoid robotics embodied AI robot learning"></label>
 <button id="run" class="run-button"><span class="run-dot"></span> SCAN MARKET <b>↗</b></button></div>
+</section>
+
+
+<section id="buyer-radar-overview" class="brief-section" aria-labelledby="buyer-radar-overview-heading">
+<div class="section-head"><div><span>PRODUCT OVERVIEW</span><h2 id="buyer-radar-overview-heading">A public-signal research queue, not a buyer database</h2></div><div class="section-note">Human-reviewed intelligence</div></div>
+<div class="brief">
+<p>Buyer Radar is a browser-based research interface for exploring public robotics and Physical AI market signals. Set an asset name and a market query, then scan public GitHub repository metadata and Hacker News stories surfaced through Algolia. The interface organizes source-linked evidence into signal categories, possible market triggers, heuristic organization candidates and a research brief.</p>
+<ol>
+<li><strong>Define the research target:</strong> enter the asset or product being evaluated and the robotics market topics that matter.</li>
+<li><strong>Discover public signals:</strong> search GitHub repository metadata and Hacker News stories, retaining links and dates for review.</li>
+<li><strong>Review the evidence:</strong> inspect signal context, trigger type, possible organization matches and the reasons a candidate was surfaced.</li>
+<li><strong>Verify independently:</strong> confirm the company, current need, decision-maker, buying authority and any acquisition trigger before taking action.</li>
+</ol>
+<p>Organization matching, event classification and the 0–100 research-priority score are heuristic. A candidate is a research lead, not a verified buyer. The score does not measure budget, purchasing authority, acquisition intent, asset ownership, sale authorization, availability or transfer scope.</p>
+<p>The scanner does not send email, submit contact forms or contact organizations. It produces a human-reviewed research queue only. Any outreach requires separate verification of the recipient, sender identity and applicable legal requirements.</p>
+<p class="links"><a class="signal-link" href="agent.html">Open the Agent Console →</a> · <a class="signal-link" href="#scoring-methodology">Read the scoring methodology →</a></p>
+</div>
 </section>
 
 <section id="asset-intelligence"><div class="section-head"><div><span>01 / ASSET INTELLIGENCE</span><h2>What is the asset under review?</h2></div><div class="section-note">Positioning hypothesis</div></div><div id="assetProfile" class="brief"></div></section>
