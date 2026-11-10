@@ -263,9 +263,41 @@ function render(){
  $("decisions").innerHTML=r.decisions.map(x=>'<div class="decision"><span>'+new Date(x.t).toLocaleTimeString()+" · "+esc(x.type)+'</span><strong>'+esc(x.msg)+'</strong></div>').join("")||'<div class="log-item">No decisions yet.</div>';
  $("log").innerHTML=state.log.map(x=>'<div class="log-item"><time>'+new Date(x.t).toLocaleTimeString()+'</time><b>'+esc(x.kind)+'</b> '+esc(x.msg)+'</div>').join("")||'<div class="log-item">No log entries.</div>';
 }
+async function loadPersistedRunState(){
+ const box=$("persistedRunState"),status=$("persistedRunStatus");
+ if(!box)return;
+ try{
+  const response=await fetch("/agent/state.json",{cache:"no-store",headers:{Accept:"application/json"}});
+  if(!response.ok)throw new Error("HTTP "+response.status);
+  const snapshot=await response.json();
+  const runs=Array.isArray(snapshot.runs)?snapshot.runs:[];
+  const latest=(snapshot.lastRun&&runs.find(x=>x.id===snapshot.lastRun))||runs[runs.length-1]||null;
+  if(!latest){
+   box.innerHTML='<div class="state-card"><b>NO SAVED RUNS</b><small>The server has not recorded a completed run yet.</small></div>';
+   if(status)status.textContent="NO SAVED RUNS";
+   return;
+  }
+  const at=latest.at?new Date(latest.at):null;
+  const date=at&&!Number.isNaN(at.getTime())?at.toLocaleString():"Timestamp unavailable";
+  const metric=key=>Number.isFinite(Number(latest[key]))?String(Number(latest[key])):"—";
+  const cards=[
+   ["SERVER STATUS",String(snapshot.status||"UNKNOWN")],
+   ["LAST SAVED RUN",date],
+   ["DECISION",String(latest.decision||"UNKNOWN")],
+   ["QUALIFIED",metric("qualified")],
+   ["REJECTED",metric("rejected")],
+   ["SAVED RUNS",String(runs.length)]
+  ];
+  box.innerHTML=cards.map(([label,value])=>'<div class="state-card"><b>'+esc(label)+'</b><small>'+esc(value)+'</small></div>').join("");
+  if(status)status.textContent="LIVE FILE · /agent/state.json";
+ }catch(error){
+  box.innerHTML='<div class="state-card"><b>SERVER HISTORY UNAVAILABLE</b><small>Browser-local agent state remains available. '+esc(error.message)+'</small></div>';
+  if(status)status.textContent="SERVER HISTORY UNAVAILABLE";
+ }
+}
 function init(){
  $("run").onclick=()=>run().catch(e=>write("ERROR",e.message));
  $("stop").onclick=()=>{stopped=true;write("STOP","Stop requested.")};
- $("retry").onclick=()=>run();$("continue").onclick=()=>run();$("reset").onclick=()=>{state=base();save()};$("clearLog").onclick=()=>{state.log=[];save()};render();
+ $("retry").onclick=()=>run();$("continue").onclick=()=>run();$("reset").onclick=()=>{state=base();save()};$("clearLog").onclick=()=>{state.log=[];save()};render();loadPersistedRunState();
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();

@@ -117,4 +117,26 @@ assert entry is not None, "Buyer Radar is missing from sitemap.xml"
 assert entry.findtext("sm:lastmod", namespaces=ns) == EXPECTED_LASTMOD
 
 assert len(re.findall(r'<a\b[^>]*href=["\']buyer-radar\.html["\']', HOME, re.I)) >= 2
+# The static agent console must expose the server-persisted CI run ledger without
+# replacing or blocking the browser-local research session.
+AGENT_HTML = (ROOT / "agent.html").read_text(encoding="utf-8")
+AGENT_ALIAS_HTML = (ROOT / "agent/index.html").read_text(encoding="utf-8")
+AGENT_RUNTIME = (ROOT / "agent-runtime.js").read_text(encoding="utf-8")
+AGENT_STATE = json.loads((ROOT / "agent/state.json").read_text(encoding="utf-8"))
+
+for page in (AGENT_HTML, AGENT_ALIAS_HTML):
+    assert 'id="persistedRunState"' in page, "Agent page must expose persisted run history"
+    assert 'id="persistedRunStatus"' in page, "Agent page must expose persisted-state status"
+    assert 'aria-live="polite"' in page, "Persisted-state updates must be announced accessibly"
+    assert "agent-runtime.js?v=20261110-1" in page, "Agent page must load the updated runtime"
+
+assert "async function loadPersistedRunState()" in AGENT_RUNTIME
+assert 'fetch("/agent/state.json"' in AGENT_RUNTIME
+assert "loadPersistedRunState();" in AGENT_RUNTIME
+assert "SERVER HISTORY UNAVAILABLE" in AGENT_RUNTIME
+assert AGENT_STATE.get("version") == 2, "Unexpected persisted agent state schema"
+assert isinstance(AGENT_STATE.get("runs"), list), "Persisted run history must be an array"
+if AGENT_STATE.get("lastRun"):
+    assert any(run.get("id") == AGENT_STATE["lastRun"] for run in AGENT_STATE["runs"]), "lastRun must identify a saved run"
+
 print("PASS: Buyer Radar indexability, methodology, score semantics, outreach safeguards and sitemap")
