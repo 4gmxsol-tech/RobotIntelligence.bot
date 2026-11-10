@@ -63,6 +63,8 @@ jobs:
           assert "https://robotintelligence.bot/agent/" not in urls, "Duplicate agent alias must not be in sitemap"
           print(f"Validated {len(urls)} sitemap URLs and canonical metadata.")
           PY
+      - name: Validate Buyer Radar static overview and WebApplication metadata
+        run: python .github/scripts/test_buyer_radar_static_content.py
       - name: Validate Buyer Radar scoring and outreach safeguards
         run: python .github/scripts/test_buyer_radar_methodology.py
       - name: Validate responsive mobile navigation and keyboard access
