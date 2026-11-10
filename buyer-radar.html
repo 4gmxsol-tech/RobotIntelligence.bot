@@ -14,7 +14,7 @@
 <meta name="twitter:title" content="Robotics Buyer Intelligence and Market Signals | RobotIntelligence.bot">
 <meta name="twitter:description" content="Explore robotics signals from GitHub and Hacker News. Organization matches and priority scores are heuristic—not verified buyers or purchase intent.">
 
-<title>Robotics Buyer Intelligence and Market Signals | RobotIntelligence.bot</title><link rel="stylesheet" href="buyer-radar.css"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://robotintelligence.bot/"},{"@type":"ListItem","position":2,"name":"Buyer Radar","item":"https://robotintelligence.bot/buyer-radar.html"}]}</script>
+<title>Robotics Buyer Intelligence and Market Signals | RobotIntelligence.bot</title><link rel="stylesheet" href="buyer-radar.css"><link rel="stylesheet" href="mobile-nav.css"><script src="mobile-nav.js" defer></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://robotintelligence.bot/"},{"@type":"ListItem","position":2,"name":"Buyer Radar","item":"https://robotintelligence.bot/buyer-radar.html"}]}</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"RobotIntelligence.bot Buyer Radar","url":"https://robotintelligence.bot/buyer-radar.html","applicationCategory":"BusinessApplication","operatingSystem":"Any","description":"A browser-based research interface that searches public GitHub repository metadata and Hacker News stories, then organizes source-linked signals into a human-reviewed robotics opportunity queue. Organization matching and priority scores are heuristic and do not establish purchase intent.","featureList":["Search public GitHub repository metadata","Search Hacker News stories through Algolia","Review source-linked public signals and dates","Group heuristic organization candidates","Inspect trigger categories and research priority","Generate a human-reviewed research brief without sending outreach"]}
 </script>
@@ -22,7 +22,8 @@
 <body>
 <div class="scanline" aria-hidden="true"></div><div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
 <header><a href="index.html" class="brand"><span>RI</span> Opportunity Engine</a>
-<nav><a href="index.html">Intelligence Graph</a><a href="#opportunities">Opportunities</a><a href="#triggers">Triggers</a><a href="#evidence">Evidence</a><a href="#scoring-methodology">Scoring</a><a href="agent.html">Agent Console ↗</a></nav></header>
+<button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open navigation"><span aria-hidden="true">☰</span><span class="menu-label">Menu</span></button>
+<nav id="primary-nav" class="product-nav" aria-label="Primary navigation"><a href="index.html">Intelligence Graph</a><a href="#opportunities">Opportunities</a><a href="#triggers">Triggers</a><a href="#evidence">Evidence</a><a href="#scoring-methodology">Scoring</a><a href="agent.html">Agent Console ↗</a></nav></header>
 <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Buyer Radar</span></nav>
 <main>
 <section class="hero hero-v2"><div class="hero-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
