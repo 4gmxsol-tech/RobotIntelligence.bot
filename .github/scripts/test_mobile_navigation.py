@@ -3,7 +3,7 @@ import re
 
 html = Path("index.html").read_text(encoding="utf-8")
 
-button = re.search(r'<button\\b(?=[^>]*class="[^"]*mobile-menu-toggle[^"]*")([^>]*)>(.*?)</button>', html, re.I | re.S)
+button = re.search(r'<button\b(?=[^>]*class="[^"]*mobile-menu-toggle[^"]*")([^>]*)>(.*?)</button>', html, re.I | re.S)
 assert button, "Mobile navigation toggle button is missing"
 attrs = button.group(1)
 assert re.search(r'aria-expanded="false"', attrs), "Mobile menu must start collapsed"
@@ -11,7 +11,7 @@ assert re.search(r'aria-controls="primary-nav"', attrs), "Toggle must reference 
 assert re.search(r'aria-label="Open navigation"', attrs), "Collapsed toggle needs an accessible name"
 assert 'class="menu-label">Menu</span>' in button.group(2), "Visible menu label is missing"
 
-nav = re.search(r'<nav\\b(?=[^>]*id="primary-nav")([^>]*)>(.*?)</nav>', html, re.I | re.S)
+nav = re.search(r'<nav\b(?=[^>]*id="primary-nav")([^>]*)>(.*?)</nav>', html, re.I | re.S)
 assert nav, "Primary navigation landmark is missing"
 assert 'aria-label="Primary navigation"' in nav.group(1), "Primary nav needs an accessible label"
 for href in ("#positioning", "buyer-radar.html", "#uses", "#why", "#portfolio", "#contact"):
