@@ -139,4 +139,8 @@ assert isinstance(AGENT_STATE.get("runs"), list), "Persisted run history must be
 if AGENT_STATE.get("lastRun"):
     assert any(run.get("id") == AGENT_STATE["lastRun"] for run in AGENT_STATE["runs"]), "lastRun must identify a saved run"
 
+PAGES_WORKFLOW = (ROOT / ".github/workflows/pages.yml").read_text(encoding="utf-8")
+assert re.search(r'workflow_run:\s+workflows:\s+\["RobotIntelligence Agent"\]\s+types:\s+\[completed\]\s+branches:\s+\[main\]', PAGES_WORKFLOW), "Pages must rebuild after the trusted agent workflow completes on main"
+assert "github.event.workflow_run.conclusion == 'success'" in PAGES_WORKFLOW, "Agent-triggered Pages deployment must require a successful agent run"
+
 print("PASS: Buyer Radar indexability, methodology, score semantics, outreach safeguards and sitemap")
