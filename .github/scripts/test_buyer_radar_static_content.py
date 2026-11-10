@@ -24,8 +24,6 @@ class SectionParser(HTMLParser):
             return
         if self.capture and tag == "section":
             self.depth += 1
-        if self.capture and tag in {"script", "style"}:
-            self.depth += 0
     def handle_endtag(self, tag):
         if self.capture and tag == "section":
             self.depth -= 1
@@ -58,7 +56,7 @@ assert 'href="agent.html"' in HTML[section_start:dynamic_start], "Overview must 
 assert 'href="#scoring-methodology"' in HTML[section_start:dynamic_start], "Overview must link to scoring methodology"
 
 json_blocks = re.findall(
-    r'<script\\s+type=["\\']application/ld\\+json["\\']>(.*?)</script>',
+    r'<script\s+type=["\']application/ld\+json["\']>(.*?)</script>',
     HTML,
     flags=re.I | re.S,
 )
@@ -73,8 +71,8 @@ features = " ".join(app.get("featureList", []))
 for feature in ("public GitHub", "Hacker News", "source-linked", "human-reviewed"):
     assert feature.lower() in features.lower(), f"Missing WebApplication feature: {feature}"
 
-assert re.search(r'<a\\b[^>]*href=["\\']buyer-radar\\.html["\\']', AGENT, re.I), "Agent Console must link to Buyer Radar"
+assert re.search(r'<a\b[^>]*href=["\']buyer-radar\.html["\']', AGENT, re.I), "Agent Console must link to Buyer Radar"
 assert "test_buyer_radar_static_content.py" in WORKFLOW, "Static overview regression test must run in CI"
-assert re.search(r'<meta\\s+name=["\\']robots["\\']\\s+content=["\\'][^"\\']*index', HTML, re.I), "Buyer Radar must remain indexable"
+assert re.search(r'<meta\s+name=["\']robots["\']\s+content=["\'][^"\']*index', HTML, re.I), "Buyer Radar must remain indexable"
 
 print("PASS: Buyer Radar static overview, internal discovery links and WebApplication metadata")
