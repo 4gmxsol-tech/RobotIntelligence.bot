@@ -65,3 +65,5 @@ jobs:
           PY
       - name: Validate Buyer Radar scoring and outreach safeguards
         run: python .github/scripts/test_buyer_radar_methodology.py
+      - name: Validate responsive mobile navigation and keyboard access
+        run: python .github/scripts/test_mobile_navigation.py
