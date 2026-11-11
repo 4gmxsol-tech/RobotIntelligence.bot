@@ -69,3 +69,5 @@ jobs:
         run: python .github/scripts/test_buyer_radar_methodology.py
       - name: Validate responsive mobile navigation and keyboard access
         run: python .github/scripts/test_mobile_navigation.py
+      - name: Validate homepage acquisition focus and CTA integrity
+        run: python .github/scripts/test_homepage_acquisition_focus.py
