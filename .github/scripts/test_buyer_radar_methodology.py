@@ -14,7 +14,7 @@ HOME = (ROOT / "index.html").read_text(encoding="utf-8")
 SITEMAP_XML = (ROOT / "sitemap.xml").read_bytes()
 SITEMAP_ALIAS = (ROOT / "sitemap").read_bytes()
 PAGE_URL = "https://robotintelligence.bot/buyer-radar.html"
-EXPECTED_LASTMOD = "2026-11-09"
+EXPECTED_LASTMOD = "2026-11-10"
 
 class H1Counter(HTMLParser):
     def __init__(self):
