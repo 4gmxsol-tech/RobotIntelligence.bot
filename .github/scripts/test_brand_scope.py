@@ -5,7 +5,7 @@ html = Path("index.html").read_text(encoding="utf-8")
 
 # Keep the RobotIntelligence acquisition page focused on its own brand.
 discord_ctas = re.findall(
-    r'<a\\b[^>]*href=["\\']https://discord\\.gg/[^"\\']+["\\'][^>]*>[\\s\\S]*?</a>',
+    r'<a\b[^>]*href=["\']https://discord\.gg/[^"\']+["\'][^>]*>[\s\S]*?</a>',
     html,
     re.I,
 )
