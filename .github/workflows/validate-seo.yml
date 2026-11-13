@@ -73,3 +73,7 @@ jobs:
         run: python .github/scripts/test_product_mobile_navigation.py
       - name: Keep the acquisition landing page focused on RobotIntelligence
         run: python .github/scripts/test_brand_scope.py
+      - name: Validate active providers and unverified contact-channel disclosure
+        run: |
+          python .github/scripts/test_agent_provider_disclosure.py
+          node --check agent-runtime.js
