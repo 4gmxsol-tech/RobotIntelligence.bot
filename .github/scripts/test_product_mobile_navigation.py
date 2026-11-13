@@ -15,7 +15,7 @@ pages = {
 for filename, (label, expected_links) in pages.items():
     html = Path(filename).read_text(encoding="utf-8")
     button = re.search(
-        r'<button\\b(?=[^>]*class="[^"]*mobile-menu-toggle[^"]*")([^>]*)>(.*?)</button>',
+        r'<button\b(?=[^>]*class="[^"]*mobile-menu-toggle[^"]*")([^>]*)>(.*?)</button>',
         html,
         re.I | re.S,
     )
@@ -27,7 +27,7 @@ for filename, (label, expected_links) in pages.items():
     assert 'class="menu-label">Menu</span>' in body, f"{label}: visible Menu label is missing"
 
     nav = re.search(
-        r'<nav\\b(?=[^>]*id="primary-nav")([^>]*)>(.*?)</nav>',
+        r'<nav\b(?=[^>]*id="primary-nav")([^>]*)>(.*?)</nav>',
         html,
         re.I | re.S,
     )
