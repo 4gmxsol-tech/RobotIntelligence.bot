@@ -48,7 +48,7 @@ assert 'url.protocol!=="https:"&&url.protocol!=="http:"' in JS
 assert "url.username||url.password" in JS
 assert "function sourceAnchor(value,label,className)" in JS
 assert JS.count("sourceAnchor(") >= 6, "Every dynamic evidence link must use the validated anchor helper"
-assert not re.search(r'href=["\\']\\s*\\+\\s*esc\\([sx]\\.source\\)', JS), "Raw external source URLs must never be inserted directly into href attributes"
+assert not re.search(r"""href=["']'\s*\+\s*esc\([sx]\.source\)""", JS), "Raw external source URLs must never be inserted directly into href attributes"
 assert 'rel="noopener noreferrer"' in JS, "External evidence links must retain opener protection"
 
 # Public-source scope and heuristic labels must remain accurate.
