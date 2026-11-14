@@ -13,6 +13,19 @@ const KNOWN=new Set(Object.values(ALIASES).map(x=>x.toLowerCase()));
 const NOISE=/^(physical|physical ai|embodied|embodied ai|robotics|robot|ai|artificial intelligence|machine learning|open source|github|workshop|simulator|tutorial|demo|project|making|agentic|learning|software engineer|ai researcher|intern|portfolio|research|engineering)$/i;
 
 function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");}
+function safeSourceUrl(value){
+  try{
+    const url=new URL(String(value??""));
+    if((url.protocol!=="https:"&&url.protocol!=="http:")||!url.hostname||url.username||url.password)return "";
+    return url.href;
+  }catch{return "";}
+}
+function sourceAnchor(value,label,className){
+  const url=safeSourceUrl(value);
+  if(!url)return "";
+  const classAttribute=className?' class="'+esc(className)+'"':"";
+  return '<a'+classAttribute+' href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">'+esc(label)+'</a>';
+}
 function norm(v){return String(v||"").replace(/[-_]+/g," ").replace(/\s+/g," ").trim();}
 function ageDays(v){const t=new Date(v||0).getTime();return isFinite(t)?Math.max(0,(Date.now()-t)/86400000):9999;}
 function canonical(v){
@@ -146,23 +159,23 @@ function renderActionQueue(asset){
     return '<article class="opportunity-card"><div class="opp-head"><div><span class="rank">OPPORTUNITY '+String(i+1).padStart(2,"0")+'</span><h3>'+esc(x.name)+'</h3></div><span class="opportunity-state '+freshness.toLowerCase().replace(/ /g,"-")+'">'+freshness+'</span></div>'+
     '<div class="opp-grid"><div><span>WHY THIS ASSET</span><strong>'+esc(assetFitText(asset,$("query").value))+'</strong></div><div><span>WHY NOW</span><strong>'+esc(t.label)+' · '+esc(t.strength)+'</strong></div><div><span>TARGET ROLES</span><strong>'+esc(x.roles.join(" · "))+'</strong></div></div>'+
     '<p><b>Evidence interpretation:</b> '+esc(why)+'</p><p><b>Next action:</b> '+esc(next)+'</p>'+
-    (s?'<a class="signal-link" href="'+esc(s.source)+'" target="_blank" rel="noopener">OPEN TRIGGER EVIDENCE ↗</a>':'')+'</article>';
+    (s?sourceAnchor(s.source,"OPEN TRIGGER EVIDENCE ↗","signal-link"):"")+'</article>';
   }).join("");
 }
 function renderTriggers(){
   const box=$("triggerGrid");
   const rows=candidates.filter(x=>x.trigger.signal).slice(0,8);
-  box.innerHTML=rows.map(x=>{const s=x.trigger.signal;return '<article class="trigger-card"><div class="trigger-top"><span>'+esc(x.name)+'</span><b>'+esc(x.trigger.label)+'</b></div><h3>'+esc(s.title)+'</h3><p>'+esc(s.description)+'</p><div class="trigger-foot"><span>'+esc(x.trigger.strength)+'</span><a href="'+esc(s.source)+'" target="_blank" rel="noopener">SOURCE ↗</a></div></article>';}).join("")||'<div class="empty">No event-backed triggers detected.</div>';
+  box.innerHTML=rows.map(x=>{const s=x.trigger.signal;return '<article class="trigger-card"><div class="trigger-top"><span>'+esc(x.name)+'</span><b>'+esc(x.trigger.label)+'</b></div><h3>'+esc(s.title)+'</h3><p>'+esc(s.description)+'</p><div class="trigger-foot"><span>'+esc(x.trigger.strength)+'</span>'+sourceAnchor(s.source,"SOURCE ↗")+'</div></article>';}).join("")||'<div class="empty">No event-backed triggers detected.</div>';
 }
 function renderSignals(){
   const visible=signalFilter==="all"?liveSignals:liveSignals.filter(x=>x.sourceType===signalFilter);
-  $("signalsGrid").innerHTML=visible.map(x=>'<article class="signal-card"><div class="signal-meta"><span>'+esc(x.sourceTypeLabel)+'</span><span>'+esc(x.dateLabel)+'</span></div><h3>'+esc(x.title)+'</h3><p>'+esc(x.description)+'</p><p><b>Resolved entity:</b> '+esc(x.entity||"Unattributed")+'</p><div class="signal-type">'+esc(signalType(x))+'</div><a class="signal-link" href="'+esc(x.source)+'" target="_blank" rel="noopener">'+esc(x.sourceLabel)+' ↗</a></article>').join("")||'<div class="empty">No live evidence for this filter.</div>';
+  $("signalsGrid").innerHTML=visible.map(x=>'<article class="signal-card"><div class="signal-meta"><span>'+esc(x.sourceTypeLabel)+'</span><span>'+esc(x.dateLabel)+'</span></div><h3>'+esc(x.title)+'</h3><p>'+esc(x.description)+'</p><p><b>Resolved entity:</b> '+esc(x.entity||"Unattributed")+'</p><div class="signal-type">'+esc(signalType(x))+'</div>'+sourceAnchor(x.source,x.sourceLabel+" ↗","signal-link")+'</article>').join("")||'<div class="empty">No live evidence for this filter.</div>';
 }
 function renderCompanyIntelligence(asset){
   const box=$("companyCards");
   box.innerHTML=candidates.slice(0,6).map(x=>{
     const ev=x.signals.slice().sort((a,b)=>new Date(b.publishedAt||0)-new Date(a.publishedAt||0)).slice(0,5);
-    const ledger=ev.map(s=>'<li><span class="evidence-tag '+signalType(s).toLowerCase()+'">'+signalType(s)+'</span>'+esc(s.title)+' <a href="'+esc(s.source)+'" target="_blank" rel="noopener">↗</a></li>').join("");
+    const ledger=ev.map(s=>'<li><span class="evidence-tag '+signalType(s).toLowerCase()+'">'+signalType(s)+'</span>'+esc(s.title)+' '+sourceAnchor(s.source,"↗")+'</li>').join("");
     return '<article class="candidate intelligence-card"><div class="candidate-top"><span class="rank">RESEARCH PRIORITY</span><span class="score" title="Heuristic ranking; not purchase probability">'+x.priority+'/100</span></div>'+
     '<div class="intel-title"><h3>'+esc(x.name)+'</h3><span class="intel-level '+(x.trigger.strength==="FRESH"?"high":x.trigger.strength==="RECENT"?"medium":"early")+'">'+esc(x.trigger.strength)+' SIGNAL</span></div>'+
     '<div class="intel-grid"><div><span>EVIDENCE</span><strong>'+x.evidence+' items</strong></div><div><span>RECENT</span><strong>'+x.recent+' / 90d</strong></div><div><span>COMMERCIAL</span><strong>'+x.commercial+'</strong></div><div><span>RELEVANCE</span><strong>'+x.relevance+' hits</strong></div></div>'+
@@ -183,7 +196,7 @@ function renderBrief(asset){
   box.innerHTML='<div class="brief-grid"><div><span>ASSET</span><strong>'+esc(asset)+'</strong></div><div><span>COMPANY</span><strong>'+esc(x.name)+'</strong></div><div><span>TRIGGER</span><strong>'+esc(x.trigger.label)+'</strong></div><div><span>NEXT ROLE</span><strong>'+esc(x.roles[0])+'</strong></div></div>'+
   '<p><b>Why it surfaced:</b> '+esc(assetFitText(asset,$("query").value))+' overlaps with '+esc(x.name)+' and the collected public evidence.</p>'+
   '<p><b>Why now:</b> '+esc(x.trigger.reason)+'</p>'+
-  '<p><b>Evidence:</b> '+(s?'<a class="signal-link" href="'+esc(s.source)+'" target="_blank" rel="noopener">'+esc(s.sourceLabel)+' source ↗</a>':"No current trigger.")+'</p>'+
+  '<p><b>Evidence:</b> '+(s?sourceAnchor(s.source,s.sourceLabel+" source ↗","signal-link"):"No current trigger.")+'</p>'+
   '<p><b>Priority score:</b> heuristic ranking based on topical relevance, signal recency, commercial activity and evidence volume—not purchase probability.</p>'+
   '<p><b>Human action:</b> verify asset ownership and control → confirm sale authorization and transfer scope → validate company need and recipient → check sender identity and applicable outreach law before any contact.</p>';
 }
