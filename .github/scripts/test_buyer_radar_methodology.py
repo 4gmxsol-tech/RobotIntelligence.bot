@@ -14,7 +14,7 @@ HOME = (ROOT / "index.html").read_text(encoding="utf-8")
 SITEMAP_XML = (ROOT / "sitemap.xml").read_bytes()
 SITEMAP_ALIAS = (ROOT / "sitemap").read_bytes()
 PAGE_URL = "https://robotintelligence.bot/buyer-radar.html"
-EXPECTED_LASTMOD = "2026-11-10"
+EXPECTED_LASTMOD = "2026-11-14"
 
 class H1Counter(HTMLParser):
     def __init__(self):
@@ -37,6 +37,9 @@ og_description = meta(r'<meta\s+property=["\']og:description["\']\s+content=["\'
 twitter_description = meta(r'<meta\s+name=["\']twitter:description["\']\s+content=["\']([^"\']+)')
 assert 70 <= len(description) <= 160
 assert description == og_description == twitter_description
+
+# Cache-bust the live scanner whenever its implementation has changed.
+assert 'src="buyer-radar-live.js?v=20261114-1"' in HTML, "Buyer Radar must use the refreshed live-script cache key"
 
 # Public-source scope and heuristic labels must remain accurate.
 assert "source-disclosure" in HTML
