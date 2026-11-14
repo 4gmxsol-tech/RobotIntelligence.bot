@@ -39,7 +39,17 @@ assert 70 <= len(description) <= 160
 assert description == og_description == twitter_description
 
 # Cache-bust the live scanner whenever its implementation has changed.
-assert 'src="buyer-radar-live.js?v=20261114-1"' in HTML, "Buyer Radar must use the refreshed live-script cache key"
+assert 'src="buyer-radar-live.js?v=20261114-2"' in HTML, "Buyer Radar must use the refreshed live-script cache key"
+
+# Public GitHub/Hacker News URLs are untrusted data. Only absolute HTTP(S) URLs
+# without embedded credentials may become clickable source links.
+assert "function safeSourceUrl(value)" in JS
+assert 'url.protocol!=="https:"&&url.protocol!=="http:"' in JS
+assert "url.username||url.password" in JS
+assert "function sourceAnchor(value,label,className)" in JS
+assert JS.count("sourceAnchor(") >= 6, "Every dynamic evidence link must use the validated anchor helper"
+assert not re.search(r"""href=["']'\s*\+\s*esc\([sx]\.source\)""", JS), "Raw external source URLs must never be inserted directly into href attributes"
+assert 'rel="noopener noreferrer"' in JS, "External evidence links must retain opener protection"
 
 # Public-source scope and heuristic labels must remain accurate.
 assert "source-disclosure" in HTML
