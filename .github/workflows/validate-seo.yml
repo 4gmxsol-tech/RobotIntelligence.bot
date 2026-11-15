@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+      - name: Validate Pages staging excludes unlinked agent run archives
+        run: bash .github/scripts/stage-pages.sh
       - name: Validate sitemap targets and canonical metadata
         run: |
           python - <<'PY'
