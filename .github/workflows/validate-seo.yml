@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Validate Pages staging excludes unlinked agent run archives
         run: bash .github/scripts/stage-pages.sh
       - name: Validate sitemap targets and canonical metadata
@@ -23,24 +25,40 @@ jobs:
           python - <<'PY'
           import pathlib
           import re
+          import subprocess
           import xml.etree.ElementTree as ET
 
           root = pathlib.Path(".")
           ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
           sitemap = ET.parse(root / "sitemap.xml").getroot()
-          urls = [node.text.strip() for node in sitemap.findall("sm:url/sm:loc", ns)]
+          url_nodes = sitemap.findall("sm:url", ns)
+          urls = [node.findtext("sm:loc", default="", namespaces=ns).strip() for node in url_nodes]
           assert urls, "Sitemap is empty"
           assert len(urls) == len(set(urls)), "Duplicate sitemap URLs"
+
+          home_url = "https://robotintelligence.bot/"
+          home_entry = next((node for node in url_nodes
+                             if node.findtext("sm:loc", default="", namespaces=ns).strip() == home_url), None)
+          assert home_entry is not None, "Homepage must remain in the sitemap"
+          home_lastmod = home_entry.findtext("sm:lastmod", default="", namespaces=ns).strip()
+          assert re.fullmatch(r"\\d{4}-\\d{2}-\\d{2}", home_lastmod), "Homepage sitemap lastmod must be an ISO date"
+          homepage_commit_date = subprocess.check_output(
+              ["git", "log", "-1", "--format=%cs", "--", "index.html"], text=True
+          ).strip()
+          assert home_lastmod == homepage_commit_date, (
+              f"Homepage sitemap lastmod {home_lastmod} does not match index.html's latest commit date "
+              f"{homepage_commit_date}"
+          )
 
           home_html = (root / "index.html").read_text(encoding="utf-8")
           radar_url = "https://robotintelligence.bot/buyer-radar.html"
           assert radar_url in urls, "Buyer Radar must remain in the sitemap"
-          radar_links = re.findall(r'<a\b[^>]*href=["\']buyer-radar\.html["\']', home_html, re.I)
+          radar_links = re.findall(r'<a\\b[^>]*href=["\\']buyer-radar\\.html["\\']', home_html, re.I)
           assert len(radar_links) >= 2, "Homepage must expose Buyer Radar in navigation and the hero CTA"
 
           radar_html = (root / "buyer-radar.html").read_text(encoding="utf-8")
-          radar_canonical = re.search(r"""<link\s+rel=["']canonical["']\s+href=["']([^"']+)""", radar_html, re.I)
-          radar_robots = re.search(r"""<meta\s+name=["']robots["']\s+content=["']([^"']+)""", radar_html, re.I)
+          radar_canonical = re.search(r"""<link\\s+rel=["']canonical["']\\s+href=["']([^"']+)""", radar_html, re.I)
+          radar_robots = re.search(r"""<meta\\s+name=["']robots["']\\s+content=["']([^"']+)""", radar_html, re.I)
           assert radar_canonical and radar_canonical.group(1) == radar_url, "Buyer Radar canonical mismatch"
           assert radar_robots and "noindex" not in radar_robots.group(1).lower(), "Buyer Radar must remain indexable"
 
@@ -53,17 +71,17 @@ jobs:
               assert target.is_file(), f"Sitemap target does not exist: {url}"
               html = target.read_text(encoding="utf-8")
               title = re.search(r"<title>(.*?)</title>", html, re.I | re.S)
-              description = re.search(r"""<meta\s+name=["']description["']\s+content=["']([^"']+)""", html, re.I)
-              canonical = re.search(r"""<link\s+rel=["']canonical["']\s+href=["']([^"']+)""", html, re.I)
+              description = re.search(r"""<meta\\s+name=["']description["']\\s+content=["']([^"']+)""", html, re.I)
+              canonical = re.search(r"""<link\\s+rel=["']canonical["']\\s+href=["']([^"']+)""", html, re.I)
               assert title and title.group(1).strip(), f"Missing title: {url}"
               assert description and len(description.group(1).strip()) >= 70, f"Missing/short description: {url}"
               assert canonical and canonical.group(1).rstrip("/") == url.rstrip("/"), f"Canonical mismatch: {url}"
 
           alias = (root / "agent/index.html").read_text(encoding="utf-8")
-          alias_canonical = re.search(r"""<link\s+rel=["']canonical["']\s+href=["']([^"']+)""", alias, re.I)
+          alias_canonical = re.search(r"""<link\\s+rel=["']canonical["']\\s+href=["']([^"']+)""", alias, re.I)
           assert alias_canonical and alias_canonical.group(1) == "https://robotintelligence.bot/agent.html", "Agent alias must canonicalize to agent.html"
           assert "https://robotintelligence.bot/agent/" not in urls, "Duplicate agent alias must not be in sitemap"
-          print(f"Validated {len(urls)} sitemap URLs and canonical metadata.")
+          print(f"Validated {len(urls)} sitemap URLs, homepage lastmod, and canonical metadata.")
           PY
       - name: Validate Buyer Radar static overview and WebApplication metadata
         run: python .github/scripts/test_buyer_radar_static_content.py
