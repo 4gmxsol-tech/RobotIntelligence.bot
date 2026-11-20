@@ -32,3 +32,34 @@ header{box-shadow:0 10px 35px rgba(0,0,0,.18)}
 .contact-strip small{display:block;color:var(--muted);margin-top:8px}.outreach-box{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}.outreach-box summary{cursor:pointer;color:var(--accent);font-size:10px;font-weight:800;letter-spacing:.1em}.outreach-box p{color:var(--muted);white-space:pre-wrap}
 
 .provider-stack{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:18px}.provider-title{font-size:9px;letter-spacing:.16em;color:var(--muted);font-weight:900;margin-right:4px}.provider-chip{padding:6px 9px;border:1px solid var(--line);background:#071219;font-size:9px;letter-spacing:.08em;font-weight:800;color:var(--muted)}.provider-chip.live{color:var(--accent);border-color:#285447}.provider-chip.ai{color:var(--blue);border-color:#284d61}.provider-chip.gated{color:#c6a5a5;border-color:#4a3030}@media(max-width:800px){.provider-stack{gap:5px}.provider-chip{font-size:8px}}
+/* === Responsive & visual polish layer (appended last) === */
+html,body{overflow-x:clip}
+img,svg,video,iframe,canvas{max-width:100%}
+input,select,textarea{font-size:16px}
+table{display:block;max-width:100%;overflow-x:auto}
+.brand{display:inline-flex;align-items:center;min-height:44px}
+nav a{display:inline-flex;align-items:center;min-height:44px}
+button{min-height:44px}
+.mini{display:inline-flex;align-items:center;justify-content:center;min-height:44px}
+.contact-btn{min-height:44px}
+.goal-grid>*,.state-grid>*,.plan>*,.evidence-grid>*,.boundary>*,.agent-metrics>*,.agent-opp-grid>*{min-width:0}
+.state-card,.plan-card,.evidence-card,.agent-metric{transition:border-color .15s ease,box-shadow .15s ease}
+.state-card:hover,.plan-card:hover,.evidence-card:hover,.agent-metric:hover{border-color:#2d5662;box-shadow:0 12px 28px rgba(0,0,0,.28)}
+@media(min-width:801px) and (max-width:1100px){
+.state-grid,.plan{grid-template-columns:repeat(3,minmax(0,1fr))}
+.agent-metrics,.agent-opp-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(min-width:561px) and (max-width:800px){
+.state-grid,.plan,.agent-metrics,.agent-opp-grid,.evidence-grid,.boundary{grid-template-columns:repeat(2,minmax(0,1fr))}
+.goal-grid{grid-template-columns:1fr}
+}
+@media(max-width:800px){
+header{height:auto;min-height:72px;flex-wrap:wrap;row-gap:6px;padding-top:10px;padding-bottom:10px}
+nav:not(.product-nav){display:flex;flex-wrap:wrap;gap:2px 18px}
+}
+@media(max-width:560px){
+.goal-grid,.state-grid,.plan,.evidence-grid,.boundary,.agent-metrics,.agent-opp-grid{grid-template-columns:1fr}
+.actions button{flex:1 1 100%}
+}
+@media(min-width:1440px){main{max-width:1320px}}
+@media(prefers-reduced-motion:reduce){.state-card,.plan-card,.evidence-card,.agent-metric{transition:none}}
